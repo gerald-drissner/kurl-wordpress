@@ -125,7 +125,7 @@ msgid "Created:"
 msgstr ""
 
 msgid "Dashboard"
-msgstr "Panel"
+msgstr "Escritorio"
 
 msgid "Delete & Unlink"
 msgstr "Eliminar y desvincular"

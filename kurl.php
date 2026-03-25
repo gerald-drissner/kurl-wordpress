@@ -56,6 +56,27 @@ function kurl_bootstrap(): void {
     if (is_admin()) {
         Kurl_Admin::init();
         Kurl_Bulk::init();
+
+add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'kurl_yourls_plugin_action_links' );
+
+/**
+ * Add quick links on the Plugins screen.
+ *
+ * @param array $links Existing action links.
+ * @return array
+ */
+function kurl_yourls_plugin_action_links( array $links ): array {
+    $dashboard_url = admin_url( 'admin.php?page=kurl' );
+    $settings_url  = admin_url( 'admin.php?page=kurl-settings' );
+
+    $custom_links = [
+        '<a href="' . esc_url( $dashboard_url ) . '">' . esc_html__( 'Dashboard', 'kurl-yourls' ) . '</a>',
+        '<a href="' . esc_url( $settings_url ) . '">' . esc_html__( 'Settings', 'kurl-yourls' ) . '</a>',
+    ];
+
+    return array_merge( $custom_links, $links );
+}
+
     }
 }
 add_action('plugins_loaded', 'kurl_bootstrap');
