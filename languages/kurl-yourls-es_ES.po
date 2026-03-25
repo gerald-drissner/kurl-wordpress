@@ -1,0 +1,933 @@
+# Spanish (Spain) translations for kURL.
+# Copyright (C) 2026 ORGANIZATION
+# This file is distributed under the same license as the kURL project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: kURL 1.0.0\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2026-03-25 13:27+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: es_ES\n"
+"Language-Team: es_ES <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "AJAX batches help avoid long-running admin requests and timeout problems."
+msgstr ""
+
+msgid "AJAX error:"
+msgstr ""
+
+msgid "API connection"
+msgstr ""
+
+msgid "API did not return a short URL."
+msgstr ""
+
+msgid "API timeout"
+msgstr ""
+
+#, python-format
+msgid "Already has URL: %s"
+msgstr ""
+
+msgid ""
+"Are you sure you want to disconnect? This will clear your API URL and "
+"signature."
+msgstr ""
+
+msgid ""
+"Are you sure you want to permanently delete this shortlink from WordPress "
+"and your YOURLS database?"
+msgstr ""
+
+msgid ""
+"Are you sure you want to unlink this shortlink from WordPress? You will "
+"still need to delete the old link manually in YOURLS before reusing the same"
+" custom slug."
+msgstr ""
+
+msgid "Auto create"
+msgstr ""
+
+msgid "Automatically create a short URL when publishing"
+msgstr ""
+
+msgid ""
+"Back up your WordPress database before applying reconciliation changes on a "
+"large site."
+msgstr ""
+
+msgid "Batch size"
+msgstr ""
+
+msgid "Bulk Generator"
+msgstr "Generador masivo"
+
+msgid ""
+"By default, YOURLS does not allow external apps to edit or delete links, and"
+" it has no built-in reverse-lookup endpoint for “find this long URL without "
+"creating one”."
+msgstr ""
+
+msgid "Cache (minutes)"
+msgstr ""
+
+msgid "Check / Sync"
+msgstr "Comprobar / Sincronizar"
+
+msgid ""
+"Checks enabled posts against YOURLS. If the helper plugin can find a "
+"matching long URL, kURL imports or replaces the local entry. Existing local "
+"short URLs are also verified against the current permalink."
+msgstr ""
+
+msgid "Clean local database"
+msgstr "Limpiar base de datos local"
+
+msgid "Clicks:"
+msgstr "Clics:"
+
+msgid "Connect to your YOURLS server via FTP or SSH."
+msgstr ""
+
+msgid "Connection successful. Helper plugin detected."
+msgstr "Conexión correcta. Plugin auxiliar detectado."
+
+msgid "Connection successful. Standard API only."
+msgstr "Conexión correcta. Solo API estándar."
+
+msgid "Copied!"
+msgstr "¡Copiado!"
+
+msgid "Copy code to clipboard"
+msgstr ""
+
+msgid "Could not determine the permalink."
+msgstr ""
+
+msgid "Could not get permalink."
+msgstr ""
+
+msgid ""
+"Create a file inside that folder called <code>plugin.php</code> and paste "
+"the code below into it."
+msgstr ""
+
+msgid "Created:"
+msgstr ""
+
+msgid "Dashboard"
+msgstr "Panel"
+
+msgid "Delete & Unlink"
+msgstr "Eliminar y desvincular"
+
+msgid "Delete all kURL data on uninstall"
+msgstr ""
+
+msgid "Delete log"
+msgstr "Eliminar registro"
+
+msgid "Delete old Better YOURLS data"
+msgstr "Eliminar datos antiguos de Better YOURLS"
+
+msgid "Delete old Better YOURLS data?"
+msgstr ""
+
+msgid "Delete the current log?"
+msgstr ""
+
+#, python-format
+msgid "Deleted %d old Better YOURLS meta rows."
+msgstr ""
+
+msgid "Disconnect API"
+msgstr "Desconectar API"
+
+msgid "Done"
+msgstr "Hecho"
+
+msgid "Done."
+msgstr ""
+
+msgid "Enable true remote deletion and safe lookup (optional)"
+msgstr ""
+
+msgid "Enabled post types"
+msgstr ""
+
+msgid "Endpoint not found. Check the API URL."
+msgstr ""
+
+msgid ""
+"Enter your main YOURLS domain (for example <code>https://yalla.li</code>). "
+"kURL will automatically append <code>/yourls-api.php</code> when needed."
+msgstr ""
+
+msgid "Error"
+msgstr "Error"
+
+msgid "Error:"
+msgstr ""
+
+msgid "Errors:"
+msgstr ""
+
+msgid "Existing links"
+msgstr ""
+
+msgid ""
+"Experimental tools to compare WordPress content with your YOURLS database "
+"and clean stale local data."
+msgstr ""
+
+msgid "Experimental:"
+msgstr "Experimental:"
+
+msgid ""
+"Experimental: Check whether YOURLS already has a short URL for this "
+"permalink and sync it into WordPress."
+msgstr ""
+
+msgid "Failed to copy code. Please copy it manually."
+msgstr ""
+
+msgid "Fetched from the YOURLS API"
+msgstr ""
+
+msgid "Forbidden. Check your signature or a firewall/security layer."
+msgstr ""
+
+msgid "Generate / Update"
+msgstr "Generar / Actualizar"
+
+#, python-format
+msgid "HTTP error %d."
+msgstr ""
+
+msgid ""
+"Import first, verify a few posts, then delete the old Better YOURLS data "
+"once everything looks correct."
+msgstr ""
+
+msgid "Import from Better YOURLS"
+msgstr "Importar desde Better YOURLS"
+
+msgid "Import old Better YOURLS first"
+msgstr ""
+
+msgid "Imported %1$d old links and skipped %2$d existing ones."
+msgstr ""
+
+#, python-format
+msgid "Imported old URL: %s"
+msgstr ""
+
+msgid "Imported:"
+msgstr ""
+
+msgid ""
+"Install the official kURL helper extension on your YOURLS server to enable "
+"remote deletion and safe long-URL lookup for sync and cleanup features."
+msgstr ""
+
+msgid "Invalid API action."
+msgstr ""
+
+msgid "Invalid JSON response from YOURLS."
+msgstr ""
+
+msgid "Invalid post."
+msgstr "Entrada no válida."
+
+msgid "Keyword / Slug"
+msgstr ""
+
+msgid "Links:"
+msgstr "Enlaces:"
+
+msgid ""
+"Local cleanup finished. Keywords removed: %1$d, stats removed: %2$d, URLs "
+"normalized: %3$d."
+msgstr ""
+
+msgid "Local database cleanup"
+msgstr ""
+
+msgid "Local short URL replaced with the matching YOURLS entry."
+msgstr ""
+
+msgid "Log cleared."
+msgstr "Registro borrado."
+
+msgid "Log entries"
+msgstr ""
+
+msgid ""
+"Log into your YOURLS admin area, open Manage Plugins, and activate “kURL "
+"Helper”."
+msgstr ""
+
+msgid "Logs"
+msgstr "Registros"
+
+msgid "Matching YOURLS short URL imported successfully."
+msgstr ""
+
+msgid "Migration tools"
+msgstr ""
+
+msgid "Missing YOURLS API settings."
+msgstr ""
+
+msgid "Missing or invalid target URL."
+msgstr ""
+
+msgid "Missing short URL."
+msgstr ""
+
+msgid ""
+"Navigate to <code>user/plugins/</code> and create a folder named <code>kurl-"
+"api</code>."
+msgstr ""
+
+msgid "No code found to copy."
+msgstr ""
+
+msgid ""
+"No helper match was found. The standard API returned or created a short URL "
+"and synced it into WordPress."
+msgstr ""
+
+msgid "No log entries in the last 7 days."
+msgstr ""
+
+msgid "No saved shortlink was found."
+msgstr "No se encontró ningún enlace corto guardado."
+
+msgid "No short URL saved yet."
+msgstr "Aún no hay URL corta guardada."
+
+msgid "Only the last 7 days are retained"
+msgstr ""
+
+msgid "Permission denied."
+msgstr "Permiso denegado."
+
+msgid "Please configure the YOURLS API first."
+msgstr ""
+
+msgid "Post type"
+msgstr ""
+
+msgid "Post type not enabled."
+msgstr ""
+
+msgid "Posts currently using a kURL"
+msgstr ""
+
+msgid "Processed:"
+msgstr ""
+
+msgid "Reconcile with YOURLS"
+msgstr "Conciliar con YOURLS"
+
+msgid ""
+"Reconciliation finished. Imported: %1$d, replaced: %2$d, verified: %3$d, "
+"mismatches: %4$d, skipped: %5$d."
+msgstr ""
+
+msgid "Refresh Stats"
+msgstr "Actualizar estadísticas"
+
+msgid "Regenerate / overwrite"
+msgstr ""
+
+#, python-format
+msgid "Remote deletion failed: %s"
+msgstr ""
+
+msgid ""
+"Removes stale keywords and cached stats that no longer belong to a saved "
+"short URL and normalizes stored URLs."
+msgstr ""
+
+msgid "Return here and click “Test API” so kURL can detect it."
+msgstr ""
+
+msgid "Run the experimental reconciliation now?"
+msgstr ""
+
+msgid "Run the local cleanup now?"
+msgstr ""
+
+msgid "Save settings"
+msgstr "Guardar ajustes"
+
+msgid "Saved shortlinks"
+msgstr ""
+
+#, python-format
+msgid "Saved: %s"
+msgstr ""
+
+msgid "Settings"
+msgstr "Ajustes"
+
+msgid "Settings saved."
+msgstr ""
+
+msgid "Short URL"
+msgstr "URL corta"
+
+msgid "Shortlink deleted in YOURLS and unlinked from WordPress."
+msgstr ""
+
+msgid "Shortlink saved successfully."
+msgstr ""
+
+msgid ""
+"Shortlink unlinked from WordPress. The old entry still exists in YOURLS "
+"until you delete it there."
+msgstr ""
+
+msgid "Signature token"
+msgstr ""
+
+msgid "Skip existing"
+msgstr ""
+
+msgid "Skipped:"
+msgstr ""
+
+msgid "Start bulk generation"
+msgstr "Iniciar generación masiva"
+
+msgid "Status:"
+msgstr ""
+
+msgid "Stop"
+msgstr "Detener"
+
+msgid "Stopped."
+msgstr ""
+
+msgid "Successfully disconnected. Your API credentials have been cleared."
+msgstr ""
+
+msgid "Sync & Cleanup"
+msgstr "Sincronización y limpieza"
+
+msgid "Test API"
+msgstr "Probar API"
+
+msgid "The YOURLS server returned an internal error."
+msgstr ""
+
+msgid ""
+"The log keeps only the last 7 days and has size caps so WordPress does not "
+"get overloaded."
+msgstr ""
+
+msgid "The saved short URL already matches the current permalink."
+msgstr ""
+
+msgid ""
+"The saved short URL points to a different long URL in YOURLS. Review this "
+"manually before replacing it."
+msgstr ""
+
+msgid "This post type is not enabled for kURL."
+msgstr ""
+
+msgid "Too many requests. Please try again later."
+msgstr ""
+
+msgid "Uninstall behavior"
+msgstr ""
+
+msgid "Unknown YOURLS error."
+msgstr "Error de YOURLS desconocido."
+
+msgid "Unlink Locally"
+msgstr "Desvincular localmente"
+
+msgid "Updated:"
+msgstr ""
+
+#, python-format
+msgid ""
+"Version %s • Dashboard statistics, migration tools, logs, and bulk "
+"processing."
+msgstr ""
+
+msgid ""
+"Warning: if enabled, all plugin data, including links, cached stats, and "
+"logs, will be permanently removed when the plugin is uninstalled."
+msgstr ""
+
+msgid "Working…"
+msgstr "Procesando…"
+
+msgid "YOURLS API URL"
+msgstr ""
+
+msgid ""
+"YOURLS did not accept that custom keyword. This often means the slug is "
+"already in use. Delete the old shortlink first or choose a different "
+"keyword."
+msgstr ""
+
+msgid "YOURLS did not return a short URL."
+msgstr ""
+
+#, python-format
+msgid "YOURLS error code: %s"
+msgstr ""
+
+msgid "YOURLS reconcile / compare"
+msgstr ""
+
+#, python-format
+msgid "YOURLS says: \"%s\""
+msgstr ""
+
+#, python-format
+msgid "YOURLS status %s"
+msgstr ""
+
+msgid "YOURLS total clicks"
+msgstr ""
+
+msgid "YOURLS total links"
+msgstr ""
+
+msgid ""
+"You can find your signature token in the YOURLS admin area under "
+"<strong>Tools → Secure passwordless API call</strong>."
+msgstr ""
+
+msgid "created"
+msgstr ""
+
+msgid "done"
+msgstr ""
+
+msgid "error"
+msgstr ""
+
+msgid "imported"
+msgstr ""
+
+msgid "kURL"
+msgstr "kURL"
+
+msgid "kURL Bulk Generator"
+msgstr ""
+
+msgid "kURL Dashboard"
+msgstr ""
+
+msgid "kURL Logs"
+msgstr ""
+
+msgid "kURL Settings"
+msgstr ""
+
+msgid "kURL Shortlink"
+msgstr ""
+
+msgid "optional-custom-slug"
+msgstr ""
+
+msgid "skipped existing"
+msgstr ""
+
+msgid "updated"
+msgstr ""
+
+msgid "⚠️ Standard API only. Remote deletion and safe reverse lookup are disabled."
+msgstr ""
+
+msgid "✅ kURL Helper plugin detected. Remote deletion and safe lookup are enabled."
+msgstr ""
+
+msgid "Connected"
+msgstr "Conectado"
+
+msgid "Not connected"
+msgstr "No conectado"
+
+msgid "Safe lookup needs the helper plugin."
+msgstr "La búsqueda segura necesita el complemento helper."
+
+msgid "Regenerate"
+msgstr "Regenerar"
+
+msgid "Delete"
+msgstr "Eliminar"
+
+msgid "Check YOURLS"
+msgstr "Comprobar YOURLS"
+
+msgid "Please enter a valid URL."
+msgstr "Introduce una URL válida."
+
+msgid "Safe lookup needs the optional kURL Helper plugin on your YOURLS server."
+msgstr ""
+"La búsqueda segura necesita el complemento opcional kURL Helper en tu "
+"servidor YOURLS."
+
+msgid "An existing YOURLS short URL was found for that URL."
+msgstr "Se encontró una URL corta existente de YOURLS para esa URL."
+
+msgid "No existing YOURLS short URL was found for that URL."
+msgstr "No se encontró ninguna URL corta existente de YOURLS para esa URL."
+
+msgid ""
+"YOURLS did not accept that custom keyword. This often means the slug is "
+"already in use."
+msgstr ""
+"YOURLS no aceptó esa palabra clave personalizada. A menudo esto significa "
+"que el slug ya está en uso."
+
+msgid "Short URL generated successfully."
+msgstr "URL corta generada correctamente."
+
+msgid "Remote deletion needs the optional kURL Helper plugin on your YOURLS server."
+msgstr ""
+"El borrado remoto necesita el complemento opcional kURL Helper en tu "
+"servidor YOURLS."
+
+msgid "Please enter or look up a short URL first."
+msgstr "Primero introduce o busca una URL corta."
+
+msgid "Short URL deleted in YOURLS."
+msgstr "URL corta eliminada en YOURLS."
+
+msgid "Regeneration needs the optional kURL Helper plugin on your YOURLS server."
+msgstr ""
+"La regeneración necesita el complemento opcional kURL Helper en tu servidor "
+"YOURLS."
+
+msgid "Short URL regenerated with the requested keyword."
+msgstr "URL corta regenerada con la palabra clave solicitada."
+
+msgid "Short URL regenerated with a new random keyword."
+msgstr "URL corta regenerada con una nueva palabra clave aleatoria."
+
+msgid "Connection failed"
+msgstr "Conexión fallida"
+
+msgid "Add your API URL and signature in Settings."
+msgstr "Añade la URL de la API y la firma en los ajustes."
+
+msgid "Last dashboard refresh reached your YOURLS API successfully."
+msgstr "La última actualización del panel llegó correctamente a tu API de YOURLS."
+
+msgid "The dashboard could not reach YOURLS right now."
+msgstr "El panel no pudo conectarse con YOURLS en este momento."
+
+#, python-format
+msgid ""
+"Version %s • Dashboard statistics, manual shortening, migration tools, logs,"
+" and bulk processing."
+msgstr ""
+"Versión %s • Estadísticas del panel, acortado manual, herramientas de "
+"migración, registros y procesamiento masivo."
+
+msgid "API status"
+msgstr "Estado de la API"
+
+msgid "Helper extension"
+msgstr "Extensión helper"
+
+msgid "Active"
+msgstr "Activo"
+
+msgid "Standard API only"
+msgstr "Solo API estándar"
+
+msgid "Safe lookup, remote deletion, and reconciliation are available."
+msgstr "La búsqueda segura, el borrado remoto y la conciliación están disponibles."
+
+msgid ""
+"Install the helper to enable safe lookup, remote deletion, and advanced "
+"reconciliation."
+msgstr ""
+"Instala el helper para habilitar la búsqueda segura, el borrado remoto y la "
+"conciliación avanzada."
+
+msgid "Posts currently using a kURL entry in WordPress."
+msgstr "Entradas que actualmente usan una entrada de kURL en WordPress."
+
+msgid "Total links reported by YOURLS."
+msgstr "Enlaces totales informados por YOURLS."
+
+msgid "Total clicks reported by YOURLS."
+msgstr "Clics totales informados por YOURLS."
+
+msgid "Only the last 7 days are retained."
+msgstr "Solo se conservan los últimos 7 días."
+
+msgid ""
+"The API is not configured yet. You can still review settings, but dashboard "
+"lists and manual YOURLS actions will stay inactive until you add your API "
+"credentials."
+msgstr ""
+"La API aún no está configurada. Puedes revisar los ajustes, pero las listas "
+"del panel y las acciones manuales de YOURLS seguirán inactivas hasta que "
+"añadas tus credenciales de API."
+
+msgid "Manual shortener"
+msgstr "Acortador manual"
+
+msgid ""
+"Shorten any URL without saving it to WordPress. Safe lookup, delete, and "
+"regenerate use the helper plugin when available."
+msgstr ""
+"Acorta cualquier URL sin guardarla en WordPress. La búsqueda segura, la "
+"eliminación y la regeneración usan el helper cuando está disponible."
+
+msgid "Target URL"
+msgstr "URL de destino"
+
+msgid ""
+"Leave empty to let YOURLS use a random keyword. The Regenerate button uses "
+"the keyword field if you filled it in, otherwise it requests a new random "
+"keyword."
+msgstr ""
+"Déjalo vacío para que YOURLS use una palabra clave aleatoria. El botón "
+"Regenerar usa el campo de palabra clave si lo has rellenado; de lo contrario"
+" solicita una nueva palabra clave aleatoria."
+
+msgid "Delete & Regenerate"
+msgstr "Eliminar y regenerar"
+
+msgid ""
+"Tip: “Check YOURLS” only performs a safe reverse lookup when the helper "
+"plugin is active. “Generate / Update” can still create or return a short URL"
+" through the standard API."
+msgstr ""
+"Consejo: «Comprobar YOURLS» solo realiza una búsqueda inversa segura cuando "
+"el helper está activo. «Generar / Actualizar» aún puede crear o devolver una"
+" URL corta mediante la API estándar."
+
+msgid "Top 10 all-time links"
+msgstr "Top 10 enlaces de todos los tiempos"
+
+msgid "Last 10 created shortlinks"
+msgstr "Últimos 10 enlaces cortos creados"
+
+msgid "Latest shortlinks saved in WordPress"
+msgstr "Últimos enlaces cortos guardados en WordPress"
+
+msgid "Post"
+msgstr "Entrada"
+
+msgid "Clicks"
+msgstr "Clics"
+
+msgid "No saved kURL entries yet."
+msgstr "Todavía no hay entradas de kURL guardadas."
+
+msgid "No YOURLS link data is available yet for this section."
+msgstr "Todavía no hay datos de enlaces de YOURLS disponibles para esta sección."
+
+msgid "Created"
+msgstr "Creado"
+
+msgid "Target"
+msgstr "Destino"
+
+
+msgid "Apply changes"
+msgstr "Aplicar cambios"
+
+msgid "Are you sure you want to disconnect? This will clear your API URL and signature."
+msgstr "¿Seguro que quieres desconectar el plugin? Esto borrará la URL de la API y la firma."
+
+msgid "Are you sure you want to permanently delete this shortlink from WordPress and your YOURLS database?"
+msgstr "¿Seguro que quieres eliminar permanentemente este enlace corto de WordPress y de tu base de datos de YOURLS?"
+
+msgid "Are you sure you want to unlink this shortlink from WordPress? You will still need to delete the old link manually in YOURLS before reusing the same custom slug."
+msgstr "¿Seguro que quieres desvincular este enlace corto de WordPress? Aun así tendrás que eliminar manualmente el enlace antiguo en YOURLS antes de reutilizar el mismo slug personalizado."
+
+msgid "By default, YOURLS does not allow external apps to edit or delete links, and it has no built-in reverse-lookup endpoint for “find this long URL without creating one”."
+msgstr "De forma predeterminada, YOURLS no permite que aplicaciones externas editen o eliminen enlaces, y no tiene un endpoint integrado de búsqueda inversa para «encontrar esta URL larga sin crear una nueva»."
+
+msgid "Checked:"
+msgstr "Comprobados:"
+
+msgid "Checks enabled posts against YOURLS in AJAX batches to avoid timeouts. If the helper plugin can find a matching long URL, kURL can import or replace the local entry. Existing local short URLs are also verified against the current permalink."
+msgstr "Comprueba las entradas activadas frente a YOURLS en lotes AJAX para evitar tiempos de espera. Si el plugin auxiliar encuentra una URL larga coincidente, kURL puede importar o sustituir la entrada local. Las URL cortas locales existentes también se verifican frente al permalink actual."
+
+msgid "Create a file inside that folder called <code>plugin.php</code> and paste the code below into it."
+msgstr "Crea dentro de esa carpeta un archivo llamado <code>plugin.php</code> y pega en él el código de abajo."
+
+msgid "Enter your main YOURLS domain (for example <code>https://yalla.li</code>). kURL will automatically append <code>/yourls-api.php</code> when needed."
+msgstr "Introduce tu dominio principal de YOURLS (por ejemplo <code>https://yalla.li</code>). kURL añadirá automáticamente <code>/yourls-api.php</code> cuando sea necesario."
+
+msgid "Experimental tools to compare WordPress content with your YOURLS database and clean stale local data."
+msgstr "Herramientas experimentales para comparar el contenido de WordPress con tu base de datos de YOURLS y limpiar datos locales obsoletos."
+
+msgid "Experimental: Check whether YOURLS already has a short URL for this permalink and sync it into WordPress."
+msgstr "Experimental: comprueba si YOURLS ya tiene una URL corta para este permalink y la sincroniza con WordPress."
+
+msgid "Import first, verify a few posts, then delete the old Better YOURLS data once everything looks correct."
+msgstr "Importa primero, verifica algunas entradas y luego elimina los datos antiguos de Better YOURLS cuando todo parezca correcto."
+
+msgid "Imported existing YOURLS short URL: %s"
+msgstr "URL corta existente de YOURLS importada: %s"
+
+msgid "Install the helper to enable safe lookup, remote deletion, and advanced reconciliation."
+msgstr "Instala el plugin auxiliar para activar la búsqueda segura, el borrado remoto y la conciliación avanzada."
+
+msgid "Install the official kURL helper extension on your YOURLS server to enable remote deletion and safe long-URL lookup for sync and cleanup features."
+msgstr "Instala la extensión oficial kURL Helper en tu servidor YOURLS para activar el borrado remoto y la búsqueda segura de URL largas para las funciones de sincronización y limpieza."
+
+msgid "Recent YOURLS activity across the whole instance"
+msgstr "Actividad reciente de YOURLS en toda la instancia"
+
+msgid "Leave empty to let YOURLS use a random keyword. The Regenerate button uses the keyword field if you filled it in, otherwise it requests a new random keyword."
+msgstr "Déjalo vacío para que YOURLS use una palabra clave aleatoria. El botón Regenerar usa el campo de palabra clave si lo has rellenado; de lo contrario solicita una nueva palabra clave aleatoria."
+
+msgid "Local cleanup finished. Keywords removed: %1$d, stats removed: %2$d, URLs normalized: %3$d."
+msgstr "Limpieza local terminada. Palabras clave eliminadas: %1$d, estadísticas eliminadas: %2$d, URL normalizadas: %3$d."
+
+msgid "Local short URL expands to the current permalink."
+msgstr "La URL corta local se corresponde con el permalink actual."
+
+msgid "Local short URL matches YOURLS."
+msgstr "La URL corta local coincide con YOURLS."
+
+msgid "Log into your YOURLS admin area, open Manage Plugins, and activate “kURL Helper”."
+msgstr "Inicia sesión en el área de administración de YOURLS, abre Manage Plugins y activa «kURL Helper»."
+
+msgid "Mismatches:"
+msgstr "Desajustes:"
+
+msgid "Mode"
+msgstr "Modo"
+
+msgid "Navigate to <code>user/plugins/</code> and create a folder named <code>kurl-api</code>."
+msgstr "Ve a <code>user/plugins/</code> y crea una carpeta llamada <code>kurl-api</code>."
+
+msgid "No helper match was found. The standard API returned or created a short URL and synced it into WordPress."
+msgstr "No se encontró ninguna coincidencia mediante el plugin auxiliar. La API estándar devolvió o creó una URL corta y la sincronizó con WordPress."
+
+msgid "No local short URL to verify, and safe reverse lookup needs the helper plugin."
+msgstr "No hay ninguna URL corta local que verificar y la búsqueda inversa segura requiere el plugin auxiliar."
+
+msgid "No matching YOURLS entry was found for this permalink."
+msgstr "No se encontró ninguna entrada de YOURLS para este permalink."
+
+msgid "Preview only"
+msgstr "Solo vista previa"
+
+msgid "Preview only (do not change WordPress data)"
+msgstr "Solo vista previa (no cambiar datos de WordPress)"
+
+msgid "Preview: would import existing YOURLS short URL: %s"
+msgstr "Vista previa: importaría la URL corta existente de YOURLS: %s"
+
+msgid "Preview: would replace local short URL with YOURLS result: %s"
+msgstr "Vista previa: sustituiría la URL corta local por el resultado de YOURLS: %s"
+
+msgid "Reconciliation finished."
+msgstr "Conciliación finalizada."
+
+msgid "Reconciliation finished. Imported: %1$d, replaced: %2$d, verified: %3$d, mismatches: %4$d, skipped: %5$d."
+msgstr "Conciliación finalizada. Importados: %1$d, sustituidos: %2$d, verificados: %3$d, desajustes: %4$d, omitidos: %5$d."
+
+msgid "Reconciliation stopped."
+msgstr "Conciliación detenida."
+
+msgid "Removes stale keywords and cached stats that no longer belong to a saved short URL and normalizes stored URLs."
+msgstr "Elimina palabras clave obsoletas y estadísticas en caché que ya no pertenecen a una URL corta guardada y normaliza las URL almacenadas."
+
+msgid "Replaced local short URL with YOURLS result: %s"
+msgstr "La URL corta local se sustituyó por el resultado de YOURLS: %s"
+
+msgid "Replaced:"
+msgstr "Sustituidos:"
+
+msgid "Saved short URL does not match the current permalink in YOURLS."
+msgstr "La URL corta guardada no coincide con el permalink actual en YOURLS."
+
+msgid "Shorten any URL without saving it to WordPress. Safe lookup, delete, and regenerate use the helper plugin when available."
+msgstr "Acorta cualquier URL sin guardarla en WordPress. La búsqueda segura, el borrado y la regeneración usan el plugin auxiliar cuando está disponible."
+
+msgid "Shortlink unlinked from WordPress. The old entry still exists in YOURLS until you delete it there."
+msgstr "El enlace corto se desvinculó de WordPress. La entrada antigua sigue existiendo en YOURLS hasta que la elimines allí."
+
+msgid "Start reconciliation"
+msgstr "Iniciar conciliación"
+
+msgid "Start with preview mode, review the report, and only then apply changes. Back up your WordPress database before applying reconciliation changes on a large site."
+msgstr "Empieza con el modo de vista previa, revisa el informe y solo después aplica los cambios. Haz una copia de seguridad de la base de datos de WordPress antes de aplicar cambios de conciliación en un sitio grande."
+
+msgid "The API is not configured yet. You can still review settings, but dashboard lists and manual YOURLS actions will stay inactive until you add your API credentials."
+msgstr "La API todavía no está configurada. Aún puedes revisar la configuración, pero las listas del escritorio y las acciones manuales de YOURLS permanecerán inactivas hasta que añadas tus credenciales de API."
+
+msgid "The log keeps only the last 7 days and has size caps so WordPress does not get overloaded."
+msgstr "El registro solo conserva los últimos 7 días y tiene límites de tamaño para no sobrecargar WordPress."
+
+msgid "The saved short URL points to a different long URL in YOURLS. Review this manually before replacing it."
+msgstr "La URL corta guardada apunta a una URL larga distinta en YOURLS. Revísalo manualmente antes de reemplazarla."
+
+msgid "Tip: “Check YOURLS” only performs a safe reverse lookup when the helper plugin is active. “Generate / Update” can still create or return a short URL through the standard API."
+msgstr "Consejo: «Comprobar YOURLS» solo realiza una búsqueda inversa segura cuando el plugin auxiliar está activo. «Generar / Actualizar» todavía puede crear o devolver una URL corta mediante la API estándar."
+
+msgid "Verified:"
+msgstr "Verificados:"
+
+msgid "Version %s • Dashboard statistics, manual shortening, migration tools, logs, and bulk processing."
+msgstr "Versión %s • Estadísticas del panel, acortamiento manual, herramientas de migración, registros y procesamiento por lotes."
+
+msgid "Warning: if enabled, all plugin data, including links, cached stats, and logs, will be permanently removed when the plugin is uninstalled."
+msgstr "Advertencia: si se activa, todos los datos del plugin, incluidos enlaces, estadísticas en caché y registros, se eliminarán de forma permanente al desinstalarlo."
+
+msgid "YOURLS did not accept that custom keyword. This often means the slug is already in use."
+msgstr "YOURLS no aceptó esa palabra clave personalizada. Esto suele significar que el slug ya está en uso."
+
+msgid "YOURLS did not accept that custom keyword. This often means the slug is already in use. Delete the old shortlink first or choose a different keyword."
+msgstr "YOURLS no aceptó esa palabra clave personalizada. Esto suele significar que el slug ya está en uso. Elimina primero el enlace corto antiguo o elige otra palabra clave."
+
+msgid "You can find your signature token in the YOURLS admin area under <strong>Tools → Secure passwordless API call</strong>."
+msgstr "Puedes encontrar tu token de firma en el área de administración de YOURLS, en <strong>Tools → Secure passwordless API call</strong>."
+
+msgid "mismatch"
+msgstr "desajuste"
+
+msgid "skipped"
+msgstr "omitido"
+
+msgid "verified"
+msgstr "verificado"
+
+msgid "would import"
+msgstr "importaría"
+
+msgid "would replace"
+msgstr "sustituiría"
+
+msgid "Latest shortlinks saved in WordPress"
+msgstr "Últimos enlaces cortos guardados en WordPress"
+
+msgid "Shortlinks that are currently stored locally in WordPress and linked to posts, pages, or custom post types."
+msgstr "Enlaces cortos almacenados actualmente de forma local en WordPress y vinculados a entradas, páginas o tipos de contenido personalizados."
+
+msgid "Recent YOURLS activity across the whole instance"
+msgstr "Actividad reciente de YOURLS en toda la instancia"
+
+msgid "The most recent shortlink activity found globally in your YOURLS instance, including links that may not be connected to WordPress."
+msgstr "La actividad más reciente de enlaces cortos encontrada globalmente en tu instancia de YOURLS, incluyendo enlaces que pueden no estar conectados con WordPress."
