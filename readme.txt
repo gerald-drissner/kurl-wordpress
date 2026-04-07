@@ -1,4 +1,4 @@
-=== kURL - YOURLS ===
+=== kURL - Short URL Manager for YOURLS ===
 Contributors: geralddrissner
 Tags: yourls, shortlinks, url shortener, custom links, affiliate links
 Requires at least: 6.0

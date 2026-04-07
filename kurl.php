@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:       kURL - YOURLS
+ * Plugin Name:       kURL - Short URL Manager for YOURLS
  * Description:       Modern YOURLS integration for WordPress with dashboard statistics, bulk link generation, sync and cleanup tools, logging, and editor tools.
  * Version:           1.0.0
  * Requires at least: 6.0
@@ -9,7 +9,7 @@
  * Author URI:        https://drissner.media
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       kurl-yourls
+ * Text Domain:       kurl-short-url-manager-yourls
  * Domain Path:       /languages
  */
 
