@@ -10,15 +10,35 @@ final class Kurl_Shortlinks {
     }
 
     public static function filter_shortlink($shortlink, $post_id, string $context, bool $allow_slugs) {
-        unset($context, $allow_slugs);
-        $post_id = $post_id instanceof WP_Post ? (int) $post_id->ID : (int) $post_id;
-        if ($post_id <= 0) {
-            return $shortlink;
+        unset($allow_slugs);
+
+        // Normalize $post_id — it can be int, string, WP_Post, or 0.
+        if ($post_id instanceof WP_Post) {
+            $post_id = (int) $post_id->ID;
+        } else {
+            $post_id = (int) $post_id;
         }
+
+        // Core calls wp_get_shortlink(0, 'query') from wp_shortlink_wp_head() and
+        // wp_shortlink_header(), expecting the filter to resolve the current
+        // queried object itself. If we bail on $post_id <= 0 we silently break
+        // the <link rel="shortlink"> tag and the Link: HTTP header on every
+        // singular view. Resolve it ourselves instead.
+        if ($post_id <= 0) {
+            if ($context !== 'query' || !is_singular()) {
+                return $shortlink;
+            }
+            $post_id = (int) get_queried_object_id();
+            if ($post_id <= 0) {
+                return $shortlink;
+            }
+        }
+
         $saved = self::get_saved_shorturl($post_id);
         if ($saved !== '') {
             return $saved;
         }
+
         $legacy = self::get_legacy_shorturl($post_id);
         return $legacy !== '' ? $legacy : $shortlink;
     }
