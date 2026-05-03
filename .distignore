@@ -1,0 +1,14 @@
+.git
+.gitignore
+.github
+.distignore
+*.zip
+.DS_Store
+node_modules
+package.json
+package-lock.json
+composer.json
+composer.lock
+phpcs.xml
+phpunit.xml
+tests
