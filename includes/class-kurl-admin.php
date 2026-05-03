@@ -37,12 +37,12 @@ final class Kurl_Admin {
     }
 
     public static function menu(): void {
-        add_menu_page(__('kURL', 'kurl-yourls'), __('kURL', 'kurl-yourls'), 'manage_options', 'kurl-yourls', [__CLASS__, 'render_dashboard'], 'dashicons-admin-links', 58);
-        add_submenu_page('kurl-yourls', __('Dashboard', 'kurl-yourls'), __('Dashboard', 'kurl-yourls'), 'manage_options', 'kurl-yourls', [__CLASS__, 'render_dashboard']);
-        add_submenu_page('kurl-yourls', __('Bulk Generator', 'kurl-yourls'), __('Bulk Generator', 'kurl-yourls'), 'manage_options', 'kurl-bulk', [__CLASS__, 'render_bulk']);
-        add_submenu_page('kurl-yourls', __('Sync & Cleanup', 'kurl-yourls'), __('Sync & Cleanup', 'kurl-yourls'), 'manage_options', 'kurl-sync', [__CLASS__, 'render_sync_cleanup']);
-        add_submenu_page('kurl-yourls', __('Logs', 'kurl-yourls'), __('Logs', 'kurl-yourls'), 'manage_options', 'kurl-logs', [__CLASS__, 'render_logs']);
-        add_submenu_page('kurl-yourls', __('Settings', 'kurl-yourls'), __('Settings', 'kurl-yourls'), 'manage_options', 'kurl-settings', [__CLASS__, 'render_settings']);
+        add_menu_page(__('kURL', 'kurl-short-url-manager-yourls'), __('kURL', 'kurl-short-url-manager-yourls'), 'manage_options', 'kurl-short-url-manager-yourls', [__CLASS__, 'render_dashboard'], 'dashicons-admin-links', 58);
+        add_submenu_page('kurl-short-url-manager-yourls', __('Dashboard', 'kurl-short-url-manager-yourls'), __('Dashboard', 'kurl-short-url-manager-yourls'), 'manage_options', 'kurl-short-url-manager-yourls', [__CLASS__, 'render_dashboard']);
+        add_submenu_page('kurl-short-url-manager-yourls', __('Bulk Generator', 'kurl-short-url-manager-yourls'), __('Bulk Generator', 'kurl-short-url-manager-yourls'), 'manage_options', 'kurl-bulk', [__CLASS__, 'render_bulk']);
+        add_submenu_page('kurl-short-url-manager-yourls', __('Sync & Cleanup', 'kurl-short-url-manager-yourls'), __('Sync & Cleanup', 'kurl-short-url-manager-yourls'), 'manage_options', 'kurl-sync', [__CLASS__, 'render_sync_cleanup']);
+        add_submenu_page('kurl-short-url-manager-yourls', __('Logs', 'kurl-short-url-manager-yourls'), __('Logs', 'kurl-short-url-manager-yourls'), 'manage_options', 'kurl-logs', [__CLASS__, 'render_logs']);
+        add_submenu_page('kurl-short-url-manager-yourls', __('Settings', 'kurl-short-url-manager-yourls'), __('Settings', 'kurl-short-url-manager-yourls'), 'manage_options', 'kurl-settings', [__CLASS__, 'render_settings']);
     }
 
     public static function enqueue(string $hook): void {
@@ -52,8 +52,8 @@ final class Kurl_Admin {
         $settings = Kurl_Helpers::get_settings();
         $is_extended = !empty($settings['api_extended']);
         $confirm_msg = $is_extended
-            ? __('Are you sure you want to permanently delete this shortlink from WordPress and your YOURLS database?', 'kurl-yourls')
-            : __('Are you sure you want to unlink this shortlink from WordPress? You will still need to delete the old link manually in YOURLS before reusing the same custom slug.', 'kurl-yourls');
+            ? __('Are you sure you want to permanently delete this shortlink from WordPress and your YOURLS database?', 'kurl-short-url-manager-yourls')
+            : __('Are you sure you want to unlink this shortlink from WordPress? You will still need to delete the old link manually in YOURLS before reusing the same custom slug.', 'kurl-short-url-manager-yourls');
 
         wp_enqueue_style('kurl-admin', KURL_URL . 'assets/kurl-admin.css', [], KURL_VERSION);
         wp_enqueue_script('kurl-admin', KURL_URL . 'assets/kurl-admin.js', ['jquery'], KURL_VERSION, true);
@@ -61,54 +61,54 @@ final class Kurl_Admin {
             'ajaxUrl' => admin_url('admin-ajax.php'),
             'nonce'   => wp_create_nonce('kurl_admin'),
             'strings' => [
-                'working'              => __('Working…', 'kurl-yourls'),
-                'done'                 => __('Done', 'kurl-yourls'),
-                'error'                => __('Error', 'kurl-yourls'),
+                'working'              => __('Working…', 'kurl-short-url-manager-yourls'),
+                'done'                 => __('Done', 'kurl-short-url-manager-yourls'),
+                'error'                => __('Error', 'kurl-short-url-manager-yourls'),
                 'confirm_delete'       => $confirm_msg,
-                'clicks_label'         => __('Clicks:', 'kurl-yourls'),
-                'links_label'          => __('Links:', 'kurl-yourls'),
-                'copy_missing'         => __('No code found to copy.', 'kurl-yourls'),
-                'copy_failed'          => __('Failed to copy code. Please copy it manually.', 'kurl-yourls'),
-                'bulk_processed'       => __('Processed:', 'kurl-yourls'),
-                'bulk_created'         => __('Created:', 'kurl-yourls'),
-                'bulk_updated'         => __('Updated:', 'kurl-yourls'),
-                'bulk_imported'        => __('Imported:', 'kurl-yourls'),
-                'bulk_skipped'         => __('Skipped:', 'kurl-yourls'),
-                'bulk_errors'          => __('Errors:', 'kurl-yourls'),
-                'bulk_status'          => __('Status:', 'kurl-yourls'),
-                'bulk_done'            => __('Done.', 'kurl-yourls'),
-                'bulk_done_label'      => __('done', 'kurl-yourls'),
-                'bulk_stopped'         => __('Stopped.', 'kurl-yourls'),
-                'bulk_error_prefix'    => __('Error:', 'kurl-yourls'),
-                'bulk_ajax_prefix'     => __('AJAX error:', 'kurl-yourls'),
-                'status_created'       => __('created', 'kurl-yourls'),
-                'status_updated'       => __('updated', 'kurl-yourls'),
-                'status_imported'      => __('imported', 'kurl-yourls'),
-                'status_skipped_exist' => __('skipped existing', 'kurl-yourls'),
-                'status_error'         => __('error', 'kurl-yourls'),
-                'sync_button'          => __('Check / Sync', 'kurl-yourls'),
-                'api_connected'        => __('Connected', 'kurl-yourls'),
-                'api_not_connected'    => __('Not connected', 'kurl-yourls'),
-                'manual_lookup_only'   => __('Safe lookup needs the helper plugin.', 'kurl-yourls'),
-                'manual_regenerate'    => __('Regenerate', 'kurl-yourls'),
-                'manual_delete'        => __('Delete', 'kurl-yourls'),
-                'manual_generate'      => __('Generate / Update', 'kurl-yourls'),
-                'manual_check'         => __('Check YOURLS', 'kurl-yourls'),
-                'reconcile_checked'    => __('Checked:', 'kurl-yourls'),
-                'reconcile_imported'   => __('Imported:', 'kurl-yourls'),
-                'reconcile_replaced'   => __('Replaced:', 'kurl-yourls'),
-                'reconcile_verified'   => __('Verified:', 'kurl-yourls'),
-                'reconcile_mismatches' => __('Mismatches:', 'kurl-yourls'),
-                'reconcile_skipped'    => __('Skipped:', 'kurl-yourls'),
-                'reconcile_preview'    => __('Preview only', 'kurl-yourls'),
-                'reconcile_apply'      => __('Apply changes', 'kurl-yourls'),
-                'reconcile_done'       => __('Reconciliation finished.', 'kurl-yourls'),
-                'reconcile_stopped'    => __('Reconciliation stopped.', 'kurl-yourls'),
-                'status_would_import'  => __('would import', 'kurl-yourls'),
-                'status_would_replace' => __('would replace', 'kurl-yourls'),
-                'status_verified'      => __('verified', 'kurl-yourls'),
-                'status_mismatch'      => __('mismatch', 'kurl-yourls'),
-                'status_skipped'       => __('skipped', 'kurl-yourls'),
+                'clicks_label'         => __('Clicks:', 'kurl-short-url-manager-yourls'),
+                'links_label'          => __('Links:', 'kurl-short-url-manager-yourls'),
+                'copy_missing'         => __('No code found to copy.', 'kurl-short-url-manager-yourls'),
+                'copy_failed'          => __('Failed to copy code. Please copy it manually.', 'kurl-short-url-manager-yourls'),
+                'bulk_processed'       => __('Processed:', 'kurl-short-url-manager-yourls'),
+                'bulk_created'         => __('Created:', 'kurl-short-url-manager-yourls'),
+                'bulk_updated'         => __('Updated:', 'kurl-short-url-manager-yourls'),
+                'bulk_imported'        => __('Imported:', 'kurl-short-url-manager-yourls'),
+                'bulk_skipped'         => __('Skipped:', 'kurl-short-url-manager-yourls'),
+                'bulk_errors'          => __('Errors:', 'kurl-short-url-manager-yourls'),
+                'bulk_status'          => __('Status:', 'kurl-short-url-manager-yourls'),
+                'bulk_done'            => __('Done.', 'kurl-short-url-manager-yourls'),
+                'bulk_done_label'      => __('done', 'kurl-short-url-manager-yourls'),
+                'bulk_stopped'         => __('Stopped.', 'kurl-short-url-manager-yourls'),
+                'bulk_error_prefix'    => __('Error:', 'kurl-short-url-manager-yourls'),
+                'bulk_ajax_prefix'     => __('AJAX error:', 'kurl-short-url-manager-yourls'),
+                'status_created'       => __('created', 'kurl-short-url-manager-yourls'),
+                'status_updated'       => __('updated', 'kurl-short-url-manager-yourls'),
+                'status_imported'      => __('imported', 'kurl-short-url-manager-yourls'),
+                'status_skipped_exist' => __('skipped existing', 'kurl-short-url-manager-yourls'),
+                'status_error'         => __('error', 'kurl-short-url-manager-yourls'),
+                'sync_button'          => __('Check / Sync', 'kurl-short-url-manager-yourls'),
+                'api_connected'        => __('Connected', 'kurl-short-url-manager-yourls'),
+                'api_not_connected'    => __('Not connected', 'kurl-short-url-manager-yourls'),
+                'manual_lookup_only'   => __('Safe lookup needs the helper plugin.', 'kurl-short-url-manager-yourls'),
+                'manual_regenerate'    => __('Regenerate', 'kurl-short-url-manager-yourls'),
+                'manual_delete'        => __('Delete', 'kurl-short-url-manager-yourls'),
+                'manual_generate'      => __('Generate / Update', 'kurl-short-url-manager-yourls'),
+                'manual_check'         => __('Check YOURLS', 'kurl-short-url-manager-yourls'),
+                'reconcile_checked'    => __('Checked:', 'kurl-short-url-manager-yourls'),
+                'reconcile_imported'   => __('Imported:', 'kurl-short-url-manager-yourls'),
+                'reconcile_replaced'   => __('Replaced:', 'kurl-short-url-manager-yourls'),
+                'reconcile_verified'   => __('Verified:', 'kurl-short-url-manager-yourls'),
+                'reconcile_mismatches' => __('Mismatches:', 'kurl-short-url-manager-yourls'),
+                'reconcile_skipped'    => __('Skipped:', 'kurl-short-url-manager-yourls'),
+                'reconcile_preview'    => __('Preview only', 'kurl-short-url-manager-yourls'),
+                'reconcile_apply'      => __('Apply changes', 'kurl-short-url-manager-yourls'),
+                'reconcile_done'       => __('Reconciliation finished.', 'kurl-short-url-manager-yourls'),
+                'reconcile_stopped'    => __('Reconciliation stopped.', 'kurl-short-url-manager-yourls'),
+                'status_would_import'  => __('would import', 'kurl-short-url-manager-yourls'),
+                'status_would_replace' => __('would replace', 'kurl-short-url-manager-yourls'),
+                'status_verified'      => __('verified', 'kurl-short-url-manager-yourls'),
+                'status_mismatch'      => __('mismatch', 'kurl-short-url-manager-yourls'),
+                'status_skipped'       => __('skipped', 'kurl-short-url-manager-yourls'),
             ],
         ]);
     }
@@ -119,12 +119,12 @@ final class Kurl_Admin {
         foreach ($columns as $key => $label) {
             $new_columns[$key] = $label;
             if ($key === 'title') {
-                $new_columns['kurl_shorturl'] = __('Short URL', 'kurl-yourls');
+                $new_columns['kurl_shorturl'] = __('Short URL', 'kurl-short-url-manager-yourls');
                 $inserted = true;
             }
         }
         if (!$inserted) {
-            $new_columns['kurl_shorturl'] = __('Short URL', 'kurl-yourls');
+            $new_columns['kurl_shorturl'] = __('Short URL', 'kurl-short-url-manager-yourls');
         }
         return $new_columns;
     }
@@ -157,7 +157,7 @@ final class Kurl_Admin {
 
     public static function add_meta_box(): void {
         foreach (Kurl_Helpers::enabled_post_types() as $post_type) {
-            add_meta_box('kurl-meta', __('kURL Shortlink', 'kurl-yourls'), [__CLASS__, 'render_meta_box'], $post_type, 'side', 'high');
+            add_meta_box('kurl-meta', __('kURL Shortlink', 'kurl-short-url-manager-yourls'), [__CLASS__, 'render_meta_box'], $post_type, 'side', 'high');
         }
     }
 
@@ -167,26 +167,26 @@ final class Kurl_Admin {
         $stats = Kurl_Shortlinks::get_stats($post->ID);
         $settings = Kurl_Helpers::get_settings();
         $is_extended = !empty($settings['api_extended']);
-        $delete_text = $is_extended ? esc_html__('Delete & Unlink', 'kurl-yourls') : esc_html__('Unlink Locally', 'kurl-yourls');
+        $delete_text = $is_extended ? esc_html__('Delete & Unlink', 'kurl-short-url-manager-yourls') : esc_html__('Unlink Locally', 'kurl-short-url-manager-yourls');
         $delete_style = $shorturl !== '' ? 'color:#d63638;display:inline-block;' : 'color:#d63638;display:none;';
         $readonly_kw = $shorturl !== '' ? 'readonly="readonly"' : '';
 
         echo '<div class="kurl-box">';
-        echo '<p style="margin-bottom:6px;"><label><strong>' . esc_html__('Keyword / Slug', 'kurl-yourls') . '</strong></label></p>';
-        echo '<input type="text" class="widefat kurl-keyword" value="' . esc_attr($keyword) . '" placeholder="' . esc_attr__('optional-custom-slug', 'kurl-yourls') . '" ' . esc_attr($readonly_kw) . '>';
-        echo '<p style="margin-top:14px;margin-bottom:6px;"><label><strong>' . esc_html__('Short URL', 'kurl-yourls') . '</strong></label></p>';
+        echo '<p style="margin-bottom:6px;"><label><strong>' . esc_html__('Keyword / Slug', 'kurl-short-url-manager-yourls') . '</strong></label></p>';
+        echo '<input type="text" class="widefat kurl-keyword" value="' . esc_attr($keyword) . '" placeholder="' . esc_attr__('optional-custom-slug', 'kurl-short-url-manager-yourls') . '" ' . esc_attr($readonly_kw) . '>';
+        echo '<p style="margin-top:14px;margin-bottom:6px;"><label><strong>' . esc_html__('Short URL', 'kurl-short-url-manager-yourls') . '</strong></label></p>';
         echo '<input type="text" class="widefat kurl-shorturl" value="' . esc_attr($shorturl) . '" readonly="readonly">';
         echo '<p class="kurl-actions" style="margin-top:16px;margin-bottom:12px;display:flex;flex-wrap:wrap;gap:8px;">';
-        echo '<button type="button" class="button button-primary kurl-generate" data-post="' . (int) $post->ID . '">' . esc_html__('Generate / Update', 'kurl-yourls') . '</button>';
-        echo '<button type="button" class="button kurl-sync" data-post="' . (int) $post->ID . '">' . esc_html__('Check / Sync', 'kurl-yourls') . '</button>';
-        echo '<button type="button" class="button kurl-refresh-stats" data-post="' . (int) $post->ID . '">' . esc_html__('Refresh Stats', 'kurl-yourls') . '</button>';
+        echo '<button type="button" class="button button-primary kurl-generate" data-post="' . (int) $post->ID . '">' . esc_html__('Generate / Update', 'kurl-short-url-manager-yourls') . '</button>';
+        echo '<button type="button" class="button kurl-sync" data-post="' . (int) $post->ID . '">' . esc_html__('Check / Sync', 'kurl-short-url-manager-yourls') . '</button>';
+        echo '<button type="button" class="button kurl-refresh-stats" data-post="' . (int) $post->ID . '">' . esc_html__('Refresh Stats', 'kurl-short-url-manager-yourls') . '</button>';
         echo '<button type="button" class="button button-link-delete kurl-delete" data-post="' . (int) $post->ID . '" style="' . esc_attr($delete_style) . '">' . esc_html($delete_text) . '</button>';
         echo '</p>';
         echo '<div class="kurl-inline-status" style="margin-top:12px;"></div>';
         if (!empty($stats)) {
-            echo '<div class="kurl-meta-stats" style="margin-top:12px;"><strong>' . esc_html__('Clicks:', 'kurl-yourls') . '</strong> ' . esc_html((string) ((int) ($stats['clicks'] ?? 0))) . '</div>';
+            echo '<div class="kurl-meta-stats" style="margin-top:12px;"><strong>' . esc_html__('Clicks:', 'kurl-short-url-manager-yourls') . '</strong> ' . esc_html((string) ((int) ($stats['clicks'] ?? 0))) . '</div>';
         }
-        echo '<p class="description" style="margin-top:12px;">' . esc_html__('Experimental: Check whether YOURLS already has a short URL for this permalink and sync it into WordPress.', 'kurl-yourls') . '</p>';
+        echo '<p class="description" style="margin-top:12px;">' . esc_html__('Experimental: Check whether YOURLS already has a short URL for this permalink and sync it into WordPress.', 'kurl-short-url-manager-yourls') . '</p>';
         echo '</div>';
     }
 
@@ -196,20 +196,20 @@ final class Kurl_Admin {
         $raw_post_id = $request['post_id'] ?? 0;
         $post_id     = absint($raw_post_id);
         if (!current_user_can('edit_post', $post_id)) {
-            wp_send_json_error(['message' => __('Permission denied.', 'kurl-yourls')], 403);
+            wp_send_json_error(['message' => __('Permission denied.', 'kurl-short-url-manager-yourls')], 403);
         }
         $post = get_post($post_id);
         if (!$post instanceof WP_Post) {
-            wp_send_json_error(['message' => __('Invalid post.', 'kurl-yourls')], 400);
+            wp_send_json_error(['message' => __('Invalid post.', 'kurl-short-url-manager-yourls')], 400);
         }
         if (!Kurl_Helpers::is_supported_post_type($post->post_type)) {
-            wp_send_json_error(['message' => __('This post type is not enabled for kURL.', 'kurl-yourls')], 400);
+            wp_send_json_error(['message' => __('This post type is not enabled for kURL.', 'kurl-short-url-manager-yourls')], 400);
         }
         $raw_keyword = $request['keyword'] ?? '';
         $keyword     = Kurl_Helpers::sanitize_keyword((string) $raw_keyword);
         $permalink = get_permalink($post);
         if (!is_string($permalink) || $permalink === '') {
-            wp_send_json_error(['message' => __('Could not determine the permalink.', 'kurl-yourls')], 400);
+            wp_send_json_error(['message' => __('Could not determine the permalink.', 'kurl-short-url-manager-yourls')], 400);
         }
         $response = Kurl_API::create_shortlink($permalink, $keyword, get_the_title($post));
         if (empty($response['ok'])) {
@@ -219,29 +219,29 @@ final class Kurl_Admin {
         }
         $shorturl = Kurl_API::extract_shorturl($response);
         if ($shorturl === '') {
-            wp_send_json_error(['message' => __('YOURLS did not return a short URL.', 'kurl-yourls')], 400);
+            wp_send_json_error(['message' => __('YOURLS did not return a short URL.', 'kurl-short-url-manager-yourls')], 400);
         }
         if ($keyword !== '' && !self::shorturl_matches_keyword($shorturl, $keyword)) {
-            wp_send_json_error(['message' => __('YOURLS did not accept that custom keyword. This often means the slug is already in use. Delete the old shortlink first or choose a different keyword.', 'kurl-yourls')], 400);
+            wp_send_json_error(['message' => __('YOURLS did not accept that custom keyword. This often means the slug is already in use. Delete the old shortlink first or choose a different keyword.', 'kurl-short-url-manager-yourls')], 400);
         }
         Kurl_Shortlinks::save_link($post_id, $shorturl, $keyword);
         delete_transient('kurl_dashboard_overview');
-        wp_send_json_success(['shorturl' => $shorturl, 'message' => __('Shortlink saved successfully.', 'kurl-yourls')]);
+        wp_send_json_success(['shorturl' => $shorturl, 'message' => __('Shortlink saved successfully.', 'kurl-short-url-manager-yourls')]);
     }
 
     public static function ajax_check_sync_post(): void {
         check_ajax_referer('kurl_admin', 'nonce');
         $post_id = isset($_POST['post_id']) ? absint(wp_unslash($_POST['post_id'])) : 0;
         if (!current_user_can('edit_post', $post_id)) {
-            wp_send_json_error(['message' => __('Permission denied.', 'kurl-yourls')], 403);
+            wp_send_json_error(['message' => __('Permission denied.', 'kurl-short-url-manager-yourls')], 403);
         }
         $post = get_post($post_id);
         if (!$post instanceof WP_Post) {
-            wp_send_json_error(['message' => __('Invalid post.', 'kurl-yourls')], 400);
+            wp_send_json_error(['message' => __('Invalid post.', 'kurl-short-url-manager-yourls')], 400);
         }
         $permalink = get_permalink($post);
         if (!is_string($permalink) || $permalink === '') {
-            wp_send_json_error(['message' => __('Could not determine the permalink.', 'kurl-yourls')], 400);
+            wp_send_json_error(['message' => __('Could not determine the permalink.', 'kurl-short-url-manager-yourls')], 400);
         }
         $local = Kurl_Shortlinks::get_shorturl($post_id);
         $helper = Kurl_API::find_by_longurl($permalink);
@@ -249,17 +249,17 @@ final class Kurl_Admin {
         if ($found !== '') {
             Kurl_Shortlinks::save_link($post_id, $found, Kurl_Shortlinks::get_keyword($post_id));
             delete_transient('kurl_dashboard_overview');
-            wp_send_json_success(['shorturl' => $found, 'message' => $local && $local !== $found ? __('Local short URL replaced with the matching YOURLS entry.', 'kurl-yourls') : __('Matching YOURLS short URL imported successfully.', 'kurl-yourls')]);
+            wp_send_json_success(['shorturl' => $found, 'message' => $local && $local !== $found ? __('Local short URL replaced with the matching YOURLS entry.', 'kurl-short-url-manager-yourls') : __('Matching YOURLS short URL imported successfully.', 'kurl-short-url-manager-yourls')]);
         }
         if ($local !== '') {
             $expand = Kurl_API::expand_shortlink($local);
             if (!empty($expand['ok'])) {
                 $longurl = Kurl_API::extract_longurl($expand);
                 if ($longurl !== '' && untrailingslashit($longurl) === untrailingslashit($permalink)) {
-                    wp_send_json_success(['shorturl' => $local, 'message' => __('The saved short URL already matches the current permalink.', 'kurl-yourls')]);
+                    wp_send_json_success(['shorturl' => $local, 'message' => __('The saved short URL already matches the current permalink.', 'kurl-short-url-manager-yourls')]);
                 }
                 if ($longurl !== '' && untrailingslashit($longurl) !== untrailingslashit($permalink)) {
-                    wp_send_json_error(['message' => __('The saved short URL points to a different long URL in YOURLS. Review this manually before replacing it.', 'kurl-yourls')], 400);
+                    wp_send_json_error(['message' => __('The saved short URL points to a different long URL in YOURLS. Review this manually before replacing it.', 'kurl-short-url-manager-yourls')], 400);
                 }
             }
         }
@@ -269,11 +269,11 @@ final class Kurl_Admin {
         }
         $shorturl = Kurl_API::extract_shorturl($fallback);
         if ($shorturl === '') {
-            wp_send_json_error(['message' => __('YOURLS did not return a short URL.', 'kurl-yourls')], 400);
+            wp_send_json_error(['message' => __('YOURLS did not return a short URL.', 'kurl-short-url-manager-yourls')], 400);
         }
         Kurl_Shortlinks::save_link($post_id, $shorturl, Kurl_Shortlinks::get_keyword($post_id));
         delete_transient('kurl_dashboard_overview');
-        wp_send_json_success(['shorturl' => $shorturl, 'message' => __('No helper match was found. The standard API returned or created a short URL and synced it into WordPress.', 'kurl-yourls')]);
+        wp_send_json_success(['shorturl' => $shorturl, 'message' => __('No helper match was found. The standard API returned or created a short URL and synced it into WordPress.', 'kurl-short-url-manager-yourls')]);
     }
 
 
@@ -284,11 +284,11 @@ final class Kurl_Admin {
         $raw_url = $request['url'] ?? '';
         $url     = esc_url_raw(trim((string) $raw_url));
         if ($url === '') {
-            wp_send_json_error(['message' => __('Please enter a valid URL.', 'kurl-yourls')], 400);
+            wp_send_json_error(['message' => __('Please enter a valid URL.', 'kurl-short-url-manager-yourls')], 400);
         }
         $settings = Kurl_Helpers::get_settings();
         if (empty($settings['api_extended'])) {
-            wp_send_json_error(['message' => __('Safe lookup needs the optional kURL Helper plugin on your YOURLS server.', 'kurl-yourls')], 400);
+            wp_send_json_error(['message' => __('Safe lookup needs the optional kURL Helper plugin on your YOURLS server.', 'kurl-short-url-manager-yourls')], 400);
         }
         $response = Kurl_API::find_by_longurl($url);
         if (!empty($response['ok'])) {
@@ -296,7 +296,7 @@ final class Kurl_Admin {
             if ($shorturl !== '') {
                 wp_send_json_success([
                     'shorturl' => $shorturl,
-                    'message'  => __('An existing YOURLS short URL was found for that URL.', 'kurl-yourls'),
+                    'message'  => __('An existing YOURLS short URL was found for that URL.', 'kurl-short-url-manager-yourls'),
                 ]);
             }
         }
@@ -304,7 +304,7 @@ final class Kurl_Admin {
         if (stripos($message, 'not found') !== false || strpos($message, '404') !== false) {
             wp_send_json_success([
                 'shorturl' => '',
-                'message'  => __('No existing YOURLS short URL was found for that URL.', 'kurl-yourls'),
+                'message'  => __('No existing YOURLS short URL was found for that URL.', 'kurl-short-url-manager-yourls'),
             ]);
         }
         wp_send_json_error(['message' => $message], 400);
@@ -319,7 +319,7 @@ final class Kurl_Admin {
         $url         = esc_url_raw(trim((string) $raw_url));
         $keyword     = Kurl_Helpers::sanitize_keyword((string) $raw_keyword);
         if ($url === '') {
-            wp_send_json_error(['message' => __('Please enter a valid URL.', 'kurl-yourls')], 400);
+            wp_send_json_error(['message' => __('Please enter a valid URL.', 'kurl-short-url-manager-yourls')], 400);
         }
         $response = Kurl_API::create_shortlink($url, $keyword, '');
         if (empty($response['ok'])) {
@@ -327,14 +327,14 @@ final class Kurl_Admin {
         }
         $shorturl = Kurl_API::extract_shorturl($response);
         if ($shorturl === '') {
-            wp_send_json_error(['message' => __('YOURLS did not return a short URL.', 'kurl-yourls')], 400);
+            wp_send_json_error(['message' => __('YOURLS did not return a short URL.', 'kurl-short-url-manager-yourls')], 400);
         }
         if ($keyword !== '' && !self::shorturl_matches_keyword($shorturl, $keyword)) {
-            wp_send_json_error(['message' => __('YOURLS did not accept that custom keyword. This often means the slug is already in use.', 'kurl-yourls')], 400);
+            wp_send_json_error(['message' => __('YOURLS did not accept that custom keyword. This often means the slug is already in use.', 'kurl-short-url-manager-yourls')], 400);
         }
         wp_send_json_success([
             'shorturl' => $shorturl,
-            'message'  => __('Short URL generated successfully.', 'kurl-yourls'),
+            'message'  => __('Short URL generated successfully.', 'kurl-short-url-manager-yourls'),
         ]);
     }
 
@@ -344,18 +344,18 @@ final class Kurl_Admin {
         $request  = wp_unslash($_POST);
         $settings = Kurl_Helpers::get_settings();
         if (empty($settings['api_extended'])) {
-            wp_send_json_error(['message' => __('Remote deletion needs the optional kURL Helper plugin on your YOURLS server.', 'kurl-yourls')], 400);
+            wp_send_json_error(['message' => __('Remote deletion needs the optional kURL Helper plugin on your YOURLS server.', 'kurl-short-url-manager-yourls')], 400);
         }
         $raw_shorturl = $request['shorturl'] ?? '';
         $shorturl     = esc_url_raw(trim((string) $raw_shorturl));
         if ($shorturl === '') {
-            wp_send_json_error(['message' => __('Please enter or look up a short URL first.', 'kurl-yourls')], 400);
+            wp_send_json_error(['message' => __('Please enter or look up a short URL first.', 'kurl-short-url-manager-yourls')], 400);
         }
         $response = Kurl_API::delete_shortlink($shorturl);
         if (empty($response['ok'])) {
             wp_send_json_error(['message' => Kurl_Helpers::format_api_error($response)], 400);
         }
-        wp_send_json_success(['message' => __('Short URL deleted in YOURLS.', 'kurl-yourls')]);
+        wp_send_json_success(['message' => __('Short URL deleted in YOURLS.', 'kurl-short-url-manager-yourls')]);
     }
 
     public static function ajax_manual_regenerate_url(): void {
@@ -364,7 +364,7 @@ final class Kurl_Admin {
         $request  = wp_unslash($_POST);
         $settings = Kurl_Helpers::get_settings();
         if (empty($settings['api_extended'])) {
-            wp_send_json_error(['message' => __('Regeneration needs the optional kURL Helper plugin on your YOURLS server.', 'kurl-yourls')], 400);
+            wp_send_json_error(['message' => __('Regeneration needs the optional kURL Helper plugin on your YOURLS server.', 'kurl-short-url-manager-yourls')], 400);
         }
         $raw_url      = $request['url'] ?? '';
         $raw_keyword  = $request['keyword'] ?? '';
@@ -373,7 +373,7 @@ final class Kurl_Admin {
         $keyword      = Kurl_Helpers::sanitize_keyword((string) $raw_keyword);
         $shorturl     = esc_url_raw(trim((string) $raw_shorturl));
         if ($url === '') {
-            wp_send_json_error(['message' => __('Please enter a valid URL.', 'kurl-yourls')], 400);
+            wp_send_json_error(['message' => __('Please enter a valid URL.', 'kurl-short-url-manager-yourls')], 400);
         }
         if ($shorturl === '') {
             $lookup = Kurl_API::find_by_longurl($url);
@@ -393,16 +393,16 @@ final class Kurl_Admin {
         }
         $new_shorturl = Kurl_API::extract_shorturl($create);
         if ($new_shorturl === '') {
-            wp_send_json_error(['message' => __('YOURLS did not return a short URL.', 'kurl-yourls')], 400);
+            wp_send_json_error(['message' => __('YOURLS did not return a short URL.', 'kurl-short-url-manager-yourls')], 400);
         }
         if ($keyword !== '' && !self::shorturl_matches_keyword($new_shorturl, $keyword)) {
-            wp_send_json_error(['message' => __('YOURLS did not accept that custom keyword. This often means the slug is already in use.', 'kurl-yourls')], 400);
+            wp_send_json_error(['message' => __('YOURLS did not accept that custom keyword. This often means the slug is already in use.', 'kurl-short-url-manager-yourls')], 400);
         }
         wp_send_json_success([
             'shorturl' => $new_shorturl,
             'message'  => $keyword !== ''
-                ? __('Short URL regenerated with the requested keyword.', 'kurl-yourls')
-                : __('Short URL regenerated with a new random keyword.', 'kurl-yourls'),
+                ? __('Short URL regenerated with the requested keyword.', 'kurl-short-url-manager-yourls')
+                : __('Short URL regenerated with a new random keyword.', 'kurl-short-url-manager-yourls'),
         ]);
     }
 
@@ -410,11 +410,11 @@ final class Kurl_Admin {
         check_ajax_referer('kurl_admin', 'nonce');
         $post_id = isset($_POST['post_id']) ? absint(wp_unslash($_POST['post_id'])) : 0;
         if (!current_user_can('edit_post', $post_id)) {
-            wp_send_json_error(['message' => __('Permission denied.', 'kurl-yourls')], 403);
+            wp_send_json_error(['message' => __('Permission denied.', 'kurl-short-url-manager-yourls')], 403);
         }
         $shorturl = Kurl_Shortlinks::get_shorturl($post_id);
         if ($shorturl === '') {
-            wp_send_json_error(['message' => __('No short URL saved yet.', 'kurl-yourls')], 400);
+            wp_send_json_error(['message' => __('No short URL saved yet.', 'kurl-short-url-manager-yourls')], 400);
         }
         $response = Kurl_API::url_stats($shorturl);
         if (empty($response['ok'])) {
@@ -429,11 +429,11 @@ final class Kurl_Admin {
         check_ajax_referer('kurl_admin', 'nonce');
         $post_id = isset($_POST['post_id']) ? absint(wp_unslash($_POST['post_id'])) : 0;
         if (!current_user_can('edit_post', $post_id)) {
-            wp_send_json_error(['message' => __('Permission denied.', 'kurl-yourls')], 403);
+            wp_send_json_error(['message' => __('Permission denied.', 'kurl-short-url-manager-yourls')], 403);
         }
         $shorturl = Kurl_Shortlinks::get_shorturl($post_id);
         if ($shorturl === '') {
-            wp_send_json_success(['message' => __('No saved shortlink was found.', 'kurl-yourls')]);
+            wp_send_json_success(['message' => __('No saved shortlink was found.', 'kurl-short-url-manager-yourls')]);
         }
         $settings = Kurl_Helpers::get_settings();
         if (!empty($settings['api_extended'])) {
@@ -441,16 +441,16 @@ final class Kurl_Admin {
             if (empty($delete_response['ok'])) {
                 wp_send_json_error([
                     /* translators: %s: API error message. */
-                    'message' => sprintf(__('Remote deletion failed: %s', 'kurl-yourls'), Kurl_Helpers::format_api_error($delete_response)),
+                    'message' => sprintf(__('Remote deletion failed: %s', 'kurl-short-url-manager-yourls'), Kurl_Helpers::format_api_error($delete_response)),
                 ], 400);
             }
             self::clear_post_link_meta($post_id);
             delete_transient('kurl_dashboard_overview');
-            wp_send_json_success(['message' => __('Shortlink deleted in YOURLS and unlinked from WordPress.', 'kurl-yourls')]);
+            wp_send_json_success(['message' => __('Shortlink deleted in YOURLS and unlinked from WordPress.', 'kurl-short-url-manager-yourls')]);
         }
         self::clear_post_link_meta($post_id);
         delete_transient('kurl_dashboard_overview');
-        wp_send_json_success(['message' => __('Shortlink unlinked from WordPress. The old entry still exists in YOURLS until you delete it there.', 'kurl-yourls')]);
+        wp_send_json_success(['message' => __('Shortlink unlinked from WordPress. The old entry still exists in YOURLS until you delete it there.', 'kurl-short-url-manager-yourls')]);
     }
 
     public static function ajax_test_api(): void {
@@ -487,7 +487,7 @@ final class Kurl_Admin {
         update_option('kurl_settings', $settings, false);
         Kurl_Helpers::flush_settings_cache();
 
-        $message = $extended ? __('Connection successful. Helper plugin detected.', 'kurl-yourls') : __('Connection successful. Standard API only.', 'kurl-yourls');
+        $message = $extended ? __('Connection successful. Helper plugin detected.', 'kurl-short-url-manager-yourls') : __('Connection successful. Standard API only.', 'kurl-short-url-manager-yourls');
         $total_links = (int) ($response['total_links'] ?? ($response['stats']['total_links'] ?? 0) ?? ($response['db-stats']['total_links'] ?? 0));
         $total_clicks = (int) ($response['total_clicks'] ?? ($response['stats']['total_clicks'] ?? 0) ?? ($response['db-stats']['total_clicks'] ?? 0));
 
@@ -496,7 +496,7 @@ final class Kurl_Admin {
 
     public static function save_settings(): void {
         if (!current_user_can('manage_options')) {
-            wp_die(esc_html__('Permission denied.', 'kurl-yourls'));
+            wp_die(esc_html__('Permission denied.', 'kurl-short-url-manager-yourls'));
         }
         check_admin_referer('kurl_save_settings');
         $request = wp_unslash($_POST);
@@ -695,7 +695,7 @@ final class Kurl_Admin {
                 'post_id' => $post_id,
                 'title'   => $title,
                 'status'  => 'skipped',
-                'message' => __('Could not determine the permalink.', 'kurl-yourls'),
+                'message' => __('Could not determine the permalink.', 'kurl-short-url-manager-yourls'),
             ];
         }
 
@@ -720,12 +720,12 @@ final class Kurl_Admin {
                         'message' => $apply_changes
                             ? sprintf(
                         /* translators: %s: Existing matching short URL found in YOURLS. */
-                        __('Imported existing YOURLS short URL: %s', 'kurl-yourls'),
+                        __('Imported existing YOURLS short URL: %s', 'kurl-short-url-manager-yourls'),
                         $found
                     )
                             : sprintf(
                         /* translators: %s: Existing matching short URL found in YOURLS. */
-                        __('Preview: would import existing YOURLS short URL: %s', 'kurl-yourls'),
+                        __('Preview: would import existing YOURLS short URL: %s', 'kurl-short-url-manager-yourls'),
                         $found
                     ),
                     ];
@@ -743,12 +743,12 @@ final class Kurl_Admin {
                         'message' => $apply_changes
                             ? sprintf(
                         /* translators: %s: Replacement short URL found in YOURLS. */
-                        __('Replaced local short URL with YOURLS result: %s', 'kurl-yourls'),
+                        __('Replaced local short URL with YOURLS result: %s', 'kurl-short-url-manager-yourls'),
                         $found
                     )
                             : sprintf(
                         /* translators: %s: Replacement short URL found in YOURLS. */
-                        __('Preview: would replace local short URL with YOURLS result: %s', 'kurl-yourls'),
+                        __('Preview: would replace local short URL with YOURLS result: %s', 'kurl-short-url-manager-yourls'),
                         $found
                     ),
                     ];
@@ -758,7 +758,7 @@ final class Kurl_Admin {
                     'post_id' => $post_id,
                     'title'   => $title,
                     'status'  => 'verified',
-                    'message' => __('Local short URL matches YOURLS.', 'kurl-yourls'),
+                    'message' => __('Local short URL matches YOURLS.', 'kurl-short-url-manager-yourls'),
                 ];
             }
         }
@@ -772,7 +772,7 @@ final class Kurl_Admin {
                         'post_id' => $post_id,
                         'title'   => $title,
                         'status'  => 'verified',
-                        'message' => __('Local short URL expands to the current permalink.', 'kurl-yourls'),
+                        'message' => __('Local short URL expands to the current permalink.', 'kurl-short-url-manager-yourls'),
                     ];
                 }
             }
@@ -781,7 +781,7 @@ final class Kurl_Admin {
                 'post_id' => $post_id,
                 'title'   => $title,
                 'status'  => 'mismatch',
-                'message' => __('Saved short URL does not match the current permalink in YOURLS.', 'kurl-yourls'),
+                'message' => __('Saved short URL does not match the current permalink in YOURLS.', 'kurl-short-url-manager-yourls'),
             ];
         }
 
@@ -790,8 +790,8 @@ final class Kurl_Admin {
             'title'   => $title,
             'status'  => 'skipped',
             'message' => $helper_available
-                ? __('No matching YOURLS entry was found for this permalink.', 'kurl-yourls')
-                : __('No local short URL to verify, and safe reverse lookup needs the helper plugin.', 'kurl-yourls'),
+                ? __('No matching YOURLS entry was found for this permalink.', 'kurl-short-url-manager-yourls')
+                : __('No local short URL to verify, and safe reverse lookup needs the helper plugin.', 'kurl-short-url-manager-yourls'),
         ];
     }
 
@@ -812,72 +812,72 @@ final class Kurl_Admin {
         ]);
 
         $api_status_value = !$dashboard['configured']
-            ? __('Not connected', 'kurl-yourls')
-            : ($dashboard['connected'] ? __('Connected', 'kurl-yourls') : __('Connection failed', 'kurl-yourls'));
+            ? __('Not connected', 'kurl-short-url-manager-yourls')
+            : ($dashboard['connected'] ? __('Connected', 'kurl-short-url-manager-yourls') : __('Connection failed', 'kurl-short-url-manager-yourls'));
 
         $api_status_note = !$dashboard['configured']
-            ? __('Add your API URL and signature in Settings.', 'kurl-yourls')
+            ? __('Add your API URL and signature in Settings.', 'kurl-short-url-manager-yourls')
             : ($dashboard['connected']
-                ? __('Last dashboard refresh reached your YOURLS API successfully.', 'kurl-yourls')
-                : ($dashboard['error'] !== '' ? $dashboard['error'] : __('The dashboard could not reach YOURLS right now.', 'kurl-yourls')));
+                ? __('Last dashboard refresh reached your YOURLS API successfully.', 'kurl-short-url-manager-yourls')
+                : ($dashboard['error'] !== '' ? $dashboard['error'] : __('The dashboard could not reach YOURLS right now.', 'kurl-short-url-manager-yourls')));
 
         echo '<div class="wrap kurl-admin">';
-        echo '<div class="kurl-page-head"><div><h1>' . esc_html__('kURL Dashboard', 'kurl-yourls') . '</h1><p class="kurl-subtitle">' . esc_html(sprintf(
+        echo '<div class="kurl-page-head"><div><h1>' . esc_html__('kURL Dashboard', 'kurl-short-url-manager-yourls') . '</h1><p class="kurl-subtitle">' . esc_html(sprintf(
                 /* translators: %s: Plugin version number. */
-                __('Version %s • Dashboard statistics, manual shortening, migration tools, logs, and bulk processing.', 'kurl-yourls'),
+                __('Version %s • Dashboard statistics, manual shortening, migration tools, logs, and bulk processing.', 'kurl-short-url-manager-yourls'),
                 KURL_VERSION
             )) . '</p></div></div>';
 
         echo '<div class="kurl-cards">';
-        echo wp_kses_post(self::card(__('API status', 'kurl-yourls'), $api_status_value, $api_status_note));
-        echo wp_kses_post(self::card(__('Helper extension', 'kurl-yourls'), !empty($settings['api_extended']) ? __('Active', 'kurl-yourls') : __('Standard API only', 'kurl-yourls'), !empty($settings['api_extended']) ? __('Safe lookup, remote deletion, and reconciliation are available.', 'kurl-yourls') : __('Install the helper to enable safe lookup, remote deletion, and advanced reconciliation.', 'kurl-yourls')));
-        echo wp_kses_post(self::card(__('Saved shortlinks', 'kurl-yourls'), (string) $saved_links, __('Posts currently using a kURL entry in WordPress.', 'kurl-yourls')));
-        echo wp_kses_post(self::card(__('YOURLS total links', 'kurl-yourls'), (string) $dashboard['total_links'], __('Total links reported by YOURLS.', 'kurl-yourls')));
-        echo wp_kses_post(self::card(__('YOURLS total clicks', 'kurl-yourls'), (string) $dashboard['total_clicks'], __('Total clicks reported by YOURLS.', 'kurl-yourls')));
-        echo wp_kses_post(self::card(__('Log entries', 'kurl-yourls'), (string) $log_count, __('Only the last 7 days are retained.', 'kurl-yourls')));
+        echo wp_kses_post(self::card(__('API status', 'kurl-short-url-manager-yourls'), $api_status_value, $api_status_note));
+        echo wp_kses_post(self::card(__('Helper extension', 'kurl-short-url-manager-yourls'), !empty($settings['api_extended']) ? __('Active', 'kurl-short-url-manager-yourls') : __('Standard API only', 'kurl-short-url-manager-yourls'), !empty($settings['api_extended']) ? __('Safe lookup, remote deletion, and reconciliation are available.', 'kurl-short-url-manager-yourls') : __('Install the helper to enable safe lookup, remote deletion, and advanced reconciliation.', 'kurl-short-url-manager-yourls')));
+        echo wp_kses_post(self::card(__('Saved shortlinks', 'kurl-short-url-manager-yourls'), (string) $saved_links, __('Posts currently using a kURL entry in WordPress.', 'kurl-short-url-manager-yourls')));
+        echo wp_kses_post(self::card(__('YOURLS total links', 'kurl-short-url-manager-yourls'), (string) $dashboard['total_links'], __('Total links reported by YOURLS.', 'kurl-short-url-manager-yourls')));
+        echo wp_kses_post(self::card(__('YOURLS total clicks', 'kurl-short-url-manager-yourls'), (string) $dashboard['total_clicks'], __('Total clicks reported by YOURLS.', 'kurl-short-url-manager-yourls')));
+        echo wp_kses_post(self::card(__('Log entries', 'kurl-short-url-manager-yourls'), (string) $log_count, __('Only the last 7 days are retained.', 'kurl-short-url-manager-yourls')));
         echo '</div>';
 
         if (!$dashboard['configured']) {
-            echo '<div class="notice notice-warning"><p>' . esc_html__('The API is not configured yet. You can still review settings, but dashboard lists and manual YOURLS actions will stay inactive until you add your API credentials.', 'kurl-yourls') . '</p></div>';
+            echo '<div class="notice notice-warning"><p>' . esc_html__('The API is not configured yet. You can still review settings, but dashboard lists and manual YOURLS actions will stay inactive until you add your API credentials.', 'kurl-short-url-manager-yourls') . '</p></div>';
         } elseif (!$dashboard['connected'] && $dashboard['error'] !== '') {
             echo '<div class="notice notice-warning"><p>' . esc_html($dashboard['error']) . '</p></div>';
         }
 
         echo '<div class="kurl-grid kurl-grid--dashboard">';
         echo '<div class="kurl-panel kurl-dashboard-main">';
-        echo '<h2>' . esc_html__('Manual shortener', 'kurl-yourls') . '</h2>';
-        echo '<p>' . esc_html__('Shorten any URL without saving it to WordPress. Safe lookup, delete, and regenerate use the helper plugin when available.', 'kurl-yourls') . '</p>';
+        echo '<h2>' . esc_html__('Manual shortener', 'kurl-short-url-manager-yourls') . '</h2>';
+        echo '<p>' . esc_html__('Shorten any URL without saving it to WordPress. Safe lookup, delete, and regenerate use the helper plugin when available.', 'kurl-short-url-manager-yourls') . '</p>';
         echo '<div class="kurl-manual-box">';
         echo '<table class="form-table"><tbody>';
-        echo '<tr><th scope="row"><label for="kurl-manual-url">' . esc_html__('Target URL', 'kurl-yourls') . '</label></th><td><input type="url" id="kurl-manual-url" class="regular-text code" placeholder="https://example.com/article"></td></tr>';
-        echo '<tr><th scope="row"><label for="kurl-manual-keyword">' . esc_html__('Keyword / Slug', 'kurl-yourls') . '</label></th><td><input type="text" id="kurl-manual-keyword" class="regular-text code" placeholder="optional-custom-slug"><p class="description">' . esc_html__('Leave empty to let YOURLS use a random keyword. The Regenerate button uses the keyword field if you filled it in, otherwise it requests a new random keyword.', 'kurl-yourls') . '</p></td></tr>';
-        echo '<tr><th scope="row"><label for="kurl-manual-shorturl">' . esc_html__('Short URL', 'kurl-yourls') . '</label></th><td><input type="text" id="kurl-manual-shorturl" class="regular-text code" readonly="readonly"></td></tr>';
+        echo '<tr><th scope="row"><label for="kurl-manual-url">' . esc_html__('Target URL', 'kurl-short-url-manager-yourls') . '</label></th><td><input type="url" id="kurl-manual-url" class="regular-text code" placeholder="https://example.com/article"></td></tr>';
+        echo '<tr><th scope="row"><label for="kurl-manual-keyword">' . esc_html__('Keyword / Slug', 'kurl-short-url-manager-yourls') . '</label></th><td><input type="text" id="kurl-manual-keyword" class="regular-text code" placeholder="optional-custom-slug"><p class="description">' . esc_html__('Leave empty to let YOURLS use a random keyword. The Regenerate button uses the keyword field if you filled it in, otherwise it requests a new random keyword.', 'kurl-short-url-manager-yourls') . '</p></td></tr>';
+        echo '<tr><th scope="row"><label for="kurl-manual-shorturl">' . esc_html__('Short URL', 'kurl-short-url-manager-yourls') . '</label></th><td><input type="text" id="kurl-manual-shorturl" class="regular-text code" readonly="readonly"></td></tr>';
         echo '</tbody></table>';
         echo '<p class="kurl-actions" style="margin-top:16px;margin-bottom:12px;display:flex;flex-wrap:wrap;gap:8px;">';
-        echo '<button type="button" class="button kurl-manual-check">' . esc_html__('Check YOURLS', 'kurl-yourls') . '</button>';
-        echo '<button type="button" class="button button-primary kurl-manual-generate">' . esc_html__('Generate / Update', 'kurl-yourls') . '</button>';
-        echo '<button type="button" class="button kurl-manual-regenerate">' . esc_html__('Delete & Regenerate', 'kurl-yourls') . '</button>';
-        echo '<button type="button" class="button button-link-delete kurl-manual-delete" style="color:#d63638;">' . esc_html__('Delete', 'kurl-yourls') . '</button>';
+        echo '<button type="button" class="button kurl-manual-check">' . esc_html__('Check YOURLS', 'kurl-short-url-manager-yourls') . '</button>';
+        echo '<button type="button" class="button button-primary kurl-manual-generate">' . esc_html__('Generate / Update', 'kurl-short-url-manager-yourls') . '</button>';
+        echo '<button type="button" class="button kurl-manual-regenerate">' . esc_html__('Delete & Regenerate', 'kurl-short-url-manager-yourls') . '</button>';
+        echo '<button type="button" class="button button-link-delete kurl-manual-delete" style="color:#d63638;">' . esc_html__('Delete', 'kurl-short-url-manager-yourls') . '</button>';
         echo '</p>';
         echo '<div class="kurl-inline-status kurl-manual-status"></div>';
-        echo '<p class="description" style="margin-top:12px;">' . esc_html__('Tip: “Check YOURLS” only performs a safe reverse lookup when the helper plugin is active. “Generate / Update” can still create or return a short URL through the standard API.', 'kurl-yourls') . '</p>';
+        echo '<p class="description" style="margin-top:12px;">' . esc_html__('Tip: “Check YOURLS” only performs a safe reverse lookup when the helper plugin is active. “Generate / Update” can still create or return a short URL through the standard API.', 'kurl-short-url-manager-yourls') . '</p>';
         echo '</div>';
         echo '</div>';
 
         echo '<div class="kurl-panel kurl-dashboard-side">';
-        echo '<h2>' . esc_html__('Top 10 all-time links', 'kurl-yourls') . '</h2>';
+        echo '<h2>' . esc_html__('Top 10 all-time links', 'kurl-short-url-manager-yourls') . '</h2>';
         echo wp_kses_post(self::render_remote_links_table($dashboard['top_links'], 'top'));
         echo '</div>';
 
         echo '<div class="kurl-panel kurl-dashboard-main">';
-        echo '<h2>' . esc_html__('Recent YOURLS activity across the whole instance', 'kurl-yourls') . '</h2>';
+        echo '<h2>' . esc_html__('Recent YOURLS activity across the whole instance', 'kurl-short-url-manager-yourls') . '</h2>';
         echo wp_kses_post(self::render_remote_links_table($dashboard['latest_links'], 'latest'));
         echo '</div>';
 
         echo '<div class="kurl-panel kurl-dashboard-side">';
-        echo '<h2>' . esc_html__('Latest shortlinks saved in WordPress', 'kurl-yourls') . '</h2>';
+        echo '<h2>' . esc_html__('Latest shortlinks saved in WordPress', 'kurl-short-url-manager-yourls') . '</h2>';
         if (!empty($recent_posts)) {
-            echo '<table class="widefat striped"><thead><tr><th>' . esc_html__('Post', 'kurl-yourls') . '</th><th>' . esc_html__('Short URL', 'kurl-yourls') . '</th><th>' . esc_html__('Clicks', 'kurl-yourls') . '</th></tr></thead><tbody>';
+            echo '<table class="widefat striped"><thead><tr><th>' . esc_html__('Post', 'kurl-short-url-manager-yourls') . '</th><th>' . esc_html__('Short URL', 'kurl-short-url-manager-yourls') . '</th><th>' . esc_html__('Clicks', 'kurl-short-url-manager-yourls') . '</th></tr></thead><tbody>';
             foreach ($recent_posts as $post) {
                 $shorturl = (string) get_post_meta($post->ID, KURL_META_URL, true);
                 $clicks   = (int) (Kurl_Shortlinks::get_stats($post->ID)['clicks'] ?? 0);
@@ -889,7 +889,7 @@ final class Kurl_Admin {
             }
             echo '</tbody></table>';
         } else {
-            echo '<p>' . esc_html__('No saved kURL entries yet.', 'kurl-yourls') . '</p>';
+            echo '<p>' . esc_html__('No saved kURL entries yet.', 'kurl-short-url-manager-yourls') . '</p>';
         }
         echo '</div>';
 
@@ -1013,16 +1013,16 @@ final class Kurl_Admin {
 
     private static function render_remote_links_table(array $rows, string $mode): string {
         if (empty($rows)) {
-            return '<p>' . esc_html__('No YOURLS link data is available yet for this section.', 'kurl-yourls') . '</p>';
+            return '<p>' . esc_html__('No YOURLS link data is available yet for this section.', 'kurl-short-url-manager-yourls') . '</p>';
         }
 
         $html = '<div class="kurl-remote-table"><table class="widefat striped"><thead><tr>';
         if ($mode === 'latest') {
-            $html .= '<th>' . esc_html__('Created', 'kurl-yourls') . '</th>';
+            $html .= '<th>' . esc_html__('Created', 'kurl-short-url-manager-yourls') . '</th>';
         }
-        $html .= '<th>' . esc_html__('Short URL', 'kurl-yourls') . '</th><th>' . esc_html__('Target', 'kurl-yourls') . '</th>';
+        $html .= '<th>' . esc_html__('Short URL', 'kurl-short-url-manager-yourls') . '</th><th>' . esc_html__('Target', 'kurl-short-url-manager-yourls') . '</th>';
         if ($mode === 'top') {
-            $html .= '<th>' . esc_html__('Clicks', 'kurl-yourls') . '</th>';
+            $html .= '<th>' . esc_html__('Clicks', 'kurl-short-url-manager-yourls') . '</th>';
         }
         $html .= '</tr></thead><tbody>';
 
@@ -1057,16 +1057,16 @@ final class Kurl_Admin {
     public static function render_bulk(): void {
         self::assert_manage_options();
         echo '<div class="wrap kurl-admin">';
-        echo '<div class="kurl-page-head"><div><h1>' . esc_html__('kURL Bulk Generator', 'kurl-yourls') . '</h1><p class="kurl-subtitle">' . esc_html__('AJAX batches help avoid long-running admin requests and timeout problems.', 'kurl-yourls') . '</p></div></div>';
+        echo '<div class="kurl-page-head"><div><h1>' . esc_html__('kURL Bulk Generator', 'kurl-short-url-manager-yourls') . '</h1><p class="kurl-subtitle">' . esc_html__('AJAX batches help avoid long-running admin requests and timeout problems.', 'kurl-short-url-manager-yourls') . '</p></div></div>';
         echo '<div class="kurl-panel"><table class="form-table"><tbody>';
-        echo '<tr><th scope="row"><label for="kurl-bulk-post-type">' . esc_html__('Post type', 'kurl-yourls') . '</label></th><td><select id="kurl-bulk-post-type">';
+        echo '<tr><th scope="row"><label for="kurl-bulk-post-type">' . esc_html__('Post type', 'kurl-short-url-manager-yourls') . '</label></th><td><select id="kurl-bulk-post-type">';
         foreach (Kurl_Helpers::enabled_post_types() as $post_type) {
             echo '<option value="' . esc_attr($post_type) . '">' . esc_html($post_type) . '</option>';
         }
         echo '</select></td></tr>';
-        echo '<tr><th scope="row"><label for="kurl-bulk-batch-size">' . esc_html__('Batch size', 'kurl-yourls') . '</label></th><td><select id="kurl-bulk-batch-size"><option>5</option><option selected>10</option><option>25</option></select></td></tr>';
-        echo '<tr><th scope="row"><label for="kurl-bulk-mode">' . esc_html__('Existing links', 'kurl-yourls') . '</label></th><td><select id="kurl-bulk-mode"><option value="skip">' . esc_html__('Skip existing', 'kurl-yourls') . '</option><option value="import">' . esc_html__('Import old Better YOURLS first', 'kurl-yourls') . '</option><option value="overwrite">' . esc_html__('Regenerate / overwrite', 'kurl-yourls') . '</option></select></td></tr>';
-        echo '</tbody></table><p><button class="button button-primary" id="kurl-bulk-start">' . esc_html__('Start bulk generation', 'kurl-yourls') . '</button> <button class="button" id="kurl-bulk-stop">' . esc_html__('Stop', 'kurl-yourls') . '</button></p><div class="kurl-progress"><div class="kurl-progress-bar" id="kurl-progress-bar"></div></div><div class="kurl-bulk-stats" id="kurl-bulk-stats"></div><div class="kurl-log-box kurl-light-log" id="kurl-bulk-log"></div></div></div>';
+        echo '<tr><th scope="row"><label for="kurl-bulk-batch-size">' . esc_html__('Batch size', 'kurl-short-url-manager-yourls') . '</label></th><td><select id="kurl-bulk-batch-size"><option>5</option><option selected>10</option><option>25</option></select></td></tr>';
+        echo '<tr><th scope="row"><label for="kurl-bulk-mode">' . esc_html__('Existing links', 'kurl-short-url-manager-yourls') . '</label></th><td><select id="kurl-bulk-mode"><option value="skip">' . esc_html__('Skip existing', 'kurl-short-url-manager-yourls') . '</option><option value="import">' . esc_html__('Import old Better YOURLS first', 'kurl-short-url-manager-yourls') . '</option><option value="overwrite">' . esc_html__('Regenerate / overwrite', 'kurl-short-url-manager-yourls') . '</option></select></td></tr>';
+        echo '</tbody></table><p><button class="button button-primary" id="kurl-bulk-start">' . esc_html__('Start bulk generation', 'kurl-short-url-manager-yourls') . '</button> <button class="button" id="kurl-bulk-stop">' . esc_html__('Stop', 'kurl-short-url-manager-yourls') . '</button></p><div class="kurl-progress"><div class="kurl-progress-bar" id="kurl-progress-bar"></div></div><div class="kurl-bulk-stats" id="kurl-bulk-stats"></div><div class="kurl-log-box kurl-light-log" id="kurl-bulk-log"></div></div></div>';
     }
 
     public static function render_sync_cleanup(): void {
@@ -1087,12 +1087,12 @@ final class Kurl_Admin {
         // phpcs:enable WordPress.Security.NonceVerification.Recommended
 
         echo '<div class="wrap kurl-admin">';
-        echo '<div class="kurl-page-head"><div><h1>' . esc_html__('Sync & Cleanup', 'kurl-yourls') . '</h1><p class="kurl-subtitle">' . esc_html__('Experimental tools to compare WordPress content with your YOURLS database and clean stale local data.', 'kurl-yourls') . '</p></div></div>';
+        echo '<div class="kurl-page-head"><div><h1>' . esc_html__('Sync & Cleanup', 'kurl-short-url-manager-yourls') . '</h1><p class="kurl-subtitle">' . esc_html__('Experimental tools to compare WordPress content with your YOURLS database and clean stale local data.', 'kurl-short-url-manager-yourls') . '</p></div></div>';
 
         if ($kurl_cleanup_done) {
             echo '<div class="notice notice-success"><p>' . esc_html(sprintf(
                 /* translators: 1: Number of keywords removed. 2: Number of stats entries removed. 3: Number of URLs normalized. */
-                __('Local cleanup finished. Keywords removed: %1$d, stats removed: %2$d, URLs normalized: %3$d.', 'kurl-yourls'),
+                __('Local cleanup finished. Keywords removed: %1$d, stats removed: %2$d, URLs normalized: %3$d.', 'kurl-short-url-manager-yourls'),
                 $kurl_keywords_removed,
                 $kurl_stats_removed,
                 $kurl_urls_normalized
@@ -1102,7 +1102,7 @@ final class Kurl_Admin {
         if ($kurl_reconcile_done) {
             echo '<div class="notice notice-success"><p>' . esc_html(sprintf(
                 /* translators: 1: Imported count. 2: Replaced count. 3: Verified count. 4: Mismatch count. 5: Skipped count. */
-                __('Reconciliation finished. Imported: %1$d, replaced: %2$d, verified: %3$d, mismatches: %4$d, skipped: %5$d.', 'kurl-yourls'),
+                __('Reconciliation finished. Imported: %1$d, replaced: %2$d, verified: %3$d, mismatches: %4$d, skipped: %5$d.', 'kurl-short-url-manager-yourls'),
                 $kurl_imported_count,
                 $kurl_replaced_count,
                 $kurl_verified_count,
@@ -1111,17 +1111,17 @@ final class Kurl_Admin {
             )) . '</p></div>';
         }
         echo '<div class="kurl-grid">';
-        echo '<div class="kurl-panel"><h2>' . esc_html__('Local database cleanup', 'kurl-yourls') . '</h2><p>' . esc_html__('Removes stale keywords and cached stats that no longer belong to a saved short URL and normalizes stored URLs.', 'kurl-yourls') . '</p><form method="post" action="' . esc_url(admin_url('admin-post.php')) . '">';
+        echo '<div class="kurl-panel"><h2>' . esc_html__('Local database cleanup', 'kurl-short-url-manager-yourls') . '</h2><p>' . esc_html__('Removes stale keywords and cached stats that no longer belong to a saved short URL and normalizes stored URLs.', 'kurl-short-url-manager-yourls') . '</p><form method="post" action="' . esc_url(admin_url('admin-post.php')) . '">';
         wp_nonce_field('kurl_cleanup_local');
         echo '<input type="hidden" name="action" value="kurl_cleanup_local">';
-        submit_button(__('Clean local database', 'kurl-yourls'), 'secondary', 'submit', false, ['onclick' => "return confirm('" . esc_js(__('Run the local cleanup now?', 'kurl-yourls')) . "');"]);
+        submit_button(__('Clean local database', 'kurl-short-url-manager-yourls'), 'secondary', 'submit', false, ['onclick' => "return confirm('" . esc_js(__('Run the local cleanup now?', 'kurl-short-url-manager-yourls')) . "');"]);
         echo '</form></div>';
-        echo '<div class="kurl-panel"><h2>' . esc_html__('YOURLS reconcile / compare', 'kurl-yourls') . '</h2><p>' . esc_html__('Checks enabled posts against YOURLS in AJAX batches to avoid timeouts. If the helper plugin can find a matching long URL, kURL can import or replace the local entry. Existing local short URLs are also verified against the current permalink.', 'kurl-yourls') . '</p><p><strong>' . esc_html__('Experimental:', 'kurl-yourls') . '</strong> ' . esc_html__('Start with preview mode, review the report, and only then apply changes. Back up your WordPress database before applying reconciliation changes on a large site.', 'kurl-yourls') . '</p>';
+        echo '<div class="kurl-panel"><h2>' . esc_html__('YOURLS reconcile / compare', 'kurl-short-url-manager-yourls') . '</h2><p>' . esc_html__('Checks enabled posts against YOURLS in AJAX batches to avoid timeouts. If the helper plugin can find a matching long URL, kURL can import or replace the local entry. Existing local short URLs are also verified against the current permalink.', 'kurl-short-url-manager-yourls') . '</p><p><strong>' . esc_html__('Experimental:', 'kurl-short-url-manager-yourls') . '</strong> ' . esc_html__('Start with preview mode, review the report, and only then apply changes. Back up your WordPress database before applying reconciliation changes on a large site.', 'kurl-short-url-manager-yourls') . '</p>';
         echo '<table class="form-table"><tbody>';
-        echo '<tr><th scope="row"><label for="kurl-reconcile-batch-size">' . esc_html__('Batch size', 'kurl-yourls') . '</label></th><td><select id="kurl-reconcile-batch-size"><option selected>5</option><option>10</option><option>25</option></select></td></tr>';
-        echo '<tr><th scope="row">' . esc_html__('Mode', 'kurl-yourls') . '</th><td><label><input type="checkbox" id="kurl-reconcile-preview" checked="checked"> ' . esc_html__('Preview only (do not change WordPress data)', 'kurl-yourls') . '</label></td></tr>';
+        echo '<tr><th scope="row"><label for="kurl-reconcile-batch-size">' . esc_html__('Batch size', 'kurl-short-url-manager-yourls') . '</label></th><td><select id="kurl-reconcile-batch-size"><option selected>5</option><option>10</option><option>25</option></select></td></tr>';
+        echo '<tr><th scope="row">' . esc_html__('Mode', 'kurl-short-url-manager-yourls') . '</th><td><label><input type="checkbox" id="kurl-reconcile-preview" checked="checked"> ' . esc_html__('Preview only (do not change WordPress data)', 'kurl-short-url-manager-yourls') . '</label></td></tr>';
         echo '</tbody></table>';
-        echo '<p><button type="button" class="button button-primary" id="kurl-reconcile-start">' . esc_html__('Start reconciliation', 'kurl-yourls') . '</button> <button type="button" class="button" id="kurl-reconcile-stop">' . esc_html__('Stop', 'kurl-yourls') . '</button></p>';
+        echo '<p><button type="button" class="button button-primary" id="kurl-reconcile-start">' . esc_html__('Start reconciliation', 'kurl-short-url-manager-yourls') . '</button> <button type="button" class="button" id="kurl-reconcile-stop">' . esc_html__('Stop', 'kurl-short-url-manager-yourls') . '</button></p>';
         echo '<div class="kurl-progress"><div class="kurl-progress-bar" id="kurl-reconcile-progress-bar"></div></div>';
         echo '<div class="kurl-bulk-stats" id="kurl-reconcile-stats"></div>';
         echo '<div class="kurl-log-box kurl-light-log" id="kurl-reconcile-log"></div>';
@@ -1132,15 +1132,15 @@ final class Kurl_Admin {
     public static function render_logs(): void {
         self::assert_manage_options();
         $entries = Kurl_Logger::get_entries();
-        echo '<div class="wrap kurl-admin"><div class="kurl-page-head"><div><h1>' . esc_html__('kURL Logs', 'kurl-yourls') . '</h1><p class="kurl-subtitle">' . esc_html__('The log keeps only the last 7 days and has size caps so WordPress does not get overloaded.', 'kurl-yourls') . '</p></div></div>';
+        echo '<div class="wrap kurl-admin"><div class="kurl-page-head"><div><h1>' . esc_html__('kURL Logs', 'kurl-short-url-manager-yourls') . '</h1><p class="kurl-subtitle">' . esc_html__('The log keeps only the last 7 days and has size caps so WordPress does not get overloaded.', 'kurl-short-url-manager-yourls') . '</p></div></div>';
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin notice parameters.
         if (!empty($_GET['cleared'])) {
-            echo '<div class="notice notice-success"><p>' . esc_html__('Log cleared.', 'kurl-yourls') . '</p></div>';
+            echo '<div class="notice notice-success"><p>' . esc_html__('Log cleared.', 'kurl-short-url-manager-yourls') . '</p></div>';
         }
         echo '<div class="kurl-panel"><form method="post" action="' . esc_url(admin_url('admin-post.php')) . '" style="margin-bottom:18px;">';
         wp_nonce_field('kurl_clear_log');
         echo '<input type="hidden" name="action" value="kurl_clear_log">';
-        submit_button(__('Delete log', 'kurl-yourls'), 'delete', 'submit', false, ['onclick' => "return confirm('" . esc_js(__('Delete the current log?', 'kurl-yourls')) . "');"]);
+        submit_button(__('Delete log', 'kurl-short-url-manager-yourls'), 'delete', 'submit', false, ['onclick' => "return confirm('" . esc_js(__('Delete the current log?', 'kurl-short-url-manager-yourls')) . "');"]);
         echo '</form><div class="kurl-log-box kurl-light-log">';
         if (!empty($entries)) {
             foreach ($entries as $entry) {
@@ -1153,7 +1153,7 @@ final class Kurl_Admin {
                 echo '</div>';
             }
         } else {
-            echo '<p>' . esc_html__('No log entries in the last 7 days.', 'kurl-yourls') . '</p>';
+            echo '<p>' . esc_html__('No log entries in the last 7 days.', 'kurl-short-url-manager-yourls') . '</p>';
         }
         echo '</div></div></div>';
     }
@@ -1162,16 +1162,16 @@ final class Kurl_Admin {
         self::assert_manage_options();
         $settings = Kurl_Helpers::get_settings();
         $post_types = get_post_types(['public' => true], 'objects');
-        echo '<div class="wrap kurl-admin"><div class="kurl-page-head"><div><h1>' . esc_html__('kURL Settings', 'kurl-yourls') . '</h1></div></div>';
+        echo '<div class="wrap kurl-admin"><div class="kurl-page-head"><div><h1>' . esc_html__('kURL Settings', 'kurl-short-url-manager-yourls') . '</h1></div></div>';
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin notice parameters.
         $settings_updated = !empty($_GET['updated']);
         if ($settings_updated) {
-            echo '<div class="notice notice-success"><p>' . esc_html__('Settings saved.', 'kurl-yourls') . '</p></div>';
+            echo '<div class="notice notice-success"><p>' . esc_html__('Settings saved.', 'kurl-short-url-manager-yourls') . '</p></div>';
         }
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin notice parameters.
         $settings_disconnected = !empty($_GET['disconnected']);
         if ($settings_disconnected) {
-            echo '<div class="notice notice-success"><p>' . esc_html__('Successfully disconnected. Your API credentials have been cleared.', 'kurl-yourls') . '</p></div>';
+            echo '<div class="notice notice-success"><p>' . esc_html__('Successfully disconnected. Your API credentials have been cleared.', 'kurl-short-url-manager-yourls') . '</p></div>';
         }
         // phpcs:disable WordPress.Security.NonceVerification.Recommended -- Read-only admin notice parameters on a protected admin screen.
         $legacy_import_notice  = isset($_GET['imported']);
@@ -1184,7 +1184,7 @@ final class Kurl_Admin {
         if ($legacy_import_notice) {
             echo '<div class="notice notice-success"><p>' . esc_html(sprintf(
                 /* translators: 1: Imported count. 2: Skipped count. */
-                __('Imported %1$d old links and skipped %2$d existing ones.', 'kurl-yourls'),
+                __('Imported %1$d old links and skipped %2$d existing ones.', 'kurl-short-url-manager-yourls'),
                 $legacy_imported_count,
                 $legacy_skipped_count
             )) . '</p></div>';
@@ -1193,56 +1193,56 @@ final class Kurl_Admin {
         if ($legacy_deleted_notice) {
             echo '<div class="notice notice-warning"><p>' . esc_html(sprintf(
                 /* translators: %d: Number of deleted legacy meta rows. */
-                __('Deleted %d old Better YOURLS meta rows.', 'kurl-yourls'),
+                __('Deleted %d old Better YOURLS meta rows.', 'kurl-short-url-manager-yourls'),
                 $legacy_deleted_count
             )) . '</p></div>';
         }
         echo '<div class="kurl-grid">';
-        echo '<div class="kurl-panel"><div class="kurl-test-box"><div><h2>' . esc_html__('API connection', 'kurl-yourls') . '</h2>';
-        echo !empty($settings['api_extended']) ? '<p style="color:#166534;font-weight:600;">' . esc_html__('✅ kURL Helper plugin detected. Remote deletion and safe lookup are enabled.', 'kurl-yourls') . '</p>' : '<p style="color:#b45309;font-weight:600;">' . esc_html__('⚠️ Standard API only. Remote deletion and safe reverse lookup are disabled.', 'kurl-yourls') . '</p>';
-        echo '</div><div><button type="button" class="button button-primary button-large" id="kurl-test-api">' . esc_html__('Test API', 'kurl-yourls') . '</button><div id="kurl-test-api-result" class="kurl-test-result"></div></div></div>';
+        echo '<div class="kurl-panel"><div class="kurl-test-box"><div><h2>' . esc_html__('API connection', 'kurl-short-url-manager-yourls') . '</h2>';
+        echo !empty($settings['api_extended']) ? '<p style="color:#166534;font-weight:600;">' . esc_html__('✅ kURL Helper plugin detected. Remote deletion and safe lookup are enabled.', 'kurl-short-url-manager-yourls') . '</p>' : '<p style="color:#b45309;font-weight:600;">' . esc_html__('⚠️ Standard API only. Remote deletion and safe reverse lookup are disabled.', 'kurl-short-url-manager-yourls') . '</p>';
+        echo '</div><div><button type="button" class="button button-primary button-large" id="kurl-test-api">' . esc_html__('Test API', 'kurl-short-url-manager-yourls') . '</button><div id="kurl-test-api-result" class="kurl-test-result"></div></div></div>';
         echo '<form method="post" action="' . esc_url(admin_url('admin-post.php')) . '">';
         wp_nonce_field('kurl_save_settings');
         echo '<input type="hidden" name="action" value="kurl_save_settings"><table class="form-table"><tbody>';
-        echo '<tr><th scope="row"><label for="kurl-api-url">' . esc_html__('YOURLS API URL', 'kurl-yourls') . '</label></th><td><input id="kurl-api-url" type="url" name="api_url" class="regular-text code" value="' . esc_attr($settings['api_url']) . '" placeholder="https://yalla.li"><p class="description">' . wp_kses_post(__('Enter your main YOURLS domain (for example <code>https://yalla.li</code>). kURL will automatically append <code>/yourls-api.php</code> when needed.', 'kurl-yourls')) . '</p></td></tr>';
-        echo '<tr><th scope="row"><label for="kurl-signature">' . esc_html__('Signature token', 'kurl-yourls') . '</label></th><td><input id="kurl-signature" type="password" name="signature" autocomplete="off" class="regular-text code" value="' . esc_attr($settings['signature']) . '"><p class="description">' . wp_kses_post(__('You can find your signature token in the YOURLS admin area under <strong>Tools → Secure passwordless API call</strong>.', 'kurl-yourls')) . '</p></td></tr>';
-        echo '<tr><th scope="row">' . esc_html__('Enabled post types', 'kurl-yourls') . '</th><td>';
+        echo '<tr><th scope="row"><label for="kurl-api-url">' . esc_html__('YOURLS API URL', 'kurl-short-url-manager-yourls') . '</label></th><td><input id="kurl-api-url" type="url" name="api_url" class="regular-text code" value="' . esc_attr($settings['api_url']) . '" placeholder="https://yalla.li"><p class="description">' . wp_kses_post(__('Enter your main YOURLS domain (for example <code>https://yalla.li</code>). kURL will automatically append <code>/yourls-api.php</code> when needed.', 'kurl-short-url-manager-yourls')) . '</p></td></tr>';
+        echo '<tr><th scope="row"><label for="kurl-signature">' . esc_html__('Signature token', 'kurl-short-url-manager-yourls') . '</label></th><td><input id="kurl-signature" type="password" name="signature" autocomplete="off" class="regular-text code" value="' . esc_attr($settings['signature']) . '"><p class="description">' . wp_kses_post(__('You can find your signature token in the YOURLS admin area under <strong>Tools → Secure passwordless API call</strong>.', 'kurl-short-url-manager-yourls')) . '</p></td></tr>';
+        echo '<tr><th scope="row">' . esc_html__('Enabled post types', 'kurl-short-url-manager-yourls') . '</th><td>';
         foreach ($post_types as $post_type => $object) {
             $checked = in_array($post_type, $settings['enabled_post_types'], true) ? 'checked' : '';
             echo '<label style="display:block;margin-bottom:4px;"><input type="checkbox" name="enabled_post_types[]" value="' . esc_attr($post_type) . '" ' . esc_attr($checked) . '> ' . esc_html($object->labels->singular_name) . '</label>';
         }
         echo '</td></tr>';
-        echo '<tr><th scope="row"><label for="kurl-cache-minutes">' . esc_html__('Cache (minutes)', 'kurl-yourls') . '</label></th><td><input id="kurl-cache-minutes" type="number" name="cache_minutes" min="1" value="' . esc_attr((string) $settings['cache_minutes']) . '"></td></tr>';
-        echo '<tr><th scope="row"><label for="kurl-request-timeout">' . esc_html__('API timeout', 'kurl-yourls') . '</label></th><td><input id="kurl-request-timeout" type="number" name="request_timeout" min="5" value="' . esc_attr((string) $settings['request_timeout']) . '"></td></tr>';
-        echo '<tr><th scope="row">' . esc_html__('Auto create', 'kurl-yourls') . '</th><td><label><input type="checkbox" name="auto_create_on_publish" value="1" ' . checked(1, (int) $settings['auto_create_on_publish'], false) . '> ' . esc_html__('Automatically create a short URL when publishing', 'kurl-yourls') . '</label></td></tr>';
+        echo '<tr><th scope="row"><label for="kurl-cache-minutes">' . esc_html__('Cache (minutes)', 'kurl-short-url-manager-yourls') . '</label></th><td><input id="kurl-cache-minutes" type="number" name="cache_minutes" min="1" value="' . esc_attr((string) $settings['cache_minutes']) . '"></td></tr>';
+        echo '<tr><th scope="row"><label for="kurl-request-timeout">' . esc_html__('API timeout', 'kurl-short-url-manager-yourls') . '</label></th><td><input id="kurl-request-timeout" type="number" name="request_timeout" min="5" value="' . esc_attr((string) $settings['request_timeout']) . '"></td></tr>';
+        echo '<tr><th scope="row">' . esc_html__('Auto create', 'kurl-short-url-manager-yourls') . '</th><td><label><input type="checkbox" name="auto_create_on_publish" value="1" ' . checked(1, (int) $settings['auto_create_on_publish'], false) . '> ' . esc_html__('Automatically create a short URL when publishing', 'kurl-short-url-manager-yourls') . '</label></td></tr>';
         $delete_data = (int) get_option('kurl_delete_data', 0);
-        echo '<tr><th scope="row">' . esc_html__('Uninstall behavior', 'kurl-yourls') . '</th><td><label><input type="checkbox" name="delete_data" value="1" ' . checked(1, $delete_data, false) . '> ' . esc_html__('Delete all kURL data on uninstall', 'kurl-yourls') . '</label><p class="description" style="color:#d63638;font-weight:600;">' . esc_html__('Warning: if enabled, all plugin data, including links, cached stats, and logs, will be permanently removed when the plugin is uninstalled.', 'kurl-yourls') . '</p></td></tr>';
+        echo '<tr><th scope="row">' . esc_html__('Uninstall behavior', 'kurl-short-url-manager-yourls') . '</th><td><label><input type="checkbox" name="delete_data" value="1" ' . checked(1, $delete_data, false) . '> ' . esc_html__('Delete all kURL data on uninstall', 'kurl-short-url-manager-yourls') . '</label><p class="description" style="color:#d63638;font-weight:600;">' . esc_html__('Warning: if enabled, all plugin data, including links, cached stats, and logs, will be permanently removed when the plugin is uninstalled.', 'kurl-short-url-manager-yourls') . '</p></td></tr>';
         echo '</tbody></table><p class="submit">';
-        submit_button(__('Save settings', 'kurl-yourls'), 'primary', 'submit', false);
+        submit_button(__('Save settings', 'kurl-short-url-manager-yourls'), 'primary', 'submit', false);
         echo ' ';
         if (!empty($settings['api_url'])) {
             submit_button(
-                __('Disconnect API', 'kurl-yourls'),
+                __('Disconnect API', 'kurl-short-url-manager-yourls'),
                 'delete',
                 'disconnect_api',
                 false,
-                ['onclick' => "return confirm('" . esc_js(__('Are you sure you want to disconnect? This will clear your API URL and signature.', 'kurl-yourls')) . "');"]
+                ['onclick' => "return confirm('" . esc_js(__('Are you sure you want to disconnect? This will clear your API URL and signature.', 'kurl-short-url-manager-yourls')) . "');"]
             );
         }
         echo '</p></form></div>';
         if (empty($settings['api_extended'])) {
             $plugin_code = self::get_helper_plugin_code();
-            echo '<div class="kurl-panel" style="border-left:4px solid #f59e0b;"><h2 style="color:#b45309;">' . esc_html__('Enable true remote deletion and safe lookup (optional)', 'kurl-yourls') . '</h2><p>' . esc_html__('By default, YOURLS does not allow external apps to edit or delete links, and it has no built-in reverse-lookup endpoint for “find this long URL without creating one”.', 'kurl-yourls') . '</p><p>' . esc_html__('Install the official kURL helper extension on your YOURLS server to enable remote deletion and safe long-URL lookup for sync and cleanup features.', 'kurl-yourls') . '</p><ol><li>' . esc_html__('Connect to your YOURLS server via FTP or SSH.', 'kurl-yourls') . '</li><li>' . wp_kses_post(__('Navigate to <code>user/plugins/</code> and create a folder named <code>kurl-api</code>.', 'kurl-yourls')) . '</li><li>' . wp_kses_post(__('Create a file inside that folder called <code>plugin.php</code> and paste the code below into it.', 'kurl-yourls')) . '</li><li>' . esc_html__('Log into your YOURLS admin area, open Manage Plugins, and activate “kURL Helper”.', 'kurl-yourls') . '</li><li>' . esc_html__('Return here and click “Test API” so kURL can detect it.', 'kurl-yourls') . '</li></ol><div style="margin-top:14px;margin-bottom:6px;"><button type="button" class="button kurl-copy-code">' . esc_html__('Copy code to clipboard', 'kurl-yourls') . '</button> <span class="kurl-copy-status" style="color:#166534;margin-left:8px;display:none;font-weight:600;">✓ ' . esc_html__('Copied!', 'kurl-yourls') . '</span></div><textarea readonly id="kurl-extension-code" class="large-text code" rows="28" style="font-family:monospace;font-size:12px;background:#f8fafc;margin-top:0;">' . esc_textarea($plugin_code) . '</textarea></div>';
+            echo '<div class="kurl-panel" style="border-left:4px solid #f59e0b;"><h2 style="color:#b45309;">' . esc_html__('Enable true remote deletion and safe lookup (optional)', 'kurl-short-url-manager-yourls') . '</h2><p>' . esc_html__('By default, YOURLS does not allow external apps to edit or delete links, and it has no built-in reverse-lookup endpoint for “find this long URL without creating one”.', 'kurl-short-url-manager-yourls') . '</p><p>' . esc_html__('Install the official kURL helper extension on your YOURLS server to enable remote deletion and safe long-URL lookup for sync and cleanup features.', 'kurl-short-url-manager-yourls') . '</p><ol><li>' . esc_html__('Connect to your YOURLS server via FTP or SSH.', 'kurl-short-url-manager-yourls') . '</li><li>' . wp_kses_post(__('Navigate to <code>user/plugins/</code> and create a folder named <code>kurl-api</code>.', 'kurl-short-url-manager-yourls')) . '</li><li>' . wp_kses_post(__('Create a file inside that folder called <code>plugin.php</code> and paste the code below into it.', 'kurl-short-url-manager-yourls')) . '</li><li>' . esc_html__('Log into your YOURLS admin area, open Manage Plugins, and activate “kURL Helper”.', 'kurl-short-url-manager-yourls') . '</li><li>' . esc_html__('Return here and click “Test API” so kURL can detect it.', 'kurl-short-url-manager-yourls') . '</li></ol><div style="margin-top:14px;margin-bottom:6px;"><button type="button" class="button kurl-copy-code">' . esc_html__('Copy code to clipboard', 'kurl-short-url-manager-yourls') . '</button> <span class="kurl-copy-status" style="color:#166534;margin-left:8px;display:none;font-weight:600;">✓ ' . esc_html__('Copied!', 'kurl-short-url-manager-yourls') . '</span></div><textarea readonly id="kurl-extension-code" class="large-text code" rows="28" style="font-family:monospace;font-size:12px;background:#f8fafc;margin-top:0;">' . esc_textarea($plugin_code) . '</textarea></div>';
         }
-        echo '<div class="kurl-panel"><h2>' . esc_html__('Migration tools', 'kurl-yourls') . '</h2><form method="post" action="' . esc_url(admin_url('admin-post.php')) . '" style="margin-bottom:16px;">';
+        echo '<div class="kurl-panel"><h2>' . esc_html__('Migration tools', 'kurl-short-url-manager-yourls') . '</h2><form method="post" action="' . esc_url(admin_url('admin-post.php')) . '" style="margin-bottom:16px;">';
         wp_nonce_field('kurl_import_legacy');
         echo '<input type="hidden" name="action" value="kurl_import_legacy">';
-        submit_button(__('Import from Better YOURLS', 'kurl-yourls'), 'secondary', 'submit', false);
+        submit_button(__('Import from Better YOURLS', 'kurl-short-url-manager-yourls'), 'secondary', 'submit', false);
         echo '</form><form method="post" action="' . esc_url(admin_url('admin-post.php')) . '">';
         wp_nonce_field('kurl_delete_legacy');
         echo '<input type="hidden" name="action" value="kurl_delete_legacy">';
-        submit_button(__('Delete old Better YOURLS data', 'kurl-yourls'), 'delete', 'submit', false, ['onclick' => "return confirm('" . esc_js(__('Delete old Better YOURLS data?', 'kurl-yourls')) . "');"]);
-        echo '</form><p class="description">' . esc_html__('Import first, verify a few posts, then delete the old Better YOURLS data once everything looks correct.', 'kurl-yourls') . '</p></div>';
+        submit_button(__('Delete old Better YOURLS data', 'kurl-short-url-manager-yourls'), 'delete', 'submit', false, ['onclick' => "return confirm('" . esc_js(__('Delete old Better YOURLS data?', 'kurl-short-url-manager-yourls')) . "');"]);
+        echo '</form><p class="description">' . esc_html__('Import first, verify a few posts, then delete the old Better YOURLS data once everything looks correct.', 'kurl-short-url-manager-yourls') . '</p></div>';
         echo '</div></div>';
     }
 
@@ -1250,16 +1250,16 @@ final class Kurl_Admin {
     private static function assert_manage_options_ajax(): void {
         check_ajax_referer('kurl_admin', 'nonce');
         if (!current_user_can('manage_options')) {
-            wp_send_json_error(['message' => __('Permission denied.', 'kurl-yourls')], 403);
+            wp_send_json_error(['message' => __('Permission denied.', 'kurl-short-url-manager-yourls')], 403);
         }
         if (!Kurl_API::configured()) {
-            wp_send_json_error(['message' => __('Please configure the YOURLS API first.', 'kurl-yourls')], 400);
+            wp_send_json_error(['message' => __('Please configure the YOURLS API first.', 'kurl-short-url-manager-yourls')], 400);
         }
     }
 
     private static function assert_manage_options(): void {
         if (!current_user_can('manage_options')) {
-            wp_die(esc_html__('Permission denied.', 'kurl-yourls'));
+            wp_die(esc_html__('Permission denied.', 'kurl-short-url-manager-yourls'));
         }
     }
 

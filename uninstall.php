@@ -28,7 +28,7 @@ foreach ($kurl_meta_keys as $kurl_meta_key) {
 $kurl_uploads = wp_get_upload_dir();
 $kurl_base_dir = isset($kurl_uploads['basedir']) ? (string) $kurl_uploads['basedir'] : '';
 if ($kurl_base_dir !== '') {
-    $kurl_log_dir = trailingslashit($kurl_base_dir) . 'kurl-yourls';
+    $kurl_log_dir = trailingslashit($kurl_base_dir) . 'kurl-short-url-manager-yourls';
     if (is_dir($kurl_log_dir)) {
         kurl_uninstall_delete_dir($kurl_log_dir);
     }

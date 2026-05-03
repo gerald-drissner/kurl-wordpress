@@ -1,4 +1,4 @@
-=== kURL - Short URL Manager for YOURLS ===
+=== kURL – Short URL Manager for YOURLS ===
 Contributors: geralddrissner
 Tags: yourls, shortlinks, url shortener, custom links, affiliate links
 Requires at least: 6.0
@@ -37,7 +37,7 @@ If your server uses Nginx instead of Apache, add a deny rule for the `wp-content
 
 == Installation ==
 
-1. Upload the `kurl` folder to the `/wp-content/plugins/` directory, or install the plugin through the WordPress admin.
+1. Upload the `kurl-short-url-manager-yourls` folder to the `/wp-content/plugins/` directory, or install the plugin through the WordPress admin.
 2. Activate the plugin through the **Plugins** screen in WordPress.
 3. Go to **kURL → Settings** in the WordPress admin menu.
 4. Enter your YOURLS domain or API endpoint and your YOURLS signature token.

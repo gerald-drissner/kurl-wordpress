@@ -4,7 +4,7 @@ defined('ABSPATH') || exit;
 
 final class Kurl_Logger {
 
-    private const RELATIVE_DIR       = 'kurl-yourls';
+    private const RELATIVE_DIR       = 'kurl-short-url-manager-yourls';
     private const FILE_NAME          = 'kurl.log';
     private const RETENTION_SECONDS  = 604800;
     private const MAX_FILE_BYTES     = 1048576;

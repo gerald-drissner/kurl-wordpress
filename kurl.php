@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:       kURL - Short URL Manager for YOURLS
+ * Plugin Name:       kURL – Short URL Manager for YOURLS
  * Description:       Modern YOURLS integration for WordPress with dashboard statistics, bulk link generation, sync and cleanup tools, logging, and editor tools.
  * Version:           1.0.0
  * Requires at least: 6.0
@@ -66,12 +66,12 @@ add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'kurl_yourls_p
  * @return array
  */
 function kurl_yourls_plugin_action_links( array $links ): array {
-    $dashboard_url = admin_url( 'admin.php?page=kurl' );
+    $dashboard_url = admin_url( 'admin.php?page=kurl-short-url-manager-yourls' );
     $settings_url  = admin_url( 'admin.php?page=kurl-settings' );
 
     $custom_links = [
-        '<a href="' . esc_url( $dashboard_url ) . '">' . esc_html__( 'Dashboard', 'kurl-yourls' ) . '</a>',
-        '<a href="' . esc_url( $settings_url ) . '">' . esc_html__( 'Settings', 'kurl-yourls' ) . '</a>',
+        '<a href="' . esc_url( $dashboard_url ) . '">' . esc_html__( 'Dashboard', 'kurl-short-url-manager-yourls' ) . '</a>',
+        '<a href="' . esc_url( $settings_url ) . '">' . esc_html__( 'Settings', 'kurl-short-url-manager-yourls' ) . '</a>',
     ];
 
     return array_merge( $custom_links, $links );

@@ -12,12 +12,12 @@ final class Kurl_API {
     public static function request(string $action, array $params = []): array {
         $settings = Kurl_Helpers::get_settings();
         if (empty($settings['api_url']) || empty($settings['signature'])) {
-            return ['ok' => false, 'message' => __('Missing YOURLS API settings.', 'kurl-yourls')];
+            return ['ok' => false, 'message' => __('Missing YOURLS API settings.', 'kurl-short-url-manager-yourls')];
         }
 
         $action = sanitize_key($action);
         if ($action === '') {
-            return ['ok' => false, 'message' => __('Invalid API action.', 'kurl-yourls')];
+            return ['ok' => false, 'message' => __('Invalid API action.', 'kurl-short-url-manager-yourls')];
         }
 
         $body = array_merge([
@@ -51,7 +51,7 @@ final class Kurl_API {
 
         if (!is_array($data)) {
             Kurl_Logger::log('error', 'Invalid JSON from API', ['action' => $action, 'body' => self::truncate_for_log($body)]);
-            return ['ok' => false, 'message' => __('Invalid JSON response from YOURLS.', 'kurl-yourls')];
+            return ['ok' => false, 'message' => __('Invalid JSON response from YOURLS.', 'kurl-short-url-manager-yourls')];
         }
 
         if (self::response_indicates_success($data)) {
@@ -67,7 +67,7 @@ final class Kurl_API {
     public static function create_shortlink(string $url, string $keyword = '', string $title = ''): array {
         $url = esc_url_raw(trim($url));
         if ($url === '') {
-            return ['ok' => false, 'message' => __('Missing or invalid target URL.', 'kurl-yourls')];
+            return ['ok' => false, 'message' => __('Missing or invalid target URL.', 'kurl-short-url-manager-yourls')];
         }
         $params = ['url' => $url];
         $keyword = Kurl_Helpers::sanitize_keyword($keyword);
@@ -102,7 +102,7 @@ final class Kurl_API {
     public static function url_stats(string $shorturl): array {
         $shorturl = esc_url_raw(trim($shorturl));
         if ($shorturl === '') {
-            return ['ok' => false, 'message' => __('Missing short URL.', 'kurl-yourls')];
+            return ['ok' => false, 'message' => __('Missing short URL.', 'kurl-short-url-manager-yourls')];
         }
         return self::request('url-stats', ['shorturl' => $shorturl]);
     }
@@ -110,7 +110,7 @@ final class Kurl_API {
     public static function expand_shortlink(string $shorturl): array {
         $shorturl = esc_url_raw(trim($shorturl));
         if ($shorturl === '') {
-            return ['ok' => false, 'message' => __('Missing short URL.', 'kurl-yourls')];
+            return ['ok' => false, 'message' => __('Missing short URL.', 'kurl-short-url-manager-yourls')];
         }
         return self::request('expand', ['shorturl' => $shorturl]);
     }
@@ -126,7 +126,7 @@ final class Kurl_API {
     public static function delete_shortlink(string $shorturl): array {
         $shorturl = esc_url_raw(trim($shorturl));
         if ($shorturl === '') {
-            return ['ok' => false, 'message' => __('Missing short URL.', 'kurl-yourls')];
+            return ['ok' => false, 'message' => __('Missing short URL.', 'kurl-short-url-manager-yourls')];
         }
         return self::request('kurl_delete', ['shorturl' => $shorturl]);
     }
@@ -134,7 +134,7 @@ final class Kurl_API {
     public static function find_by_longurl(string $url): array {
         $url = esc_url_raw(trim($url));
         if ($url === '') {
-            return ['ok' => false, 'message' => __('Missing or invalid target URL.', 'kurl-yourls')];
+            return ['ok' => false, 'message' => __('Missing or invalid target URL.', 'kurl-short-url-manager-yourls')];
         }
         return self::request('kurl_find_by_url', ['url' => $url]);
     }
@@ -218,19 +218,19 @@ final class Kurl_API {
             return $data;
         }
         /* translators: %d: HTTP status code. */
-            $error_message = sprintf(__('HTTP error %d.', 'kurl-yourls'), $http_code);
+            $error_message = sprintf(__('HTTP error %d.', 'kurl-short-url-manager-yourls'), $http_code);
         if ($http_code === 403) {
-            $error_message .= ' ' . __('Forbidden. Check your signature or a firewall/security layer.', 'kurl-yourls');
+            $error_message .= ' ' . __('Forbidden. Check your signature or a firewall/security layer.', 'kurl-short-url-manager-yourls');
         } elseif ($http_code === 404) {
-            $error_message .= ' ' . __('Endpoint not found. Check the API URL.', 'kurl-yourls');
+            $error_message .= ' ' . __('Endpoint not found. Check the API URL.', 'kurl-short-url-manager-yourls');
         } elseif ($http_code === 429) {
-            $error_message .= ' ' . __('Too many requests. Please try again later.', 'kurl-yourls');
+            $error_message .= ' ' . __('Too many requests. Please try again later.', 'kurl-short-url-manager-yourls');
         } elseif ($http_code >= 500) {
-            $error_message .= ' ' . __('The YOURLS server returned an internal error.', 'kurl-yourls');
+            $error_message .= ' ' . __('The YOURLS server returned an internal error.', 'kurl-short-url-manager-yourls');
         }
         if (is_array($data) && !empty($data['message'])) {
             /* translators: %s: Message returned by YOURLS. */
-                $error_message .= ' ' . sprintf(__('YOURLS says: "%s"', 'kurl-yourls'), sanitize_text_field((string) $data['message']));
+                $error_message .= ' ' . sprintf(__('YOURLS says: "%s"', 'kurl-short-url-manager-yourls'), sanitize_text_field((string) $data['message']));
         }
         Kurl_Logger::log('error', 'API returned HTTP error', ['action' => $action, 'http_code' => $http_code, 'body' => self::truncate_for_log($body)]);
         return ['ok' => false, 'message' => trim($error_message), 'raw' => is_array($data) ? $data : []];

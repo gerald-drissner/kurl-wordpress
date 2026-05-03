@@ -13,7 +13,7 @@ final class Kurl_Bulk {
     public static function ajax_batch(): void {
         check_ajax_referer('kurl_admin', 'nonce');
         if (!current_user_can('manage_options')) {
-            wp_send_json_error(['message' => __('Permission denied.', 'kurl-yourls')], 403);
+            wp_send_json_error(['message' => __('Permission denied.', 'kurl-short-url-manager-yourls')], 403);
         }
         $request        = wp_unslash($_POST);
         $raw_post_type  = $request['post_type'] ?? 'post';
@@ -23,13 +23,13 @@ final class Kurl_Bulk {
 
         $post_type = sanitize_key((string) $raw_post_type);
         if (!Kurl_Helpers::is_supported_post_type($post_type)) {
-            wp_send_json_error(['message' => __('Post type not enabled.', 'kurl-yourls')], 400);
+            wp_send_json_error(['message' => __('Post type not enabled.', 'kurl-short-url-manager-yourls')], 400);
         }
         $batch_size = max(1, min(50, absint($raw_batch_size)));
         $mode = in_array((string) $raw_mode, ['skip', 'import', 'overwrite'], true) ? (string) $raw_mode : 'skip';
         $last_id = max(0, absint($raw_last_id));
         if (!Kurl_API::configured()) {
-            wp_send_json_error(['message' => __('Please configure the YOURLS API first.', 'kurl-yourls')], 400);
+            wp_send_json_error(['message' => __('Please configure the YOURLS API first.', 'kurl-short-url-manager-yourls')], 400);
         }
 
         $posts = self::query_batch($post_type, $batch_size, $last_id);
@@ -52,7 +52,7 @@ final class Kurl_Bulk {
 
             if ($mode === 'skip' && $current_shorturl !== '') {
                 /* translators: %s: Existing short URL. */
-                $results[] = ['post_id' => $post_id, 'title' => $title, 'status' => 'skipped_existing', 'message' => sprintf(__('Already has URL: %s', 'kurl-yourls'), $current_shorturl)];
+                $results[] = ['post_id' => $post_id, 'title' => $title, 'status' => 'skipped_existing', 'message' => sprintf(__('Already has URL: %s', 'kurl-short-url-manager-yourls'), $current_shorturl)];
                 continue;
             }
 
@@ -61,7 +61,7 @@ final class Kurl_Bulk {
                 if ($old_url !== '') {
                     Kurl_Shortlinks::save_link($post_id, $old_url);
                     /* translators: %s: Imported legacy short URL. */
-                    $results[] = ['post_id' => $post_id, 'title' => $title, 'status' => 'imported', 'message' => sprintf(__('Imported old URL: %s', 'kurl-yourls'), $old_url)];
+                    $results[] = ['post_id' => $post_id, 'title' => $title, 'status' => 'imported', 'message' => sprintf(__('Imported old URL: %s', 'kurl-short-url-manager-yourls'), $old_url)];
                     Kurl_Logger::log('info', 'Bulk imported legacy shortlink', ['post_id' => $post_id, 'shorturl' => $old_url]);
                     $has_changes = true;
                     continue;
@@ -70,7 +70,7 @@ final class Kurl_Bulk {
 
             $permalink = get_permalink($post_id);
             if (!is_string($permalink) || $permalink === '') {
-                $results[] = ['post_id' => $post_id, 'title' => $title, 'status' => 'error', 'message' => __('Could not get permalink.', 'kurl-yourls')];
+                $results[] = ['post_id' => $post_id, 'title' => $title, 'status' => 'error', 'message' => __('Could not get permalink.', 'kurl-short-url-manager-yourls')];
                 continue;
             }
 
@@ -84,14 +84,14 @@ final class Kurl_Bulk {
 
             $shorturl = Kurl_API::extract_shorturl($api_response);
             if ($shorturl === '') {
-                $results[] = ['post_id' => $post_id, 'title' => $title, 'status' => 'error', 'message' => __('API did not return a short URL.', 'kurl-yourls')];
+                $results[] = ['post_id' => $post_id, 'title' => $title, 'status' => 'error', 'message' => __('API did not return a short URL.', 'kurl-short-url-manager-yourls')];
                 continue;
             }
 
             Kurl_Shortlinks::save_link($post_id, $shorturl);
             $status = $current_shorturl !== '' ? 'updated' : 'created';
             /* translators: %s: Saved short URL. */
-            $results[] = ['post_id' => $post_id, 'title' => $title, 'status' => $status, 'message' => sprintf(__('Saved: %s', 'kurl-yourls'), $shorturl)];
+            $results[] = ['post_id' => $post_id, 'title' => $title, 'status' => $status, 'message' => sprintf(__('Saved: %s', 'kurl-short-url-manager-yourls'), $shorturl)];
             Kurl_Logger::log('info', 'Bulk shortlink ' . $status, ['post_id' => $post_id, 'shorturl' => $shorturl]);
             $has_changes = true;
         }

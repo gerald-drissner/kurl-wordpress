@@ -61,11 +61,11 @@ final class Kurl_Helpers {
         }
         if (!empty($response['statusCode'])) {
             /* translators: %s: Status code returned by YOURLS. */
-            return sprintf(__('YOURLS status %s', 'kurl-yourls'), sanitize_text_field((string) $response['statusCode']));
+            return sprintf(__('YOURLS status %s', 'kurl-short-url-manager-yourls'), sanitize_text_field((string) $response['statusCode']));
         }
         if (!empty($response['code']) && is_string($response['code'])) {
             /* translators: %s: Error code returned by YOURLS. */
-            return sprintf(__('YOURLS error code: %s', 'kurl-yourls'), sanitize_text_field($response['code']));
+            return sprintf(__('YOURLS error code: %s', 'kurl-short-url-manager-yourls'), sanitize_text_field($response['code']));
         }
         if (!empty($response['raw']) && is_array($response['raw'])) {
             if (!empty($response['raw']['message']) && is_string($response['raw']['message'])) {
@@ -75,7 +75,7 @@ final class Kurl_Helpers {
                 return sanitize_text_field($response['raw']['error']);
             }
         }
-        return __('Unknown YOURLS error.', 'kurl-yourls');
+        return __('Unknown YOURLS error.', 'kurl-short-url-manager-yourls');
     }
 
     private static function defaults(): array {
