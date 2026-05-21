@@ -3,7 +3,7 @@ Contributors: geralddrissner
 Tags: yourls, shortlinks, url shortener, custom links, affiliate links
 Requires at least: 6.0
 Tested up to: 7.0
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -96,7 +96,15 @@ They let you compare WordPress content with YOURLS, import matching short URLs i
 3. Bulk generator for creating short URLs in AJAX batches.
 4. kURL Shortlink box in the WordPress editor for custom slugs, generation, sync, and statistics refresh.
 
+== Credits ==
+
+French translation: Norbert Jung.
+
 == Changelog ==
+
+= 1.0.1 =
+* Updated the bundled French translation. Thanks to Norbert Jung for the contribution.
+
 
 = 1.0.0 =
 * Initial public release.
@@ -111,6 +119,10 @@ They let you compare WordPress content with YOURLS, import matching short URLs i
 * Bundled starter translations for German, French, and Spanish.
 
 == Upgrade Notice ==
+
+= 1.0.1 =
+Updated bundled French translation.
+
 
 = 1.0.0 =
 Initial public release.
