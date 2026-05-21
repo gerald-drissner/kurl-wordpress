@@ -3,7 +3,7 @@ Contributors: geralddrissner
 Tags: yourls, shortlinks, url shortener, custom links, affiliate links
 Requires at least: 6.0
 Tested up to: 7.0
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -101,6 +101,10 @@ They let you compare WordPress content with YOURLS, import matching short URLs i
 French translation: Norbert Jung.
 
 == Changelog ==
+
+= 1.0.2 =
+* Added bundled starter translations for additional languages and cleaned existing German and Spanish translation files.
+
 
 = 1.0.1 =
 * Updated the bundled French translation. Thanks to Norbert Jung for the contribution.
