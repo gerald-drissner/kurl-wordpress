@@ -4,7 +4,6 @@ defined('ABSPATH') || exit;
 
 final class Kurl_Bulk {
 
-    private static int $cursor_last_id = 0;
 
     public static function init(): void {
         add_action('wp_ajax_kurl_bulk_batch', [__CLASS__, 'ajax_batch']);
@@ -15,21 +14,27 @@ final class Kurl_Bulk {
         if (!current_user_can('manage_options')) {
             wp_send_json_error(['message' => __('Permission denied.', 'kurl-short-url-manager-yourls')], 403);
         }
-        $request        = wp_unslash($_POST);
-        $raw_post_type  = $request['post_type'] ?? 'post';
-        $raw_batch_size = $request['batch_size'] ?? 10;
-        $raw_mode       = $request['mode'] ?? 'skip';
-        $raw_last_id    = $request['last_id'] ?? 0;
-
-        $post_type = sanitize_key((string) $raw_post_type);
+        $post_type = isset($_POST['post_type'])
+            ? sanitize_key(Kurl_Helpers::request_string($_POST['post_type']))
+            : 'post';
         if (!Kurl_Helpers::is_supported_post_type($post_type)) {
             wp_send_json_error(['message' => __('Post type not enabled.', 'kurl-short-url-manager-yourls')], 400);
         }
-        $batch_size = max(1, min(50, absint($raw_batch_size)));
-        $mode = in_array((string) $raw_mode, ['skip', 'import', 'overwrite'], true) ? (string) $raw_mode : 'skip';
-        $last_id = max(0, absint($raw_last_id));
+        $batch_size = isset($_POST['batch_size'])
+            ? max(1, min(50, absint(Kurl_Helpers::request_string($_POST['batch_size']))))
+            : 10;
+        $requested_mode = isset($_POST['mode']) ? Kurl_Helpers::request_string($_POST['mode']) : 'skip';
+        $mode = in_array($requested_mode, ['skip', 'import', 'overwrite'], true) ? $requested_mode : 'skip';
+        $last_id = isset($_POST['last_id'])
+            ? max(0, absint(Kurl_Helpers::request_string($_POST['last_id'])))
+            : 0;
         if (!Kurl_API::configured()) {
             wp_send_json_error(['message' => __('Please configure the YOURLS API first.', 'kurl-short-url-manager-yourls')], 400);
+        }
+        if ($mode === 'overwrite' && !Kurl_Admin::helper_is_ready('regenerate')) {
+            wp_send_json_error([
+                'message' => sprintf(__('Overwrite mode requires the current bundled kURL Helper (%s). Update it on the Settings page and try again.', 'kurl-short-url-manager-yourls'), KURL_HELPER_VERSION),
+            ], 400);
         }
 
         $posts = self::query_batch($post_type, $batch_size, $last_id);
@@ -47,7 +52,9 @@ final class Kurl_Bulk {
             }
             $post_id = (int) $post->ID;
             $new_last_id = max($new_last_id, $post_id);
-            $current_shorturl = Kurl_Shortlinks::get_shorturl($post_id);
+            $managed_shorturl = Kurl_Shortlinks::get_managed_shorturl($post_id);
+            $legacy_shorturl  = self::get_legacy_url($post_id);
+            $current_shorturl = $managed_shorturl !== '' ? $managed_shorturl : $legacy_shorturl;
             $title = get_the_title($post_id);
 
             if ($mode === 'skip' && $current_shorturl !== '') {
@@ -56,16 +63,19 @@ final class Kurl_Bulk {
                 continue;
             }
 
-            if ($mode === 'import' && $current_shorturl === '') {
-                $old_url = self::get_legacy_url($post_id);
-                if ($old_url !== '') {
-                    Kurl_Shortlinks::save_link($post_id, $old_url);
-                    /* translators: %s: Imported legacy short URL. */
-                    $results[] = ['post_id' => $post_id, 'title' => $title, 'status' => 'imported', 'message' => sprintf(__('Imported old URL: %s', 'kurl-short-url-manager-yourls'), $old_url)];
-                    Kurl_Logger::log('info', 'Bulk imported legacy shortlink', ['post_id' => $post_id, 'shorturl' => $old_url]);
-                    $has_changes = true;
-                    continue;
-                }
+            if ($mode === 'import' && $managed_shorturl !== '') {
+                /* translators: %s: Existing kURL-managed short URL. */
+                $results[] = ['post_id' => $post_id, 'title' => $title, 'status' => 'skipped_existing', 'message' => sprintf(__('Already imported: %s', 'kurl-short-url-manager-yourls'), $managed_shorturl)];
+                continue;
+            }
+
+            if ($mode === 'import' && $legacy_shorturl !== '') {
+                Kurl_Shortlinks::save_link($post_id, $legacy_shorturl);
+                /* translators: %s: Imported legacy short URL. */
+                $results[] = ['post_id' => $post_id, 'title' => $title, 'status' => 'imported', 'message' => sprintf(__('Imported old URL: %s', 'kurl-short-url-manager-yourls'), $legacy_shorturl)];
+                Kurl_Logger::log('info', 'Bulk imported legacy shortlink', ['post_id' => $post_id, 'shorturl' => $legacy_shorturl]);
+                $has_changes = true;
+                continue;
             }
 
             $permalink = get_permalink($post_id);
@@ -74,7 +84,29 @@ final class Kurl_Bulk {
                 continue;
             }
 
-            $api_response = Kurl_API::create_shortlink($permalink, '', is_string($title) ? $title : '');
+            if ($mode === 'overwrite' && $current_shorturl !== '') {
+                if (Kurl_Shortlinks::count_other_references($current_shorturl, $post_id) > 0) {
+                    $results[] = [
+                        'post_id' => $post_id,
+                        'title'   => $title,
+                        'status'  => 'error',
+                        'message' => __('This short URL is shared with another WordPress post, so kURL did not edit the remote entry.', 'kurl-short-url-manager-yourls'),
+                    ];
+                    continue;
+                }
+                if (!Kurl_Admin::helper_is_ready('regenerate')) {
+                    $results[] = [
+                        'post_id' => $post_id,
+                        'title'   => $title,
+                        'status'  => 'error',
+                        'message' => __('Safe overwrite requires the current bundled kURL Helper. Update the helper on the Settings page before using overwrite mode.', 'kurl-short-url-manager-yourls'),
+                    ];
+                    continue;
+                }
+                $api_response = Kurl_API::regenerate_shortlink($permalink, $current_shorturl, '', is_string($title) ? $title : '');
+            } else {
+                $api_response = Kurl_API::create_shortlink($permalink, '', is_string($title) ? $title : '');
+            }
             if (empty($api_response['ok'])) {
                 $message = Kurl_Helpers::format_api_error($api_response);
                 $results[] = ['post_id' => $post_id, 'title' => $title, 'status' => 'error', 'message' => $message];
@@ -104,9 +136,9 @@ final class Kurl_Bulk {
     }
 
     private static function query_batch(string $post_type, int $batch_size, int $last_id): array {
-        self::$cursor_last_id = $last_id;
         add_filter('posts_where', [__CLASS__, 'filter_posts_where_after_id'], 10, 2);
-        $query = new WP_Query([
+        try {
+            $query = new WP_Query([
             'post_type'              => $post_type,
             'post_status'            => 'publish',
             'posts_per_page'         => $batch_size,
@@ -117,23 +149,25 @@ final class Kurl_Bulk {
             'update_post_meta_cache' => false,
             'update_post_term_cache' => false,
             'suppress_filters'       => false,
-        ]);
-        remove_filter('posts_where', [__CLASS__, 'filter_posts_where_after_id'], 10);
-        self::$cursor_last_id = 0;
-        return is_array($query->posts) ? $query->posts : [];
+            'kurl_bulk_after_id'     => $last_id,
+            ]);
+        } finally {
+            remove_filter('posts_where', [__CLASS__, 'filter_posts_where_after_id'], 10);
+        }
+        return isset($query) && is_array($query->posts) ? $query->posts : [];
     }
 
     public static function filter_posts_where_after_id(string $where, WP_Query $query): string {
         global $wpdb;
-        if (self::$cursor_last_id > 0) {
-            $where .= $wpdb->prepare(" AND {$wpdb->posts}.ID > %d", self::$cursor_last_id);
+        $last_id = absint($query->get('kurl_bulk_after_id'));
+        if ($last_id > 0) {
+            $where .= $wpdb->prepare(" AND {$wpdb->posts}.ID > %d", $last_id);
         }
         return $where;
     }
 
     private static function get_legacy_url(int $post_id): string {
-        $old_url = (string) get_post_meta($post_id, KURL_OLD_META_URL, true);
-        $old_url = trim(esc_url_raw($old_url));
-        return is_string($old_url) ? $old_url : '';
+        $old_url = Kurl_Helpers::scalar_string(get_post_meta($post_id, KURL_OLD_META_URL, true));
+        return Kurl_Helpers::sanitize_http_url($old_url);
     }
 }

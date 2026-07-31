@@ -5,19 +5,23 @@ defined('ABSPATH') || exit;
 final class Kurl_Logger {
 
     private const RELATIVE_DIR       = 'kurl-short-url-manager-yourls';
-    private const FILE_NAME          = 'kurl.log';
+    private const LEGACY_FILE_NAME   = 'kurl.log';
+    private const TOKEN_OPTION       = 'kurl_log_token';
     private const RETENTION_SECONDS  = 604800;
     private const MAX_FILE_BYTES     = 1048576;
-    private const READ_BYTES         = 262144;
+    private const READ_BYTES         = self::MAX_FILE_BYTES;
     private const MAX_CONTEXT_LENGTH = 500;
 
     public static function log(string $level, string $message, array $context = []): void {
         $file = self::get_log_file();
-        if ($file === '') {
+        if ($file === '' || is_link($file)) {
             return;
         }
 
         self::ensure_dir_files();
+        if (is_link($file)) {
+            return;
+        }
 
         $entry = [
             'time'    => time(),
@@ -39,27 +43,25 @@ final class Kurl_Logger {
             }
         }
 
-        // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen -- Direct file handle required for append mode and file locking.
         // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen -- Direct file append with locking is intentional for the log.
         $handle = @fopen($file, 'ab');
         if ($handle === false) {
             return;
         }
         if (@flock($handle, LOCK_EX)) {
-            // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fwrite -- Direct file handle required for append mode and file locking.
-                        // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fwrite -- Direct file write with locking is intentional for the log.
+            // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fwrite -- Direct file write with locking is intentional for the log.
             @fwrite($handle, $line);
             @fflush($handle);
             @flock($handle, LOCK_UN);
         }
-        // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- Direct file handle required for append mode and file locking.
-                // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- Closing the direct log handle.
+        // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- Closing the direct log handle.
         @fclose($handle);
     }
 
     public static function get_entries(): array {
+        self::ensure_dir_files();
         $file = self::get_log_file();
-        if ($file === '' || !file_exists($file)) {
+        if ($file === '' || is_link($file) || !file_exists($file)) {
             return [];
         }
         $size = @filesize($file);
@@ -67,8 +69,6 @@ final class Kurl_Logger {
             return [];
         }
         $read = min(self::READ_BYTES, $size);
-        // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen -- Direct file handle required for efficient sequential reads.
-        // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen -- Direct log read is intentional here.
         // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen -- Direct log read is intentional here.
         $handle = @fopen($file, 'rb');
         if ($handle === false) {
@@ -100,14 +100,14 @@ final class Kurl_Logger {
             if (!is_array($entry)) {
                 continue;
             }
-            $time = isset($entry['time']) ? (int) $entry['time'] : 0;
+            $time = Kurl_Helpers::scalar_int($entry['time'] ?? 0);
             if ($time <= 0 || $time < $cutoff) {
                 continue;
             }
             $entries[] = [
                 'time'    => $time,
-                'level'   => self::normalize_level((string) ($entry['level'] ?? 'info')),
-                'message' => sanitize_text_field((string) ($entry['message'] ?? '')),
+                'level'   => self::normalize_level(Kurl_Helpers::scalar_string($entry['level'] ?? 'info', 'info')),
+                'message' => sanitize_text_field(Kurl_Helpers::scalar_string($entry['message'] ?? '')),
                 'context' => is_array($entry['context'] ?? null) ? $entry['context'] : [],
             ];
         }
@@ -119,6 +119,11 @@ final class Kurl_Logger {
         if ($file !== '' && file_exists($file)) {
             wp_delete_file($file);
         }
+        $dir = self::get_log_dir();
+        $legacy = $dir !== '' ? trailingslashit($dir) . self::LEGACY_FILE_NAME : '';
+        if ($legacy !== '' && file_exists($legacy)) {
+            wp_delete_file($legacy);
+        }
     }
 
     public static function count_entries(): int {
@@ -126,33 +131,14 @@ final class Kurl_Logger {
     }
 
     public static function count_entries_fast(): int {
-        $file = self::get_log_file();
-        if ($file === '' || !file_exists($file)) {
-            return 0;
-        }
-
-        // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen -- Direct file handle required for efficient sequential reads.
-        $handle = @fopen($file, 'rb');
-        if ($handle === false) {
-            return 0;
-        }
-
-        $count = 0;
-        while (($line = fgets($handle)) !== false) {
-            if (trim($line) !== '') {
-                $count++;
-            }
-        }
-
-        // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- Direct file handle required for append mode and file locking.
-        @fclose($handle);
-
-        return $count;
+        // The dashboard describes this number as the retained seven-day log.
+        // Count parsed retained entries rather than every historical line.
+        return count(self::get_entries());
     }
 
     public static function delete_all_files(): void {
         $dir = self::get_log_dir();
-        if ($dir === '' || !is_dir($dir)) {
+        if ($dir === '' || is_link($dir) || !is_dir($dir)) {
             return;
         }
         $items = @scandir($dir);
@@ -168,8 +154,7 @@ final class Kurl_Logger {
                 wp_delete_file($path);
             }
         }
-        // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_rmdir -- Removing the plugin's dedicated empty log directory during cleanup.
-                // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_rmdir -- Logger directory cleanup.
+        // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_rmdir -- Logger directory cleanup.
         @rmdir($dir);
     }
 
@@ -189,7 +174,9 @@ final class Kurl_Logger {
                 continue;
             }
             $json = wp_json_encode($value);
-            $clean[$key] = is_string($json) && $json !== '' ? self::truncate_string($json) : '[unserializable]';
+            $clean[$key] = is_string($json) && $json !== ''
+                ? self::truncate_string(self::redact_serialized_secrets($json))
+                : '[unserializable]';
         }
         return $clean;
     }
@@ -199,12 +186,23 @@ final class Kurl_Logger {
         if (empty($uploads['basedir']) || !is_string($uploads['basedir'])) {
             return '';
         }
-        return trailingslashit($uploads['basedir']) . self::RELATIVE_DIR;
+        $dir = trailingslashit($uploads['basedir']) . self::RELATIVE_DIR;
+        return is_link($dir) ? '' : $dir;
     }
 
     private static function get_log_file(): string {
         $dir = self::get_log_dir();
-        return $dir === '' ? '' : trailingslashit($dir) . self::FILE_NAME;
+        if ($dir === '') {
+            return '';
+        }
+
+        $token = Kurl_Helpers::scalar_string(get_option(self::TOKEN_OPTION, ''));
+        if (!preg_match('/^[A-Za-z0-9_-]{24,128}$/', $token)) {
+            $token = wp_generate_password(48, false, false);
+            update_option(self::TOKEN_OPTION, $token, false);
+        }
+
+        return trailingslashit($dir) . 'kurl-' . substr(hash('sha256', $token), 0, 24) . '.log';
     }
 
     private static function ensure_dir_files(): void {
@@ -215,23 +213,42 @@ final class Kurl_Logger {
         if (!is_dir($dir)) {
             wp_mkdir_p($dir);
         }
-        if (!is_dir($dir)) {
+        if (is_link($dir) || !is_dir($dir)) {
             return;
         }
+        $current_file = self::get_log_file();
+        $legacy_file  = trailingslashit($dir) . self::LEGACY_FILE_NAME;
+        if ($current_file !== '' && file_exists($legacy_file)) {
+            if (!file_exists($current_file)) {
+                // phpcs:ignore WordPress.WP.AlternativeFunctions.rename_rename -- One-time migration to a non-guessable log filename.
+                @rename($legacy_file, $current_file);
+            }
+            if (file_exists($legacy_file)) {
+                // Never leave the old predictable filename reachable, even if
+                // migration failed because of filesystem permissions.
+                wp_delete_file($legacy_file);
+            }
+        }
+
         $index_php = trailingslashit($dir) . 'index.php';
-        if (!file_exists($index_php)) {
+        if (!file_exists($index_php) && !is_link($index_php)) {
             // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- Tiny protection file written once when creating the plugin log directory.
             @file_put_contents($index_php, "<?php\n// Silence is golden.\n");
         }
         $index_html = trailingslashit($dir) . 'index.html';
-        if (!file_exists($index_html)) {
+        if (!file_exists($index_html) && !is_link($index_html)) {
             // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- Tiny protection file written once when creating the plugin log directory.
             @file_put_contents($index_html, '');
         }
         $htaccess = trailingslashit($dir) . '.htaccess';
-        if (!file_exists($htaccess)) {
+        if (!file_exists($htaccess) && !is_link($htaccess)) {
             // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- Tiny protection file written once when creating the plugin log directory.
             @file_put_contents($htaccess, "<IfModule mod_authz_core.c>\nRequire all denied\n</IfModule>\n<IfModule !mod_authz_core.c>\nDeny from all\n</IfModule>\n");
+        }
+        $web_config = trailingslashit($dir) . 'web.config';
+        if (!file_exists($web_config) && !is_link($web_config)) {
+            // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- IIS protection file written once with the log directory.
+            @file_put_contents($web_config, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<configuration><system.webServer><authorization><remove users=\"*\" roles=\"\" verbs=\"\"/><add accessType=\"Deny\" users=\"*\"/></authorization></system.webServer></configuration>\n");
         }
     }
 
@@ -253,7 +270,16 @@ final class Kurl_Logger {
             wp_delete_file($file);
             return;
         }
-        @file_put_contents($file, $lines);
+        @file_put_contents($file, $lines, LOCK_EX);
+    }
+
+    private static function redact_serialized_secrets(string $text): string {
+        $redacted = preg_replace(
+            '~([\"](?:signature|password|passwd|token|secret|authorization|api[_-]?key)[\"]\s*:\s*[\"])[^\"]*([\"])~i',
+            '$1[redacted]$2',
+            $text
+        );
+        return is_string($redacted) ? $redacted : $text;
     }
 
     private static function normalize_level(string $level): string {

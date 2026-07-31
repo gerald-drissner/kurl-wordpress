@@ -1,6 +1,86 @@
 jQuery(function ($) {
     'use strict';
 
+    function applyHelperStatus(status) {
+        if (!status || !status.ui) {
+            return;
+        }
+
+        kurlAdmin.helperStatus = status;
+        kurlAdmin.strings.confirm_delete = status.ui.confirm_delete || kurlAdmin.strings.confirm_delete;
+
+        $('.kurl-delete').text(status.ui.delete_label || '');
+        $('.kurl-manual-regenerate').prop('disabled', !status.regenerate_available);
+        $('.kurl-manual-delete').prop('disabled', !status.delete_available);
+
+        const overwriteOption = $('#kurl-bulk-overwrite-option');
+        if (overwriteOption.length) {
+            overwriteOption.prop('disabled', !status.regenerate_available);
+            if (!status.regenerate_available && $('#kurl-bulk-mode').val() === 'overwrite') {
+                $('#kurl-bulk-mode').val('skip');
+            }
+        }
+        const bulkHelp = $('#kurl-bulk-helper-help');
+        if (bulkHelp.length) {
+            bulkHelp.text(status.ui.bulk_help || '').toggle(!status.regenerate_available);
+        }
+
+        $('#kurl-helper-card-value').text(status.ui.dashboard_value || '');
+        $('#kurl-helper-card-note').text(status.ui.dashboard_note || '');
+
+        const connectionStatus = $('#kurl-helper-connection-status');
+        if (connectionStatus.length) {
+            connectionStatus.text(status.ui.connection_message || '').css('color', status.ui.message_color || '');
+        }
+        const helperPanel = $('#kurl-helper-panel');
+        if (helperPanel.length) {
+            helperPanel.css('border-left-color', status.ui.panel_color || '');
+        }
+        $('#kurl-helper-panel-heading').text(status.ui.panel_heading || '');
+        const panelMessage = $('#kurl-helper-panel-message');
+        if (panelMessage.length) {
+            panelMessage.text(status.ui.panel_message || '').css('color', status.ui.message_color || '');
+        }
+
+        let updateNotice = $('#kurl-helper-async-notice');
+        if (status.found && !status.current && kurlAdmin.canManageOptions) {
+            if (!updateNotice.length) {
+                updateNotice = $('<div id="kurl-helper-async-notice" class="notice notice-error"><p></p></div>');
+                const target = $('.wrap').first();
+                if (target.length) {
+                    target.prepend(updateNotice);
+                }
+            }
+            const noticeParagraph = updateNotice.find('p').empty();
+            $('<strong>').text(status.ui.update_notice_title || '').appendTo(noticeParagraph);
+            noticeParagraph.append(document.createTextNode(' ' + (status.ui.update_notice_text || '') + ' '));
+            $('<a>').attr('href', kurlAdmin.settingsUrl || '#').text(status.ui.update_notice_link || '').appendTo(noticeParagraph);
+        } else if (updateNotice.length) {
+            updateNotice.remove();
+        }
+    }
+
+    function refreshHelperStatusInBackground() {
+        if (!kurlAdmin.helperRefreshNeeded) {
+            return;
+        }
+
+        const postButton = $('.kurl-generate').first();
+        $.post(kurlAdmin.ajaxUrl, {
+            action: 'kurl_refresh_helper_status',
+            nonce: kurlAdmin.nonce,
+            post_id: postButton.length ? (postButton.data('post') || 0) : 0
+        }).done(function (response) {
+            if (response && response.success && response.data && response.data.status) {
+                applyHelperStatus(response.data.status);
+                kurlAdmin.helperRefreshNeeded = false;
+            }
+        });
+    }
+
+    applyHelperStatus(kurlAdmin.helperStatus || null);
+    refreshHelperStatusInBackground();
+
     function getInlineStatusBox(button) {
         return button.closest('.kurl-box').find('.kurl-inline-status');
     }
@@ -128,6 +208,7 @@ jQuery(function ($) {
         }).done(function (response) {
             if (response && response.success) {
                 box.find('.kurl-shorturl').val(response.data.shorturl || '');
+                box.find('.kurl-keyword').val(response.data.keyword || '');
                 box.find('.kurl-keyword').prop('readonly', true).attr('readonly', 'readonly');
                 box.find('.kurl-delete').css('display', 'inline-block');
                 setInlineStatus(button, response.data.message || kurlAdmin.strings.done, 'success');
@@ -157,6 +238,8 @@ jQuery(function ($) {
             if (response && response.success) {
                 if (response.data.shorturl) {
                     box.find('.kurl-shorturl').val(response.data.shorturl);
+                    box.find('.kurl-keyword').val(response.data.keyword || '');
+                    box.find('.kurl-keyword').prop('readonly', true).attr('readonly', 'readonly');
                     box.find('.kurl-delete').css('display', 'inline-block');
                 }
                 setInlineStatus(button, response.data.message || kurlAdmin.strings.done, 'success');
@@ -244,6 +327,9 @@ jQuery(function ($) {
         }).done(function (response) {
             if (response && response.success) {
                 $('#kurl-manual-shorturl').val(response.data.shorturl || '');
+                if (response.data.shorturl) {
+                    $('#kurl-manual-keyword').val(response.data.keyword || '');
+                }
                 setManualStatus(response.data.message || kurlAdmin.strings.done, 'success');
             } else {
                 setManualStatus(response && response.data && response.data.message ? response.data.message : kurlAdmin.strings.error, 'error');
@@ -266,10 +352,12 @@ jQuery(function ($) {
             action: 'kurl_manual_generate_url',
             nonce: kurlAdmin.nonce,
             url: $('#kurl-manual-url').val(),
-            keyword: $('#kurl-manual-keyword').val()
+            keyword: $('#kurl-manual-keyword').val(),
+            shorturl: $('#kurl-manual-shorturl').val()
         }).done(function (response) {
             if (response && response.success) {
                 $('#kurl-manual-shorturl').val(response.data.shorturl || '');
+                $('#kurl-manual-keyword').val(response.data.keyword || '');
                 setManualStatus(response.data.message || kurlAdmin.strings.done, 'success');
             } else {
                 setManualStatus(response && response.data && response.data.message ? response.data.message : kurlAdmin.strings.error, 'error');
@@ -286,7 +374,7 @@ jQuery(function ($) {
         if (button.prop('disabled')) {
             return;
         }
-        if (!window.confirm(kurlAdmin.strings.confirm_delete)) {
+        if (!window.confirm(kurlAdmin.strings.confirm_manual_delete)) {
             return;
         }
         setManualStatus(kurlAdmin.strings.working, '');
@@ -314,7 +402,7 @@ jQuery(function ($) {
         if (button.prop('disabled')) {
             return;
         }
-        if (!window.confirm(kurlAdmin.strings.confirm_delete)) {
+        if (!window.confirm(kurlAdmin.strings.confirm_regenerate)) {
             return;
         }
         setManualStatus(kurlAdmin.strings.working, '');
@@ -328,6 +416,7 @@ jQuery(function ($) {
         }).done(function (response) {
             if (response && response.success) {
                 $('#kurl-manual-shorturl').val(response.data.shorturl || '');
+                $('#kurl-manual-keyword').val(response.data.keyword || '');
                 setManualStatus(response.data.message || kurlAdmin.strings.done, 'success');
             } else {
                 setManualStatus(response && response.data && response.data.message ? response.data.message : kurlAdmin.strings.error, 'error');
@@ -381,7 +470,10 @@ jQuery(function ($) {
                     const totalLinks = response.data && typeof response.data.total_links !== 'undefined' ? response.data.total_links : 0;
                     const totalClicks = response.data && typeof response.data.total_clicks !== 'undefined' ? response.data.total_clicks : 0;
                     result.addClass('success').text(message + ' ' + kurlAdmin.strings.links_label + ' ' + totalLinks + ', ' + kurlAdmin.strings.clicks_label + ' ' + totalClicks);
-                    window.setTimeout(function () { window.location.reload(); }, 1200);
+                    if (response.data && response.data.helper_status) {
+                        applyHelperStatus(response.data.helper_status);
+                        kurlAdmin.helperRefreshNeeded = false;
+                    }
                 } else {
                     result.addClass('error').text(response && response.data && response.data.message ? response.data.message : kurlAdmin.strings.error);
                 }
@@ -441,6 +533,7 @@ jQuery(function ($) {
             bulkRunning = running;
             bulkStart.prop('disabled', running);
             bulkStop.prop('disabled', !running);
+            $('#kurl-bulk-post-type, #kurl-bulk-batch-size, #kurl-bulk-mode').prop('disabled', running);
         }
         function runBatch() {
             if (bulkStopped || !bulkRunning) {
@@ -470,6 +563,7 @@ jQuery(function ($) {
                 if (!bulkStopped) {
                     runBatch();
                 } else {
+                    appendLogRow('<div class="kurl-bulk-row">' + escapeHtml(kurlAdmin.strings.bulk_stopped) + '</div>');
                     setBulkUiRunning(false);
                 }
             }).fail(function (xhr) {
@@ -494,8 +588,8 @@ jQuery(function ($) {
                 return;
             }
             bulkStopped = true;
-            appendLogRow('<div class="kurl-bulk-row">' + escapeHtml(kurlAdmin.strings.bulk_stopped) + '</div>');
-            setBulkUiRunning(false);
+            bulkStop.prop('disabled', true);
+            appendLogRow('<div class="kurl-bulk-row">' + escapeHtml(kurlAdmin.strings.bulk_stopping) + '</div>');
         });
         bulkStop.prop('disabled', true);
     }
@@ -512,7 +606,8 @@ jQuery(function ($) {
             replaced: 0,
             verified: 0,
             mismatches: 0,
-            skipped: 0
+            skipped: 0,
+            errors: 0
         };
 
         const reconcileStop = $('#kurl-reconcile-stop');
@@ -535,6 +630,7 @@ jQuery(function ($) {
                 ' &nbsp; <strong>' + escapeHtml(kurlAdmin.strings.reconcile_verified) + '</strong> ' + reconcileTotals.verified +
                 ' &nbsp; <strong>' + escapeHtml(kurlAdmin.strings.reconcile_mismatches) + '</strong> ' + reconcileTotals.mismatches +
                 ' &nbsp; <strong>' + escapeHtml(kurlAdmin.strings.reconcile_skipped) + '</strong> ' + reconcileTotals.skipped +
+                ' &nbsp; <strong>' + escapeHtml(kurlAdmin.strings.reconcile_errors) + '</strong> ' + reconcileTotals.errors +
                 (done ? ' &nbsp; <strong>' + escapeHtml(kurlAdmin.strings.bulk_status) + '</strong> ' + escapeHtml(kurlAdmin.strings.bulk_done_label) : '')
             );
             const pct = done ? 100 : Math.min(95, Math.max(5, reconcileTotals.checked));
@@ -556,6 +652,8 @@ jQuery(function ($) {
                     reconcileTotals.mismatches += 1;
                 } else if (status === 'skipped') {
                     reconcileTotals.skipped += 1;
+                } else if (status === 'error') {
+                    reconcileTotals.errors += 1;
                 }
 
                 reconcileAppendLog(
@@ -608,6 +706,7 @@ jQuery(function ($) {
                 if (!reconcileStopped) {
                     reconcileRunBatch();
                 } else {
+                    reconcileAppendLog('<div class="kurl-bulk-row">' + escapeHtml(kurlAdmin.strings.reconcile_stopped) + '</div>');
                     setReconcileUiRunning(false);
                 }
             }).fail(function (xhr) {
@@ -623,7 +722,7 @@ jQuery(function ($) {
 
             reconcileStopped = false;
             reconcileLastId = 0;
-            reconcileTotals = { checked: 0, imported: 0, replaced: 0, verified: 0, mismatches: 0, skipped: 0 };
+            reconcileTotals = { checked: 0, imported: 0, replaced: 0, verified: 0, mismatches: 0, skipped: 0, errors: 0 };
             reconcileLog.empty();
             reconcileRenderTotals(false);
             setReconcileUiRunning(true);
@@ -636,8 +735,8 @@ jQuery(function ($) {
             }
 
             reconcileStopped = true;
-            reconcileAppendLog('<div class="kurl-bulk-row">' + escapeHtml(kurlAdmin.strings.reconcile_stopped) + '</div>');
-            setReconcileUiRunning(false);
+            reconcileStop.prop('disabled', true);
+            reconcileAppendLog('<div class="kurl-bulk-row">' + escapeHtml(kurlAdmin.strings.reconcile_stopping) + '</div>');
         });
 
         reconcileStop.prop('disabled', true);
