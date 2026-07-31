@@ -12,3 +12,5 @@ composer.lock
 phpcs.xml
 phpunit.xml
 tests
+
+/.wordpress-org
