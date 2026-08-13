@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       kURL – Short URL Manager for YOURLS
  * Description:       Modern YOURLS integration for WordPress with dashboard statistics, bulk link generation, sync and cleanup tools, logging, and editor tools.
- * Version:           1.0.8
+ * Version:           1.0.9
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * Author:            Gerald Drißner
@@ -16,7 +16,7 @@
 defined('ABSPATH') || exit;
 
 if (!defined('KURL_VERSION')) {
-    define('KURL_VERSION', '1.0.8');
+    define('KURL_VERSION', '1.0.9');
 }
 if (!defined('KURL_FILE')) {
     define('KURL_FILE', __FILE__);

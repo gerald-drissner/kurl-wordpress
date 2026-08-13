@@ -2,8 +2,8 @@
 Contributors: geralddrissner
 Tags: yourls, shortlinks, url shortener, custom links
 Requires at least: 6.0
-Tested up to: 7.0
-Stable tag: 1.0.8
+Tested up to: 7.1
+Stable tag: 1.0.9
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -108,6 +108,10 @@ French translation: Norbert Jung.
 
 == Changelog ==
 
+= 1.0.9 =
+* WordPress 7.1 compatibility maintenance; no functional behavior was changed.
+* Reviewed against the WordPress 7.1 editor iframe, client-side image processing, and jQuery UI changes; those code paths are not used by the plugin.
+
 = 1.0.8 =
 * Performance: Load the large admin and bulk classes only for WordPress admin, AJAX, and admin-post requests.
 * Performance: Helper-version verification now runs through protected background AJAX after admin pages render instead of blocking the page-load path.
@@ -191,6 +195,9 @@ French translation: Norbert Jung.
 * Bundled starter translations for German, French, and Spanish.
 
 == Upgrade Notice ==
+
+= 1.0.9 =
+WordPress 7.1 compatibility maintenance only. The bundled YOURLS Helper remains version 1.1.5 and does not need to be replaced.
 
 = 1.0.8 =
 Admin pages no longer wait for helper verification. The bundled YOURLS Helper remains version 1.1.5, so users already on helper 1.1.5 do not need to replace it.
