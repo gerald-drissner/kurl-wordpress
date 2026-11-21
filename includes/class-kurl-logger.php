@@ -11,6 +11,7 @@ final class Kurl_Logger {
     private const MAX_FILE_BYTES     = 1048576;
     private const READ_BYTES         = self::MAX_FILE_BYTES;
     private const MAX_CONTEXT_LENGTH = 500;
+    private const MAX_ENTRIES_AFTER_ROTATION = 250;
 
     public static function log(string $level, string $message, array $context = []): void {
         $file = self::get_log_file();
@@ -26,7 +27,7 @@ final class Kurl_Logger {
         $entry = [
             'time'    => time(),
             'level'   => self::normalize_level($level),
-            'message' => sanitize_text_field($message),
+            'message' => Kurl_Helpers::redact_secrets(sanitize_text_field($message)),
             'context' => self::sanitize_context($context),
         ];
 
@@ -36,21 +37,42 @@ final class Kurl_Logger {
         }
         $line .= PHP_EOL;
 
-        if (file_exists($file)) {
-            $size = @filesize($file);
-            if (is_int($size) && $size > self::MAX_FILE_BYTES) {
-                self::rotate_if_needed($file);
-            }
-        }
-
-        // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen -- Direct file append with locking is intentional for the log.
-        $handle = @fopen($file, 'ab');
+        // 'c+' opens for reading and writing without truncating, so pruning,
+        // rotation, and the append all happen inside one exclusive lock. A
+        // concurrent request can no longer append between our read and rewrite.
+        // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen -- Direct file access with locking is intentional for the log.
+        $handle = @fopen($file, 'c+b');
         if ($handle === false) {
             return;
         }
         if (@flock($handle, LOCK_EX)) {
+            self::compact_locked($handle, false);
+            @fseek($handle, 0, SEEK_END);
             // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fwrite -- Direct file write with locking is intentional for the log.
             @fwrite($handle, $line);
+            @fflush($handle);
+            @flock($handle, LOCK_UN);
+        }
+        // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- Closing the direct log handle.
+        @fclose($handle);
+    }
+
+    /**
+     * Physically remove entries older than the retention window. Runs daily
+     * through WP-Cron and before the Logs screen is rendered.
+     */
+    public static function prune(): void {
+        $file = self::get_log_file();
+        if ($file === '' || is_link($file) || !file_exists($file)) {
+            return;
+        }
+        // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen -- Direct file access with locking is intentional for the log.
+        $handle = @fopen($file, 'c+b');
+        if ($handle === false) {
+            return;
+        }
+        if (@flock($handle, LOCK_EX)) {
+            self::compact_locked($handle, true);
             @fflush($handle);
             @flock($handle, LOCK_UN);
         }
@@ -64,34 +86,105 @@ final class Kurl_Logger {
         if ($file === '' || is_link($file) || !file_exists($file)) {
             return [];
         }
-        $size = @filesize($file);
-        if (!is_int($size) || $size <= 0) {
-            return [];
-        }
-        $read = min(self::READ_BYTES, $size);
         // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen -- Direct log read is intentional here.
         $handle = @fopen($file, 'rb');
         if ($handle === false) {
             return [];
         }
-        if ($size > $read) {
-            @fseek($handle, -$read, SEEK_END);
+        $content = '';
+        if (@flock($handle, LOCK_SH)) {
+            $content = self::read_tail_locked($handle);
+            @flock($handle, LOCK_UN);
         }
-        $content = stream_get_contents($handle);
-        // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- Direct file handle required for append mode and file locking.
+        // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- Closing the direct log handle.
         @fclose($handle);
-        if (!is_string($content) || $content === '') {
-            return [];
+
+        $entries = [];
+        foreach (self::parse_retained_lines($content) as $line) {
+            $entry = json_decode($line, true);
+            $entries[] = [
+                'time'    => Kurl_Helpers::scalar_int($entry['time'] ?? 0),
+                'level'   => self::normalize_level(Kurl_Helpers::scalar_string($entry['level'] ?? 'info', 'info')),
+                // Entries written by older versions were not fully redacted.
+                'message' => Kurl_Helpers::redact_secrets(sanitize_text_field(Kurl_Helpers::scalar_string($entry['message'] ?? ''))),
+                'context' => is_array($entry['context'] ?? null) ? self::redact_deep($entry['context']) : [],
+            ];
         }
-        if ($size > $read) {
-            $newline_pos = strpos($content, PHP_EOL);
-            if ($newline_pos !== false) {
-                $content = substr($content, $newline_pos + strlen(PHP_EOL));
+        return array_reverse($entries);
+    }
+
+    /**
+     * Rewrite the locked file when it holds expired entries or exceeds the
+     * size cap. Cheap when nothing is due: only the first line is read.
+     *
+     * @param resource $handle Handle opened with 'c+b' and locked with LOCK_EX.
+     * @param bool     $force  Always rewrite (used by prune()).
+     */
+    private static function compact_locked($handle, bool $force): void {
+        $stat = @fstat($handle);
+        $size = is_array($stat) && isset($stat['size']) ? (int) $stat['size'] : 0;
+        if ($size <= 0) {
+            return;
+        }
+
+        $too_big = $size > self::MAX_FILE_BYTES;
+        if (!$force && !$too_big) {
+            @rewind($handle);
+            $first = @fgets($handle);
+            $first_entry = is_string($first) ? json_decode(trim($first), true) : null;
+            $first_time = is_array($first_entry) ? Kurl_Helpers::scalar_int($first_entry['time'] ?? 0) : 0;
+            if ($first_time >= time() - self::RETENTION_SECONDS) {
+                return;
             }
         }
+
+        $lines = self::parse_retained_lines(self::read_tail_locked($handle));
+        if ($too_big) {
+            $lines = array_slice($lines, -self::MAX_ENTRIES_AFTER_ROTATION);
+        }
+
+        @ftruncate($handle, 0);
+        @rewind($handle);
+        if (!empty($lines)) {
+            // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fwrite -- Direct file write with locking is intentional for the log.
+            @fwrite($handle, implode(PHP_EOL, $lines) . PHP_EOL);
+        }
+    }
+
+    /**
+     * Read at most READ_BYTES from the end of a locked file, starting at a
+     * complete line.
+     *
+     * @param resource $handle Locked file handle.
+     */
+    private static function read_tail_locked($handle): string {
+        $stat = @fstat($handle);
+        $size = is_array($stat) && isset($stat['size']) ? (int) $stat['size'] : 0;
+        if ($size <= 0) {
+            return '';
+        }
+        $read = min(self::READ_BYTES, $size);
+        @fseek($handle, $size - $read, SEEK_SET);
+        $content = stream_get_contents($handle);
+        if (!is_string($content) || $content === '') {
+            return '';
+        }
+        if ($size > $read) {
+            $newline_pos = strpos($content, "\n");
+            $content = $newline_pos !== false ? substr($content, $newline_pos + 1) : '';
+        }
+        return $content;
+    }
+
+    /**
+     * JSON lines whose timestamp lies inside the retention window.
+     *
+     * @return string[]
+     */
+    private static function parse_retained_lines(string $content): array {
         $cutoff = time() - self::RETENTION_SECONDS;
-        $entries = [];
-        foreach (preg_split('/\R/', $content) as $line) {
+        $lines  = [];
+        foreach (preg_split('/\R/', $content) ?: [] as $line) {
             $line = trim((string) $line);
             if ($line === '') {
                 continue;
@@ -101,17 +194,25 @@ final class Kurl_Logger {
                 continue;
             }
             $time = Kurl_Helpers::scalar_int($entry['time'] ?? 0);
-            if ($time <= 0 || $time < $cutoff) {
-                continue;
+            if ($time > 0 && $time >= $cutoff) {
+                $lines[] = $line;
             }
-            $entries[] = [
-                'time'    => $time,
-                'level'   => self::normalize_level(Kurl_Helpers::scalar_string($entry['level'] ?? 'info', 'info')),
-                'message' => sanitize_text_field(Kurl_Helpers::scalar_string($entry['message'] ?? '')),
-                'context' => is_array($entry['context'] ?? null) ? $entry['context'] : [],
-            ];
         }
-        return array_reverse($entries);
+        return $lines;
+    }
+
+    /**
+     * @param array $data Decoded context.
+     */
+    private static function redact_deep(array $data): array {
+        foreach ($data as $key => $value) {
+            if (is_array($value)) {
+                $data[$key] = self::redact_deep($value);
+            } elseif (is_string($value)) {
+                $data[$key] = Kurl_Helpers::redact_secrets($value);
+            }
+        }
+        return $data;
     }
 
     public static function clear(): void {
@@ -170,12 +271,12 @@ final class Kurl_Logger {
                 continue;
             }
             if (is_scalar($value) || $value === null) {
-                $clean[$key] = self::truncate_string(sanitize_text_field((string) $value));
+                $clean[$key] = self::truncate_string(Kurl_Helpers::redact_secrets(sanitize_text_field((string) $value)));
                 continue;
             }
             $json = wp_json_encode($value);
             $clean[$key] = is_string($json) && $json !== ''
-                ? self::truncate_string(self::redact_serialized_secrets($json))
+                ? self::truncate_string(Kurl_Helpers::redact_secrets(self::redact_serialized_secrets($json)))
                 : '[unserializable]';
         }
         return $clean;
@@ -250,27 +351,6 @@ final class Kurl_Logger {
             // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- IIS protection file written once with the log directory.
             @file_put_contents($web_config, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<configuration><system.webServer><authorization><remove users=\"*\" roles=\"\" verbs=\"\"/><add accessType=\"Deny\" users=\"*\"/></authorization></system.webServer></configuration>\n");
         }
-    }
-
-    private static function rotate_if_needed(string $file): void {
-        $entries = self::get_entries();
-        if (empty($entries)) {
-            wp_delete_file($file);
-            return;
-        }
-        $entries = array_reverse(array_slice($entries, 0, 250));
-        $lines = '';
-        foreach ($entries as $entry) {
-            $json = wp_json_encode($entry);
-            if (is_string($json) && $json !== '') {
-                $lines .= $json . PHP_EOL;
-            }
-        }
-        if ($lines === '') {
-            wp_delete_file($file);
-            return;
-        }
-        @file_put_contents($file, $lines, LOCK_EX);
     }
 
     private static function redact_serialized_secrets(string $text): string {

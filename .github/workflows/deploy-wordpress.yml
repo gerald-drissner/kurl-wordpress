@@ -5,6 +5,14 @@ on:
     tags:
       - '[0-9]+.[0-9]+.[0-9]+'
 
+# One SVN writer at a time (shared with wp-assets.yml).
+concurrency:
+  group: wporg-svn
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -13,9 +21,48 @@ jobs:
       - name: Checkout release tag
         uses: actions/checkout@v7
 
+      - name: Check version numbers
+        run: |
+          tag="${GITHUB_REF_NAME}"
+          header=$(grep -m1 -E '^[[:space:]*]*Version:' kurl.php | awk '{print $NF}' | tr -d '\r')
+          constant=$(grep -m1 -oE "define\('KURL_VERSION', '[^']+'\)" kurl.php | grep -oE "'[0-9][^']*'" | tr -d "'")
+          stable=$(grep -m1 -E '^Stable tag:' readme.txt | awk '{print $NF}' | tr -d '\r')
+          echo "tag=$tag header=$header KURL_VERSION=$constant stable=$stable"
+          if [ "$tag" != "$header" ] || [ "$tag" != "$constant" ] || [ "$tag" != "$stable" ]; then
+            echo "::error::Version mismatch: tag $tag, plugin header $header, KURL_VERSION $constant, Stable tag $stable"
+            exit 1
+          fi
+          if ! grep -q "^= $tag =" readme.txt; then
+            echo "::error::readme.txt has no changelog entry '= $tag ='"
+            exit 1
+          fi
+          status=$(curl -s -o /dev/null -w '%{http_code}' "https://plugins.svn.wordpress.org/kurl-short-url-manager-yourls/tags/$tag/")
+          if [ "$status" = "200" ]; then
+            echo "::error::Tag $tag already exists on WordPress.org. Use a new version number."
+            exit 1
+          fi
+
       - name: Deploy to WordPress.org SVN
+        id: deploy
         uses: 10up/action-wordpress-plugin-deploy@stable
+        with:
+          generate-zip: true
         env:
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
           SLUG: kurl-short-url-manager-yourls
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="${GITHUB_REF_NAME}"
+          # Release notes: the changelog section of this version from readme.txt.
+          awk -v v="= $tag =" '$0==v{f=1;next} /^= [0-9]/{if(f)exit} /^== /{if(f)exit} f' readme.txt > notes.md
+          notice=$(awk -v v="= $tag =" '/^== Upgrade Notice ==/{u=1;next} u&&$0==v{f=1;next} u&&f&&/^= /{exit} u&&f' readme.txt)
+          if [ -n "$notice" ]; then
+            printf '**Upgrade notice:** %s\n\n%s\n' "$notice" "$(cat notes.md)" > notes.md
+          fi
+          zip="kurl-short-url-manager-yourls.$tag.zip"
+          cp "${{ steps.deploy.outputs.zip-path }}" "$zip"
+          gh release create "$tag" "$zip" --title "kURL $tag" --notes-file notes.md --verify-tag

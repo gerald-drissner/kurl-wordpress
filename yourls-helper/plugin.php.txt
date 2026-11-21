@@ -2,7 +2,7 @@
 /*
 Plugin Name: kURL Helper
 Description: Enables remote deletion, safe long-URL lookup, safe regeneration, and versioned API pinging for the kURL WordPress plugin.
-Version: 1.1.5
+Version: 1.1.6
 Author: Gerald Drißner
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -17,13 +17,44 @@ yourls_add_filter( 'api_action_kurl_delete', 'kurl_api_delete' );
 yourls_add_filter( 'api_action_kurl_find_by_url', 'kurl_api_find_by_url' );
 yourls_add_filter( 'api_action_kurl_regenerate', 'kurl_api_regenerate' );
 
+/**
+ * kURL actions delete links, point existing keywords to new targets, and
+ * reveal keywords. They must never run for an anonymous caller.
+ *
+ * YOURLS can expose its API publicly: YOURLS_PRIVATE false, or
+ * YOURLS_PRIVATE_API false while the admin area stays private. In both cases
+ * yourls-api.php dispatches actions without checking credentials, so the
+ * helper verifies them itself. When the API is private, yourls-api.php has
+ * already required valid credentials before any action runs.
+ *
+ * @return array|null Error response, or null when the caller is authenticated.
+ */
+function kurl_api_require_auth() {
+    if ( function_exists( 'yourls_is_private' ) && yourls_is_private() ) {
+        return null;
+    }
+    if ( function_exists( 'yourls_is_valid_user' ) && true === yourls_is_valid_user() ) {
+        return null;
+    }
+    return [
+        'statusCode' => 403,
+        'errorCode'  => '403',
+        'status'     => 'fail',
+        'message'    => 'The kURL Helper requires valid YOURLS authentication (signature token, or username and password)',
+    ];
+}
+
 function kurl_api_ping() {
+    $denied = kurl_api_require_auth();
+    if ( $denied ) {
+        return $denied;
+    }
     return [
         'statusCode'          => 200,
         'status'              => 'success',
         'message'             => 'success',
         'kurl_extended'       => true,
-        'kurl_helper_version' => '1.1.5',
+        'kurl_helper_version' => '1.1.6',
         'kurl_capabilities'   => [ 'delete', 'find_by_url', 'regenerate' ],
     ];
 }
@@ -116,6 +147,10 @@ function kurl_api_info_value( $info, $key, $default = '' ) {
 }
 
 function kurl_api_delete() {
+    $denied = kurl_api_require_auth();
+    if ( $denied ) {
+        return $denied;
+    }
     $shorturl = kurl_api_request_string( 'shorturl' );
     if ( $shorturl === '' ) {
         return [ 'statusCode' => 400, 'status' => 'fail', 'message' => 'Missing shorturl' ];
@@ -148,6 +183,10 @@ function kurl_api_delete() {
 }
 
 function kurl_api_find_by_url() {
+    $denied = kurl_api_require_auth();
+    if ( $denied ) {
+        return $denied;
+    }
     $requested_url = kurl_api_request_string( 'url' );
     if ( $requested_url === '' ) {
         return [ 'statusCode' => 400, 'status' => 'fail', 'message' => 'Missing url' ];
@@ -240,6 +279,10 @@ function kurl_api_random_keyword( $longurl ) {
 }
 
 function kurl_api_regenerate() {
+    $denied = kurl_api_require_auth();
+    if ( $denied ) {
+        return $denied;
+    }
     $requested_url      = kurl_api_request_string( 'url' );
     $requested_shorturl = kurl_api_request_string( 'shorturl' );
     if ( $requested_url === '' || $requested_shorturl === '' ) {
