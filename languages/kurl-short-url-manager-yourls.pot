@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-21T20:19:25+00:00\n"
+"POT-Creation-Date: 2026-11-22T06:38:53+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: kurl-short-url-manager-yourls\n"
@@ -1038,6 +1038,10 @@ msgstr ""
 msgid "You can find your signature token in the YOURLS admin area under <strong>Tools → Secure passwordless API call</strong>."
 msgstr ""
 
+#: includes/class-kurl-admin.php:1874
+msgid "YOURLS 1.10.5 and later use a new, longer token; a token copied from an older version stops working after the update."
+msgstr ""
+
 #: includes/class-kurl-admin.php:1875
 msgid "Enabled post types"
 msgstr ""
@@ -1283,75 +1287,91 @@ msgstr ""
 msgid "Install the bundled helper to enable safe lookup, remote deletion, and advanced reconciliation."
 msgstr ""
 
-#: includes/class-kurl-api.php:28
+#: includes/class-kurl-api.php:32
 msgid "Missing YOURLS API settings."
 msgstr ""
 
-#: includes/class-kurl-api.php:33
+#: includes/class-kurl-api.php:37
 msgid "Invalid API action."
 msgstr ""
 
-#: includes/class-kurl-api.php:83
+#: includes/class-kurl-api.php:87
 msgid "WordPress rejected this address. Its safe HTTP client only connects to host names that resolve to a public IP address, on ports 80, 443, or 8080. Check the host name and port, or allow this endpoint with the kurl_allow_private_api_url filter."
 msgstr ""
 
-#: includes/class-kurl-api.php:151
-#: includes/class-kurl-api.php:236
+#: includes/class-kurl-api.php:155
+#: includes/class-kurl-api.php:240
 msgid "Missing or invalid target URL."
 msgstr ""
 
-#: includes/class-kurl-api.php:185
-#: includes/class-kurl-api.php:193
-#: includes/class-kurl-api.php:228
+#: includes/class-kurl-api.php:189
+#: includes/class-kurl-api.php:197
+#: includes/class-kurl-api.php:232
 msgid "Missing short URL."
 msgstr ""
 
-#: includes/class-kurl-api.php:250
+#: includes/class-kurl-api.php:254
 msgid "A valid target URL and existing short URL are required."
 msgstr ""
 
 #. translators: %d: HTTP status code.
-#: includes/class-kurl-api.php:413
+#: includes/class-kurl-api.php:417
 #, php-format
 msgid "HTTP error %d."
 msgstr ""
 
 #. translators: %s: Message returned by YOURLS.
-#: includes/class-kurl-api.php:418
+#: includes/class-kurl-api.php:422
 #, php-format
 msgid "YOURLS says: \"%s\""
 msgstr ""
 
-#: includes/class-kurl-api.php:423
+#: includes/class-kurl-api.php:427
 msgid "The API endpoint redirected the request. Enter the final yourls-api.php URL directly so the signature is not forwarded to another location."
 msgstr ""
 
-#: includes/class-kurl-api.php:425
+#: includes/class-kurl-api.php:433
 msgid "Forbidden. Check your signature or a firewall/security layer."
 msgstr ""
 
-#: includes/class-kurl-api.php:427
+#: includes/class-kurl-api.php:435
 msgid "Endpoint not found. Check the API URL."
 msgstr ""
 
-#: includes/class-kurl-api.php:429
+#: includes/class-kurl-api.php:437
 msgid "Too many requests. Please try again later."
 msgstr ""
 
-#: includes/class-kurl-api.php:431
+#: includes/class-kurl-api.php:439
 msgid "The YOURLS server returned an internal error."
 msgstr ""
 
-#: includes/class-kurl-api.php:462
+#: includes/class-kurl-api.php:467
+msgid "YOURLS did not accept the signature token."
+msgstr ""
+
+#: includes/class-kurl-api.php:469
+msgid "The saved token has 10 characters, the format used before YOURLS 1.10.5. YOURLS 1.10.5 and later issue a new, longer token and reject the old one."
+msgstr ""
+
+#: includes/class-kurl-api.php:471
+msgid "The token changes when YOURLS is updated to version 1.10.5 or later and when YOURLS_COOKIEKEY changes."
+msgstr ""
+
+#: includes/class-kurl-api.php:473
+msgid "Copy the current token from YOURLS under Tools → Secure passwordless API call, paste it into kURL → Settings, and save."
+msgstr ""
+
+#: includes/class-kurl-api.php:488
 msgid "YOURLS returned an empty response. Check the YOURLS server and PHP error log."
 msgstr ""
 
-#: includes/class-kurl-api.php:465
+#: includes/class-kurl-api.php:491
 msgid "YOURLS returned HTML instead of JSON. This usually indicates a PHP error, login page, proxy, or firewall response; check the YOURLS PHP error log."
 msgstr ""
 
 #. translators: %s: JSON parser error.
-#: includes/class-kurl-api.php:469
+#: includes/class-kurl-api.php:495
 #, php-format
 msgid "YOURLS returned a non-JSON response (%s). Check the YOURLS server and helper plugin."
 msgstr ""

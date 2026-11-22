@@ -6,6 +6,10 @@ final class Kurl_API {
 
     private const MAX_RESPONSE_BYTES = 1048576;
 
+    /** Length of the signature token issued by YOURLS before 1.10.5. */
+
+    private const LEGACY_SIGNATURE_LENGTH = 10;
+
     public static function configured(): bool {
         $settings = Kurl_Helpers::get_settings();
         return !empty($settings['api_url']) && !empty($settings['signature']);
@@ -421,6 +425,10 @@ final class Kurl_API {
 
         if ($http_code >= 300 && $http_code < 400) {
             $error_message .= ' ' . __('The API endpoint redirected the request. Enter the final yourls-api.php URL directly so the signature is not forwarded to another location.', 'kurl-short-url-manager-yourls');
+        } elseif ($http_code === 403 && is_array($data)) {
+            // A JSON 403 comes from YOURLS itself (or the kURL Helper): the
+            // credentials were rejected. A firewall usually answers with HTML.
+            $error_message .= ' ' . self::rejected_signature_message($secret);
         } elseif ($http_code === 403) {
             $error_message .= ' ' . __('Forbidden. Check your signature or a firewall/security layer.', 'kurl-short-url-manager-yourls');
         } elseif ($http_code === 404 && !is_array($data)) {
@@ -445,6 +453,24 @@ final class Kurl_API {
             'raw'         => is_array($data) ? $data : [],
             'status_code' => $http_code,
         ];
+    }
+
+    /**
+     * Explains a signature token that YOURLS rejected.
+     *
+     * YOURLS 1.10.5 replaced the 10-character signature token with a longer
+     * one (32 characters by default) and rejects the old token without a
+     * transition period. A saved token of exactly 10 characters therefore
+     * almost certainly predates that update.
+     */
+    private static function rejected_signature_message(string $signature): string {
+        $message = __('YOURLS did not accept the signature token.', 'kurl-short-url-manager-yourls');
+        if (strlen($signature) === self::LEGACY_SIGNATURE_LENGTH) {
+            $message .= ' ' . __('The saved token has 10 characters, the format used before YOURLS 1.10.5. YOURLS 1.10.5 and later issue a new, longer token and reject the old one.', 'kurl-short-url-manager-yourls');
+        } else {
+            $message .= ' ' . __('The token changes when YOURLS is updated to version 1.10.5 or later and when YOURLS_COOKIEKEY changes.', 'kurl-short-url-manager-yourls');
+        }
+        return $message . ' ' . __('Copy the current token from YOURLS under Tools → Secure passwordless API call, paste it into kURL → Settings, and save.', 'kurl-short-url-manager-yourls');
     }
 
     private static function extract_response_status_code(array $data): int {

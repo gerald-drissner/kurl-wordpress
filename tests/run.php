@@ -566,6 +566,23 @@ if ($is_new) {
 }
 
 // ---------------------------------------------------------------------------
+echo "\n[23] Rejected signature (YOURLS 1.10.5 token change)\n";
+{
+    $GLOBALS['kurl_mock_mode'] = 'auth403';
+    $old = Kurl_API::request('db-stats', [], ['api_url' => 'https://sho.rt/yourls-api.php', 'signature' => 'abc123def4']);
+    t('403 from YOURLS fails', $old['ok'], false, $results);
+    t('legacy 10-char token: explains the 1.10.5 change', strpos($old['message'], 'format used before YOURLS 1.10.5') !== false, true, $results);
+    t('legacy token: tells where to copy the new one', strpos($old['message'], 'Secure passwordless API call') !== false, true, $results);
+    t('token never appears in the message', strpos($old['message'], 'abc123def4'), false, $results);
+    $new = Kurl_API::request('db-stats', [], ['api_url' => 'https://sho.rt/yourls-api.php', 'signature' => str_repeat('a1', 16)]);
+    t('32-char token: generic rejection hint', strpos($new['message'], 'YOURLS did not accept the signature token') !== false && strpos($new['message'], 'format used before') === false, true, $results);
+    $GLOBALS['kurl_mock_mode'] = 'waf403';
+    $waf = Kurl_API::request('db-stats', [], ['api_url' => 'https://sho.rt/yourls-api.php', 'signature' => 'abc123def4']);
+    t('HTML 403 (firewall) keeps the firewall hint', strpos($waf['message'], 'firewall/security layer') !== false && strpos($waf['message'], 'YOURLS did not accept') === false, true, $results);
+    $GLOBALS['kurl_mock_mode'] = 'ok';
+}
+
+// ---------------------------------------------------------------------------
 echo "\nPHP notices/warnings from kURL files during the run: " . count($php_errors) . "\n";
 foreach (array_unique($php_errors) as $e) { echo "  ! $e\n"; }
 echo "\nRESULT: {$results['pass']} passed, {$results['fail']} failed\n";

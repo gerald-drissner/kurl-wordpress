@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: kURL 1.1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-07-30 18:27+0000\n"
-"PO-Revision-Date: 2026-11-21 12:00+0000\n"
+"PO-Revision-Date: 2026-11-22 08:00+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: de_DE <LL@li.org>\n"
 "Language: de_DE\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Generated-By: Babel 2.18.0\n"
 
-#: includes/class-kurl-api.php:250
+#: includes/class-kurl-api.php:254
 msgid "A valid target URL and existing short URL are required."
 msgstr "Eine gültige Ziel-URL und eine bestehende Kurz-URL sind erforderlich."
 
@@ -248,7 +248,7 @@ msgstr "Remote-Löschung und sichere Suche aktivieren (optional)"
 msgid "Enabled post types"
 msgstr "Aktivierte Inhaltstypen"
 
-#: includes/class-kurl-api.php:427
+#: includes/class-kurl-api.php:435
 msgid "Endpoint not found. Check the API URL."
 msgstr "Endpunkt nicht gefunden. Prüfe die API-URL."
 
@@ -296,7 +296,7 @@ msgstr "Experimentell: Prüft, ob YOURLS bereits eine Kurz-URL für diesen Perma
 msgid "Failed to copy code. Please copy it manually."
 msgstr "Code konnte nicht kopiert werden. Bitte kopiere ihn manuell."
 
-#: includes/class-kurl-api.php:425
+#: includes/class-kurl-api.php:433
 msgid "Forbidden. Check your signature or a firewall/security layer."
 msgstr "Verboten. Prüfe deine Signatur oder eine Firewall/Sicherheits-Schicht."
 
@@ -305,7 +305,7 @@ msgid "Generate / Update"
 msgstr "Erstellen / Aktualisieren"
 
 #. translators: %d: HTTP status code.
-#: includes/class-kurl-api.php:413
+#: includes/class-kurl-api.php:417
 #, php-format, python-format
 msgid "HTTP error %d."
 msgstr "HTTP-Fehler %d."
@@ -344,7 +344,7 @@ msgstr "Installiere den gebündelten Helper, um sichere Suche, Remote-Löschung 
 msgid "Installation and update instructions"
 msgstr "Installations- und Aktualisierungsanleitung"
 
-#: includes/class-kurl-api.php:33
+#: includes/class-kurl-api.php:37
 msgid "Invalid API action."
 msgstr "Ungültige API-Aktion."
 
@@ -422,15 +422,15 @@ msgstr "Migrationstools"
 msgid "Mismatches:"
 msgstr "Abweichungen:"
 
-#: includes/class-kurl-api.php:28
+#: includes/class-kurl-api.php:32
 msgid "Missing YOURLS API settings."
 msgstr "Fehlende YOURLS-API-Einstellungen."
 
-#: includes/class-kurl-api.php:151 includes/class-kurl-api.php:236
+#: includes/class-kurl-api.php:155 includes/class-kurl-api.php:240
 msgid "Missing or invalid target URL."
 msgstr "Fehlende oder ungültige Ziel-URL."
 
-#: includes/class-kurl-api.php:185 includes/class-kurl-api.php:193 includes/class-kurl-api.php:228
+#: includes/class-kurl-api.php:189 includes/class-kurl-api.php:197 includes/class-kurl-api.php:232
 msgid "Missing short URL."
 msgstr "Fehlende Kurz-URL."
 
@@ -732,7 +732,7 @@ msgstr "Kurzlink aus WordPress entfernt. Der alte Eintrag existiert in YOURLS we
 
 #: includes/class-kurl-admin.php:1874
 msgid "Signature token"
-msgstr "Signature-Token"
+msgstr "Signatur-Token"
 
 #: includes/class-kurl-admin.php:1688
 msgid "Skip existing"
@@ -802,7 +802,7 @@ msgstr "API testen"
 msgid "The API URL changed. Enter the signature token for the new YOURLS endpoint; kURL will not send the previously saved token to a different host or path."
 msgstr "Die API-URL wurde geändert. Gib das Signatur-Token für den neuen YOURLS-Endpunkt ein; kURL sendet das zuvor gespeicherte Token nicht an einen anderen Host oder Pfad."
 
-#: includes/class-kurl-api.php:423
+#: includes/class-kurl-api.php:427
 msgid "The API endpoint redirected the request. Enter the final yourls-api.php URL directly so the signature is not forwarded to another location."
 msgstr "Der API-Endpunkt hat die Anfrage weitergeleitet. Gib direkt die endgültige URL zu yourls-api.php ein, damit die Signatur nicht an einen anderen Ort weitergeleitet wird."
 
@@ -814,7 +814,7 @@ msgstr "Die API ist noch nicht konfiguriert. Du kannst die Einstellungen trotzde
 msgid "The YOURLS entry was already missing; the local shortlink was unlinked from WordPress."
 msgstr "Der YOURLS-Eintrag fehlte bereits; die lokale Kurz-URL wurde aus WordPress gelöst."
 
-#: includes/class-kurl-api.php:431
+#: includes/class-kurl-api.php:439
 msgid "The YOURLS server returned an internal error."
 msgstr "Der YOURLS-Server hat einen internen Fehler zurückgegeben."
 
@@ -906,7 +906,7 @@ msgstr "Diese Kurz-URL wird gemeinsam mit einem anderen WordPress-Beitrag verwen
 msgid "Tip: “Generate / Update” creates a link when the Short URL field is empty. If “Check YOURLS” found an existing link, updating it safely requires the current bundled kURL Helper (%s)."
 msgstr "Hinweis: „Erstellen / Aktualisieren“ erstellt einen Link, wenn das Feld „Kurz-URL“ leer ist. Hat „YOURLS prüfen“ einen bestehenden Link gefunden, ist für die sichere Aktualisierung der aktuelle gebündelte kURL Helper (%s) erforderlich."
 
-#: includes/class-kurl-api.php:429
+#: includes/class-kurl-api.php:437
 msgid "Too many requests. Please try again later."
 msgstr "Zu viele Anfragen. Bitte versuche es später erneut."
 
@@ -1024,17 +1024,17 @@ msgstr "YOURLS abgleichen / vergleichen"
 msgid "YOURLS reports helper version %1$s, but this kURL release requires bundled helper %2$s with all advertised capabilities. Helper-dependent actions are disabled until you replace plugin.php from the kURL Settings page."
 msgstr "YOURLS meldet Helper-Version %1$s, diese kURL-Version erfordert jedoch den gebündelten Helper %2$s mit allen vorgesehenen Funktionen. Helper-abhängige Aktionen bleiben deaktiviert, bis du plugin.php über die kURL-Einstellungsseite ersetzt hast."
 
-#: includes/class-kurl-api.php:465
+#: includes/class-kurl-api.php:491
 msgid "YOURLS returned HTML instead of JSON. This usually indicates a PHP error, login page, proxy, or firewall response; check the YOURLS PHP error log."
 msgstr "YOURLS hat HTML statt JSON zurückgegeben. Das weist meist auf einen PHP-Fehler, eine Anmeldeseite, einen Proxy oder eine Firewall-Antwort hin; prüfe das PHP-Fehlerprotokoll von YOURLS."
 
 #. translators: %s: JSON parser error.
-#: includes/class-kurl-api.php:469
+#: includes/class-kurl-api.php:495
 #, php-format, python-format
 msgid "YOURLS returned a non-JSON response (%s). Check the YOURLS server and helper plugin."
 msgstr "YOURLS hat eine Antwort zurückgegeben, die kein gültiges JSON enthält (%s). Prüfe den YOURLS-Server und das Helper-Plugin."
 
-#: includes/class-kurl-api.php:462
+#: includes/class-kurl-api.php:488
 msgid "YOURLS returned an empty response. Check the YOURLS server and PHP error log."
 msgstr "YOURLS hat eine leere Antwort zurückgegeben. Prüfe den YOURLS-Server und das PHP-Fehlerprotokoll."
 
@@ -1043,7 +1043,7 @@ msgid "YOURLS returned no target URL while verifying the saved short URL."
 msgstr "YOURLS hat bei der Prüfung der gespeicherten Kurz-URL keine Ziel-URL zurückgegeben."
 
 #. translators: %s: Message returned by YOURLS.
-#: includes/class-kurl-api.php:418
+#: includes/class-kurl-api.php:422
 #, php-format, python-format
 msgid "YOURLS says: \"%s\""
 msgstr "YOURLS sagt: „%s“"
@@ -1064,7 +1064,7 @@ msgstr "YOURLS Gesamtlinks"
 
 #: includes/class-kurl-admin.php:1874
 msgid "You can find your signature token in the YOURLS admin area under <strong>Tools → Secure passwordless API call</strong>."
-msgstr "Du findest dein Signature-Token im YOURLS-Adminbereich unter <strong>Tools → Secure passwordless API call</strong>."
+msgstr "Du findest dein Signatur-Token im YOURLS-Adminbereich unter <strong>Tools → Secure passwordless API call</strong>."
 
 #: includes/class-kurl-admin.php:291
 msgid "created"
@@ -1256,7 +1256,7 @@ msgstr "Daten alter Plugins löschen"
 msgid "Custom meta key"
 msgstr "Eigener Meta-Key"
 
-#: includes/class-kurl-api.php:83
+#: includes/class-kurl-api.php:87
 msgid "WordPress rejected this address. Its safe HTTP client only connects to host names that resolve to a public IP address, on ports 80, 443, or 8080. Check the host name and port, or allow this endpoint with the kurl_allow_private_api_url filter."
 msgstr "WordPress hat diese Adresse abgelehnt. Der sichere HTTP-Client verbindet sich nur mit Hostnamen, die auf eine öffentliche IP-Adresse zeigen, und nur über die Ports 80, 443 oder 8080. Prüfe Hostname und Port oder erlaube diesen Endpunkt mit dem Filter kurl_allow_private_api_url."
 
@@ -1355,3 +1355,23 @@ msgstr[1] "%d Felder älterer YOURLS-Plugins mit anderen Links wurden behalten; 
 #: includes/class-kurl-bulk.php:131
 msgid "Skipped: kURL could not check whether other posts use this short URL."
 msgstr "Übersprungen: kURL konnte nicht prüfen, ob andere Beiträge diese Kurz-URL verwenden."
+
+#: includes/class-kurl-admin.php:1874
+msgid "YOURLS 1.10.5 and later use a new, longer token; a token copied from an older version stops working after the update."
+msgstr "Ab YOURLS 1.10.5 gibt es ein neues, längeres Token; ein Token aus einer älteren Version funktioniert nach dem Update nicht mehr."
+
+#: includes/class-kurl-api.php:467
+msgid "YOURLS did not accept the signature token."
+msgstr "YOURLS hat das Signatur-Token nicht akzeptiert."
+
+#: includes/class-kurl-api.php:469
+msgid "The saved token has 10 characters, the format used before YOURLS 1.10.5. YOURLS 1.10.5 and later issue a new, longer token and reject the old one."
+msgstr "Das gespeicherte Token hat 10 Zeichen – das Format vor YOURLS 1.10.5. Ab YOURLS 1.10.5 gibt es ein neues, längeres Token, das alte wird abgelehnt."
+
+#: includes/class-kurl-api.php:471
+msgid "The token changes when YOURLS is updated to version 1.10.5 or later and when YOURLS_COOKIEKEY changes."
+msgstr "Das Token ändert sich beim Update auf YOURLS 1.10.5 oder neuer und wenn sich YOURLS_COOKIEKEY ändert."
+
+#: includes/class-kurl-api.php:473
+msgid "Copy the current token from YOURLS under Tools → Secure passwordless API call, paste it into kURL → Settings, and save."
+msgstr "Kopiere das aktuelle Token in YOURLS unter Tools → Secure passwordless API call, füge es unter kURL → Einstellungen ein und speichere."

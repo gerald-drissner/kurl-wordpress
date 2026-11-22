@@ -7,8 +7,8 @@ plugin package on WordPress.org.
 
 | File | What it checks |
 | --- | --- |
-| `run.php` | Integration suite (142 checks) inside a real WordPress: `wp_get_shortlink()` contexts and modes, shortcode and template tags, auto-create on `wp_after_insert_post`, unlink/delete safety, locks, migration from YOURLS Link Creator / Better YOURLS / Ozh, legacy cleanup, database-error paths, logger, dashboard back-off, uninstall. |
-| `kurl-mock.php` | MU plugin that answers all YOURLS API calls through `pre_http_request` (modes: `ok`, `down`, `http503`, `no-helper`, `echo-secret`, `array-content-type`). |
+| `run.php` | Integration suite (148 checks) inside a real WordPress: `wp_get_shortlink()` contexts and modes, shortcode and template tags, auto-create on `wp_after_insert_post`, unlink/delete safety, locks, migration from YOURLS Link Creator / Better YOURLS / Ozh, legacy cleanup, database-error paths, logger, dashboard back-off, uninstall. |
+| `kurl-mock.php` | MU plugin that answers all YOURLS API calls through `pre_http_request` (modes: `ok`, `down`, `http503`, `auth403`, `waf403`, `no-helper`, `echo-secret`, `array-content-type`). |
 | `multisite-lock.php` | Per-site locks on multisite (`switch_to_blog()`, release in the right table, stale-lock takeover). |
 | `helper-test.php` | Authentication gate of the YOURLS helper in private, public and public-API mode. |
 | `footer-markus.php` + `router.php` | End-to-end check over real HTTP: a theme footer calling `echo wp_get_shortlink()`. |

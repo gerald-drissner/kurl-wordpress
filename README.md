@@ -80,6 +80,10 @@ Action: `kurl_shortlink_changed( $post_id )`.
 
 Install from WordPress.org (**Plugins → Add New → "kURL"**), or upload the ZIP from the [Releases](../../releases) page. Then open **kURL → Settings** and enter your YOURLS API URL (`https://your-domain/yourls-api.php`) and signature token.
 
+## Troubleshooting
+
+**HTTP error 403 "Please log in" after a YOURLS update.** YOURLS 1.10.5 replaced the API signature token with a new, longer one (32 characters instead of 10) and rejects the old token. Copy the current token from YOURLS → Tools → Secure passwordless API call into **kURL → Settings → Signature token** and save. Browser or mail add-ons that use the same token need the new one as well.
+
 ## Development
 
 The tests in [`tests/`](tests/) run against real WordPress installations on SQLite; see [`tests/README.md`](tests/README.md). They are excluded from the WordPress.org package by `.distignore`.

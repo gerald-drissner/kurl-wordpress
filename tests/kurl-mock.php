@@ -33,6 +33,13 @@ add_filter('pre_http_request', function ($pre, $args, $url) {
     if ($GLOBALS['kurl_mock_mode'] === 'no-helper' && ($body['action'] ?? '') === 'kurl_ping') {
         return kurl_mock_response(400, ['statusCode' => 400, 'message' => 'Unknown action']);
     }
+    if ($GLOBALS['kurl_mock_mode'] === 'auth403') {
+        // YOURLS core when the signature is wrong (includes/auth.php).
+        return kurl_mock_response(403, ['simple' => 'Please log in', 'message' => 'Please log in', 'errorCode' => '403', 'callback' => '']);
+    }
+    if ($GLOBALS['kurl_mock_mode'] === 'waf403') {
+        return ['headers' => ['content-type' => 'text/html'], 'body' => '<html><body><h1>403 Forbidden</h1></body></html>', 'response' => ['code' => 403, 'message' => 'Forbidden'], 'cookies' => [], 'filename' => null];
+    }
     if ($GLOBALS['kurl_mock_mode'] === 'http503') {
         $r = kurl_mock_response(503, []);
         $r['body'] = '<html><body>Service Unavailable</body></html>';

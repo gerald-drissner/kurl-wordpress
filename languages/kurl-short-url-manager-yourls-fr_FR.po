@@ -13,7 +13,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "Generated-By: Babel 2.18.0\n"
 
-#: includes/class-kurl-api.php:250
+#: includes/class-kurl-api.php:254
 msgid "A valid target URL and existing short URL are required."
 msgstr ""
 
@@ -261,7 +261,7 @@ msgstr ""
 msgid "Enabled post types"
 msgstr "Types de publications activés"
 
-#: includes/class-kurl-api.php:427
+#: includes/class-kurl-api.php:435
 msgid "Endpoint not found. Check the API URL."
 msgstr "Endpoint non trouvé. Vérifiez l’URL de l’API."
 
@@ -310,7 +310,7 @@ msgstr "Expérimental : vérifie si YOURLS possède déjà une URL courte pour c
 msgid "Failed to copy code. Please copy it manually."
 msgstr "Échec de copier le code. Veuillez le copier manuellement."
 
-#: includes/class-kurl-api.php:425
+#: includes/class-kurl-api.php:433
 msgid "Forbidden. Check your signature or a firewall/security layer."
 msgstr "Interdit. Vérifiez votre signature ou un pare-feu/couche de sécurité."
 
@@ -321,7 +321,7 @@ msgid "Generate / Update"
 msgstr "Générer / Mettre à jour"
 
 #. translators: %d: HTTP status code.
-#: includes/class-kurl-api.php:413
+#: includes/class-kurl-api.php:417
 #, php-format,python-format
 msgid "HTTP error %d."
 msgstr "L’erreur HTTP %d."
@@ -361,7 +361,7 @@ msgstr ""
 msgid "Installation and update instructions"
 msgstr ""
 
-#: includes/class-kurl-api.php:33
+#: includes/class-kurl-api.php:37
 msgid "Invalid API action."
 msgstr "Action API invalide."
 
@@ -441,18 +441,18 @@ msgstr "Outils de migration"
 msgid "Mismatches:"
 msgstr "Divergences :"
 
-#: includes/class-kurl-api.php:28
+#: includes/class-kurl-api.php:32
 msgid "Missing YOURLS API settings."
 msgstr "Il manque les paramètres de l’API YOURLS."
 
-#: includes/class-kurl-api.php:151
-#: includes/class-kurl-api.php:236
+#: includes/class-kurl-api.php:155
+#: includes/class-kurl-api.php:240
 msgid "Missing or invalid target URL."
 msgstr "URL cible manquante ou invalide."
 
-#: includes/class-kurl-api.php:185
-#: includes/class-kurl-api.php:193
-#: includes/class-kurl-api.php:228
+#: includes/class-kurl-api.php:189
+#: includes/class-kurl-api.php:197
+#: includes/class-kurl-api.php:232
 msgid "Missing short URL."
 msgstr "URL courte manquante."
 
@@ -847,7 +847,7 @@ msgstr "Tester l’API"
 msgid "The API URL changed. Enter the signature token for the new YOURLS endpoint; kURL will not send the previously saved token to a different host or path."
 msgstr ""
 
-#: includes/class-kurl-api.php:423
+#: includes/class-kurl-api.php:427
 msgid "The API endpoint redirected the request. Enter the final yourls-api.php URL directly so the signature is not forwarded to another location."
 msgstr ""
 
@@ -859,7 +859,7 @@ msgstr "L’API n’est pas encore configurée. Vous pouvez toujours consulter l
 msgid "The YOURLS entry was already missing; the local shortlink was unlinked from WordPress."
 msgstr ""
 
-#: includes/class-kurl-api.php:431
+#: includes/class-kurl-api.php:439
 msgid "The YOURLS server returned an internal error."
 msgstr "Le serveur YOURLS a renvoyé une erreur interne."
 
@@ -957,7 +957,7 @@ msgstr ""
 msgid "Tip: “Generate / Update” creates a link when the Short URL field is empty. If “Check YOURLS” found an existing link, updating it safely requires the current bundled kURL Helper (%s)."
 msgstr ""
 
-#: includes/class-kurl-api.php:429
+#: includes/class-kurl-api.php:437
 msgid "Too many requests. Please try again later."
 msgstr "Trop de demandes. Veuillez réessayer plus tard."
 
@@ -1083,17 +1083,17 @@ msgstr "YOURLS CONCILIATIONS / comparaisons"
 msgid "YOURLS reports helper version %1$s, but this kURL release requires bundled helper %2$s with all advertised capabilities. Helper-dependent actions are disabled until you replace plugin.php from the kURL Settings page."
 msgstr ""
 
-#: includes/class-kurl-api.php:465
+#: includes/class-kurl-api.php:491
 msgid "YOURLS returned HTML instead of JSON. This usually indicates a PHP error, login page, proxy, or firewall response; check the YOURLS PHP error log."
 msgstr ""
 
 #. translators: %s: JSON parser error.
-#: includes/class-kurl-api.php:469
+#: includes/class-kurl-api.php:495
 #, php-format,python-format
 msgid "YOURLS returned a non-JSON response (%s). Check the YOURLS server and helper plugin."
 msgstr ""
 
-#: includes/class-kurl-api.php:462
+#: includes/class-kurl-api.php:488
 msgid "YOURLS returned an empty response. Check the YOURLS server and PHP error log."
 msgstr ""
 
@@ -1103,7 +1103,7 @@ msgid "YOURLS returned no target URL while verifying the saved short URL."
 msgstr ""
 
 #. translators: %s: Message returned by YOURLS.
-#: includes/class-kurl-api.php:418
+#: includes/class-kurl-api.php:422
 #, php-format,python-format
 msgid "YOURLS says: \"%s\""
 msgstr "YOURLS dit : « %s »"
@@ -1323,7 +1323,7 @@ msgstr ""
 msgid "Custom meta key"
 msgstr ""
 
-#: includes/class-kurl-api.php:83
+#: includes/class-kurl-api.php:87
 msgid "WordPress rejected this address. Its safe HTTP client only connects to host names that resolve to a public IP address, on ports 80, 443, or 8080. Check the host name and port, or allow this endpoint with the kurl_allow_private_api_url filter."
 msgstr ""
 
@@ -1423,4 +1423,24 @@ msgstr[1] ""
 
 #: includes/class-kurl-bulk.php:131
 msgid "Skipped: kURL could not check whether other posts use this short URL."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1874
+msgid "YOURLS 1.10.5 and later use a new, longer token; a token copied from an older version stops working after the update."
+msgstr ""
+
+#: includes/class-kurl-api.php:467
+msgid "YOURLS did not accept the signature token."
+msgstr ""
+
+#: includes/class-kurl-api.php:469
+msgid "The saved token has 10 characters, the format used before YOURLS 1.10.5. YOURLS 1.10.5 and later issue a new, longer token and reject the old one."
+msgstr ""
+
+#: includes/class-kurl-api.php:471
+msgid "The token changes when YOURLS is updated to version 1.10.5 or later and when YOURLS_COOKIEKEY changes."
+msgstr ""
+
+#: includes/class-kurl-api.php:473
+msgid "Copy the current token from YOURLS under Tools → Secure passwordless API call, paste it into kURL → Settings, and save."
 msgstr ""

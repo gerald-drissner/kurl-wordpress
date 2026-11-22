@@ -107,6 +107,10 @@ Only if the optional kURL Helper extension is installed on your YOURLS server. W
 
 Yes. The migration tools import links from Better YOURLS, YOURLS Link Creator, and YOURLS: WordPress to Twitter. Import first, verify a few posts, and only delete the legacy plugin data once everything looks correct. Developers can add further meta keys with the `kurl_legacy_meta_keys` filter.
 
+= After updating YOURLS, kURL shows HTTP error 403 "Please log in". =
+
+YOURLS 1.10.5 replaced the API signature token with a new, longer one (32 characters instead of 10) and rejects the old token. Open YOURLS → Tools → Secure passwordless API call, copy the current token, paste it into **kURL → Settings → Signature token**, and save. Other tools that use the same token, such as browser or mail add-ons, need the new token as well.
+
 = The connection test says "A valid URL was not provided." =
 
 kURL uses WordPress's safe HTTP client. It only connects to host names that resolve to a public IP address, on ports 80, 443, or 8080, so a typo in the host name, a YOURLS installation on another port, or a private address all end in this message. Use a public HTTPS address, or opt in with the `kurl_allow_private_api_url` filter after reviewing the SSRF implications.
@@ -167,6 +171,7 @@ Publishing, performance, stability
 * Warns when the API URL uses unencrypted HTTP and explains when WordPress's safe HTTP client rejected the address.
 * Admin status colors are scoped to kURL screens; long bulk logs keep the newest 1,000 rows in the browser.
 * New filters and actions: `kurl_replace_wp_shortlink`, `kurl_override_existing_shortlink`, `kurl_auto_create_on_publish`, `kurl_legacy_meta_keys`, `kurl_legacy_cleanup_meta_keys`, `kurl_get_shortlink`, `kurl_shortlink_html`, `kurl_batch_time_budget`, `kurl_shortlink_changed`.
+* Improvement: When YOURLS rejects the signature token, kURL says so and explains what to do instead of pointing to a firewall. A saved 10-character token is recognized as the format used before YOURLS 1.10.5, which replaced it with a longer token.
 * Completed the German translation, switched it consistently to the informal address used by WordPress's de_DE locale, and added missing translator comments.
 
 = 1.0.9 =
