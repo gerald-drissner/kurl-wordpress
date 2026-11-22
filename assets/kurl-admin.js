@@ -111,6 +111,19 @@ jQuery(function ($) {
         }
     }
 
+    // Long runs append one row per post. Keep the newest rows only, so a run
+    // over thousands of posts does not slow the browser down.
+    const MAX_LOG_ROWS = 1000;
+    function trimLogRows(box) {
+        if (!box.length) {
+            return;
+        }
+        const rows = box.children();
+        if (rows.length > MAX_LOG_ROWS) {
+            rows.slice(0, rows.length - MAX_LOG_ROWS).remove();
+        }
+    }
+
     function escapeHtml(value) {
         return $('<div>').text(value == null ? '' : String(value)).html();
     }
@@ -291,10 +304,15 @@ jQuery(function ($) {
         }
         setInlineStatus(button, kurlAdmin.strings.working, '');
         setButtonBusy(button, true);
+        // Send the scope the user just confirmed. The server never widens a
+        // confirmed local unlink into a remote deletion.
+        const deleteMode = kurlAdmin.helperStatus && kurlAdmin.helperStatus.delete_available ? 'remote' : 'local';
         $.post(kurlAdmin.ajaxUrl, {
             action: 'kurl_delete_post_link',
             nonce: kurlAdmin.nonce,
-            post_id: button.data('post')
+            post_id: button.data('post'),
+            delete_mode: deleteMode,
+            shorturl: box.find('.kurl-shorturl').val() || ''
         }).done(function (response) {
             if (response && response.success) {
                 box.find('.kurl-shorturl').val('');
@@ -306,6 +324,9 @@ jQuery(function ($) {
                 setInlineStatus(button, response && response.data && response.data.message ? response.data.message : kurlAdmin.strings.error, 'error');
             }
         }).fail(function (xhr) {
+            if (xhr && xhr.responseJSON && xhr.responseJSON.data && xhr.responseJSON.data.helper_status) {
+                applyHelperStatus(xhr.responseJSON.data.helper_status);
+            }
             setInlineStatus(button, getAjaxErrorMessage(xhr), 'error');
         }).always(function () {
             setButtonBusy(button, false);
@@ -501,6 +522,7 @@ jQuery(function ($) {
         }
         function appendLogRow(html) {
             logBox.append(html);
+            trimLogRows(logBox);
             if (logBox.length && logBox[0]) {
                 logBox.scrollTop(logBox[0].scrollHeight);
             }
@@ -617,6 +639,7 @@ jQuery(function ($) {
 
         function reconcileAppendLog(html) {
             reconcileLog.append(html);
+            trimLogRows(reconcileLog);
             if (reconcileLog.length && reconcileLog[0]) {
                 reconcileLog.scrollTop(reconcileLog[0].scrollHeight);
             }

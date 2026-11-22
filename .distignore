@@ -1,7 +1,9 @@
 .git
 .gitignore
+.gitattributes
 .github
 .distignore
+README.md
 *.zip
 .DS_Store
 node_modules

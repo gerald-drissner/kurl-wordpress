@@ -8,14 +8,34 @@ on:
       - '.wordpress-org/**'
   workflow_dispatch:
 
+# One SVN writer at a time (shared with deploy-wordpress.yml).
+concurrency:
+  group: wporg-svn
+  cancel-in-progress: false
+
 jobs:
   update-assets:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
       uses: actions/checkout@v7
-    
+
+    # A readme for a new version must not reach trunk before its code: the
+    # tag deploy publishes readme and assets together with the release.
+    - name: Check that the stable tag is already on WordPress.org
+      id: guard
+      run: |
+        stable=$(grep -m1 -E '^Stable tag:' readme.txt | awk '{print $NF}' | tr -d '\r')
+        status=$(curl -s -o /dev/null -w '%{http_code}' "https://plugins.svn.wordpress.org/kurl-short-url-manager-yourls/tags/$stable/")
+        if [ "$status" = "200" ]; then
+          echo "publish=true" >> "$GITHUB_OUTPUT"
+        else
+          echo "publish=false" >> "$GITHUB_OUTPUT"
+          echo "::notice::Stable tag $stable is not on WordPress.org yet (HTTP $status). Skipped; pushing the tag $stable deploys code, readme and assets."
+        fi
+
     - name: WordPress.org plugin asset/readme update
+      if: steps.guard.outputs.publish == 'true'
       uses: 10up/action-wordpress-plugin-asset-update@stable
       env:
         SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}

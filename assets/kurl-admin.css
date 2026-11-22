@@ -23,12 +23,12 @@
 .kurl-log-level { display:inline-block; min-width:72px; font-weight:700; }
 .kurl-log-message { color:#0f172a; }
 .kurl-log-context { margin:8px 0 0; padding:10px; border-radius:10px; background:#eef4fb; color:#334155; white-space:pre-wrap; word-break:break-word; }
-.kurl-level-error .kurl-log-level, .status-error { color:#b91c1c; }
+.kurl-level-error .kurl-log-level, .kurl-admin .status-error { color:#b91c1c; }
 .kurl-level-warning .kurl-log-level { color:#b45309; }
-.kurl-level-info .kurl-log-level, .status-created, .status-updated, .status-imported, .status-success, .status-verified { color:#166534; }
+.kurl-level-info .kurl-log-level, .kurl-admin .status-created, .kurl-admin .status-updated, .kurl-admin .status-imported, .kurl-admin .status-success, .kurl-admin .status-verified { color:#166534; }
 .kurl-level-debug .kurl-log-level { color:#1d4ed8; }
-.status-skipped_existing, .status-skipped, .status-would_import, .status-would_replace { color:#475569; }
-.status-mismatch { color:#b45309; }
+.kurl-admin .status-skipped_existing, .kurl-admin .status-skipped, .kurl-admin .status-would_import, .kurl-admin .status-would_replace { color:#475569; }
+.kurl-admin .status-mismatch { color:#b45309; }
 .kurl-progress { overflow:hidden; width:100%; height:24px; margin:16px 0; border-radius:999px; background:#e5eef8; }
 .kurl-progress-bar { width:0; height:24px; background:linear-gradient(90deg,#2563eb,#0ea5e9); color:#ffffff; font-weight:700; line-height:24px; text-align:center; white-space:nowrap; transition:width .25s ease; }
 .kurl-bulk-stats { margin:8px 0 14px; padding:12px 14px; border:1px solid #d9e5f1; border-radius:12px; background:#f8fbff; line-height:1.6; }

@@ -1,1256 +1,1447 @@
-# Translations template for kURL.
 # Copyright (C) 2026 Gerald Drißner
-# This file is distributed under the same license as the kURL project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
-#
-#, fuzzy
+# This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: kURL 1.0.8\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-07-30 18:27+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Project-Id-Version: kURL – Short URL Manager for YOURLS 1.1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/kurl-short-url-manager-yourls\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.18.0\n"
+"POT-Creation-Date: 2026-11-22T06:38:53+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: kurl-short-url-manager-yourls\n"
 
-#: includes/class-kurl-api.php:232
-msgid "A valid target URL and existing short URL are required."
+#. Plugin Name of the plugin
+#: kurl.php
+msgid "kURL – Short URL Manager for YOURLS"
 msgstr ""
 
-#: includes/class-kurl-admin.php:1489
-msgid "AJAX batches help avoid long-running admin requests and timeout problems."
+#. Description of the plugin
+#: kurl.php
+msgid "Modern YOURLS integration for WordPress with dashboard statistics, bulk link generation, sync and cleanup tools, logging, and editor tools."
 msgstr ""
 
-#: includes/class-kurl-admin.php:245
-msgid "AJAX error:"
+#. Author of the plugin
+#: kurl.php
+msgid "Gerald Drißner"
 msgstr ""
 
-#: includes/class-kurl-admin.php:1638
-msgid "API connection"
+#. Author URI of the plugin
+#: kurl.php
+msgid "https://drissner.media"
 msgstr ""
 
-#: includes/class-kurl-bulk.php:119
-msgid "API did not return a short URL."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1244
-msgid "API status"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1660
-msgid "API timeout"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1248
-msgid "Active"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1231
-msgid "Add your API URL and signature in Settings."
-msgstr ""
-
-#: includes/class-kurl-bulk.php:62
-#, python-format
-msgid "Already has URL: %s"
-msgstr ""
-
-#: includes/class-kurl-bulk.php:68
-#, python-format
-msgid "Already imported: %s"
-msgstr ""
-
-#: includes/class-kurl-admin.php:536
-msgid "An existing YOURLS short URL was found for that URL."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1253
-#, python-format
-msgid ""
-"An outdated or incomplete helper was detected. Install bundled version %s before using helper-"
-"dependent actions."
-msgstr ""
-
-#: includes/class-kurl-admin.php:267
-msgid "Apply changes"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1668
-msgid "Are you sure you want to disconnect? This will clear your API URL and signature."
-msgstr ""
-
-#: includes/class-kurl-admin.php:214
-msgid ""
-"Are you sure you want to permanently delete this shortlink from WordPress and your YOURLS "
-"database?"
-msgstr ""
-
-#: includes/class-kurl-admin.php:215
-msgid ""
-"Are you sure you want to unlink this shortlink from WordPress? You will still need to delete the "
-"old link manually in YOURLS before reusing the same custom slug."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1661
-msgid "Auto create"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1661
-msgid "Automatically create a short URL when publishing"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1496 includes/class-kurl-admin.php:1557
-msgid "Batch size"
-msgstr ""
-
-#: includes/class-kurl-admin.php:201
-msgid "Bulk Generator"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1251
-#, python-format
-msgid "Bundled helper %s is verified. Safe lookup, remote deletion, and reconciliation are available."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1659
-msgid "Cache (minutes)"
-msgstr ""
-
-#: includes/class-kurl-admin.php:251 includes/class-kurl-admin.php:346
-msgid "Check / Sync"
-msgstr ""
-
-#: includes/class-kurl-admin.php:258 includes/class-kurl-admin.php:1279
-msgid "Check YOURLS"
-msgstr ""
-
-#: includes/class-kurl-admin.php:259
-msgid "Checked:"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1555
-msgid ""
-"Checks enabled posts against YOURLS in AJAX batches to avoid timeouts. If the helper plugin can "
-"find a matching long URL, kURL can import or replace the local entry. Existing local short URLs "
-"are also verified against the current permalink."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1553
-msgid "Clean local database"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1304 includes/class-kurl-admin.php:1453
-msgid "Clicks"
-msgstr ""
-
-#: includes/class-kurl-admin.php:229 includes/class-kurl-admin.php:352
-msgid "Clicks:"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1699
-msgid "Connect to your YOURLS server via FTP, SFTP, your hosting file manager, or SSH."
-msgstr ""
-
-#: includes/class-kurl-admin.php:252 includes/class-kurl-admin.php:1228
-msgid "Connected"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1228
-msgid "Connection failed"
-msgstr ""
-
-#: includes/class-kurl-admin.php:812
-#, python-format
-msgid ""
-"Connection successful, but the YOURLS helper is outdated or incomplete. Replace it with bundled "
-"version %s from the Settings page."
-msgstr ""
-
-#: includes/class-kurl-admin.php:811
-msgid "Connection successful. Current bundled helper detected and verified."
-msgstr ""
-
-#: includes/class-kurl-admin.php:814
-msgid "Connection successful. Standard API only."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1696
-msgid "Copied!"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1695
-msgid "Copy code to clipboard"
-msgstr ""
-
-#: includes/class-kurl-admin.php:583
-msgid "Could not determine the keyword of the existing short URL."
-msgstr ""
-
-#: includes/class-kurl-admin.php:399
-msgid "Could not determine the keyword of the saved short URL."
-msgstr ""
-
-#: includes/class-kurl-admin.php:376 includes/class-kurl-admin.php:444
-#: includes/class-kurl-admin.php:1086
-msgid "Could not determine the permalink."
-msgstr ""
-
-#: includes/class-kurl-bulk.php:83
-msgid "Could not get permalink."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1449
-msgid "Created"
-msgstr ""
-
-#: includes/class-kurl-admin.php:234
-msgid "Created:"
-msgstr ""
-
-#: includes/class-kurl-admin.php:200 kurl.php:84
-msgid "Dashboard"
-msgstr ""
-
-#: includes/class-kurl-admin.php:256 includes/class-kurl-admin.php:1284
-msgid "Delete"
-msgstr ""
-
-#: includes/class-kurl-admin.php:334
-msgid "Delete & Unlink"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1663
-msgid "Delete all kURL data on uninstall"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1579
-msgid "Delete log"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1709
-msgid "Delete old Better YOURLS data"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1709
-msgid "Delete old Better YOURLS data?"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1579
-msgid "Delete the current log?"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1634
-#, python-format
-msgid "Deleted %d old Better YOURLS meta rows."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1668
-msgid "Disconnect API"
-msgstr ""
-
-#: includes/class-kurl-admin.php:224
-msgid "Done"
-msgstr ""
-
-#: includes/class-kurl-admin.php:240
-msgid "Done."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1694
-msgid "Download bundled plugin.php"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1680
-msgid "Enable remote deletion and safe lookup (optional)"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1653
-msgid "Enabled post types"
-msgstr ""
-
-#: includes/class-kurl-api.php:409
-msgid "Endpoint not found. Check the API URL."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1620
-msgid ""
-"Enter a complete HTTP or HTTPS URL for your YOURLS installation. To remove a configured "
-"connection, use Disconnect. The existing connection was not changed."
-msgstr ""
-
-#: includes/class-kurl-admin.php:776
-msgid "Enter a valid YOURLS API URL and signature before testing."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1651
-msgid ""
-"Enter your main YOURLS domain (for example <code>https://yalla.li</code>). kURL will "
-"automatically append <code>/yourls-api.php</code> when needed."
-msgstr ""
-
-#: includes/class-kurl-admin.php:225
-msgid "Error"
-msgstr ""
-
-#: includes/class-kurl-admin.php:244
-msgid "Error:"
-msgstr ""
-
-#: includes/class-kurl-admin.php:238 includes/class-kurl-admin.php:265
-msgid "Errors:"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1498
-msgid "Existing links"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1525
-msgid ""
-"Experimental tools to compare WordPress content with your YOURLS database and clean stale local "
-"data."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1555
-msgid "Experimental:"
-msgstr ""
-
-#: includes/class-kurl-admin.php:354
-msgid ""
-"Experimental: Check whether YOURLS already has a short URL for this permalink and sync it into "
-"WordPress."
-msgstr ""
-
-#: includes/class-kurl-admin.php:232
-msgid "Failed to copy code. Please copy it manually."
-msgstr ""
-
-#: includes/class-kurl-api.php:407
-msgid "Forbidden. Check your signature or a firewall/security layer."
-msgstr ""
-
-#: includes/class-kurl-admin.php:257 includes/class-kurl-admin.php:345
-#: includes/class-kurl-admin.php:1280
-msgid "Generate / Update"
-msgstr ""
-
-#: includes/class-kurl-api.php:395
-#, python-format
-msgid "HTTP error %d."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1246
-msgid "Helper extension"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1710
-msgid ""
-"Import first, verify a few posts, then delete the old Better YOURLS data once everything looks "
-"correct."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1705
-msgid "Import from Better YOURLS"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1498
-msgid "Import old Better YOURLS first"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1631
-msgid "Imported %1$d old links and skipped %2$d existing ones."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1149
-#, python-format
-msgid "Imported existing YOURLS short URL: %s"
-msgstr ""
-
-#: includes/class-kurl-bulk.php:75
-#, python-format
-msgid "Imported old URL: %s"
-msgstr ""
-
-#: includes/class-kurl-admin.php:236 includes/class-kurl-admin.php:260
-msgid "Imported:"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1254
-msgid "Install the bundled helper to enable safe lookup, remote deletion, and advanced reconciliation."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1698
-msgid "Installation and update instructions"
-msgstr ""
-
-#: includes/class-kurl-api.php:33
-msgid "Invalid API action."
-msgstr ""
-
-#: includes/class-kurl-admin.php:366 includes/class-kurl-admin.php:437
-msgid "Invalid post."
-msgstr ""
-
-#: includes/class-kurl-admin.php:340 includes/class-kurl-admin.php:1275
-msgid "Keyword / Slug"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1233
-msgid "Last dashboard refresh reached your YOURLS API successfully."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1302
-msgid "Latest shortlinks saved in WordPress"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1652
-msgid "Leave blank only when keeping the same API URL"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1275
-msgid ""
-"Leave empty to let YOURLS use a random keyword. The Regenerate button uses the keyword field if "
-"you filled it in, otherwise it requests a new random keyword."
-msgstr ""
-
-#: includes/class-kurl-admin.php:230
-msgid "Links:"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1530
-msgid ""
-"Local cleanup finished. Keywords removed: %1$d, stats removed: %2$d, URLs normalized: %3$d, "
-"invalid URL records removed: %4$d."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1550
-msgid "Local database cleanup"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1108
-msgid "Local short URL expands to the current permalink."
-msgstr ""
-
-#: includes/class-kurl-admin.php:485
-msgid "Local short URL replaced with the matching YOURLS entry."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1574
-msgid "Log cleared."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1259
-msgid "Log entries"
-msgstr ""
-
-#: includes/class-kurl-admin.php:203
-msgid "Logs"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1270
-msgid "Manual shortener"
-msgstr ""
-
-#: includes/class-kurl-admin.php:486
-msgid "Matching YOURLS short URL imported successfully."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1702
-msgid "Migration tools"
-msgstr ""
-
-#: includes/class-kurl-admin.php:263
-msgid "Mismatches:"
-msgstr ""
-
-#: includes/class-kurl-api.php:28
-msgid "Missing YOURLS API settings."
-msgstr ""
-
-#: includes/class-kurl-api.php:133 includes/class-kurl-api.php:218
-msgid "Missing or invalid target URL."
-msgstr ""
-
-#: includes/class-kurl-api.php:167 includes/class-kurl-api.php:175 includes/class-kurl-api.php:210
-msgid "Missing short URL."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1558
-msgid "Mode"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1444
-msgid "No YOURLS link data is available yet for this section."
-msgstr ""
-
-#: includes/class-kurl-admin.php:231
-msgid "No code found to copy."
-msgstr ""
-
-#: includes/class-kurl-admin.php:544
-msgid "No existing YOURLS short URL was found for that URL."
-msgstr ""
-
-#: includes/class-kurl-admin.php:667
-msgid "No existing YOURLS short URL was found to regenerate."
-msgstr ""
-
-#: includes/class-kurl-admin.php:513
-msgid ""
-"No helper match was found. The standard API returned or created a short URL and synced it into "
-"WordPress."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1206
-msgid "No local short URL to verify, and safe reverse lookup needs the helper plugin."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1592
-msgid "No log entries in the last 7 days."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1205
-msgid "No matching YOURLS entry was found for this permalink."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1316
-msgid "No saved kURL entries yet."
-msgstr ""
-
-#: includes/class-kurl-admin.php:731
-msgid "No saved shortlink was found."
-msgstr ""
-
-#: includes/class-kurl-admin.php:708
-msgid "No short URL saved yet."
-msgstr ""
-
-#: includes/class-kurl-admin.php:253 includes/class-kurl-admin.php:1227
-msgid "Not connected"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1259
-msgid "Only the last 7 days are retained."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1699
-msgid "Open <code>user/plugins/kurl-api/</code>. Create the folder if it does not exist."
-msgstr ""
-
-#: includes/class-kurl-admin.php:163
-msgid "Open kURL Settings"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1699
-msgid "Open the YOURLS plugin manager and activate “kURL Helper” if it is not already active."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1500
-#, python-format
-msgid "Overwrite mode is disabled until bundled kURL Helper %s is installed and verified."
-msgstr ""
-
-#: includes/class-kurl-bulk.php:36
-#, python-format
-msgid ""
-"Overwrite mode requires the current bundled kURL Helper (%s). Update it on the Settings page and "
-"try again."
-msgstr ""
-
-#: includes/class-kurl-admin.php:227
-msgid ""
-"Permanently delete this short URL from YOURLS? kURL will block deletion if a WordPress post still"
-" references it."
-msgstr ""
-
-#: includes/class-kurl-admin.php:362 includes/class-kurl-admin.php:433
-#: includes/class-kurl-admin.php:700 includes/class-kurl-admin.php:723
-#: includes/class-kurl-admin.php:836 includes/class-kurl-admin.php:1715
-#: includes/class-kurl-admin.php:1724 includes/class-kurl-bulk.php:15
+#: includes/class-kurl-admin.php:133
+#: includes/class-kurl-admin.php:407
+#: includes/class-kurl-admin.php:481
+#: includes/class-kurl-admin.php:758
+#: includes/class-kurl-admin.php:782
+#: includes/class-kurl-admin.php:942
+#: includes/class-kurl-admin.php:1965
+#: includes/class-kurl-admin.php:1974
+#: includes/class-kurl-bulk.php:15
 msgid "Permission denied."
 msgstr ""
 
-#: includes/class-kurl-admin.php:1718 includes/class-kurl-bulk.php:32
-msgid "Please configure the YOURLS API first."
+#: includes/class-kurl-admin.php:167
+msgid "unknown"
 msgstr ""
 
-#: includes/class-kurl-admin.php:523 includes/class-kurl-admin.php:563
+#: includes/class-kurl-admin.php:170
+#: includes/class-kurl-admin.php:2181
+msgid "kURL Helper update required."
+msgstr ""
+
+#. translators: 1: Detected helper version. 2: Required bundled helper version.
+#: includes/class-kurl-admin.php:173
+#: includes/class-kurl-admin.php:2183
+#, php-format
+msgid "YOURLS reports helper version %1$s, but this kURL release requires bundled helper %2$s with all advertised capabilities. Helper-dependent actions are disabled until you replace plugin.php from the kURL Settings page."
+msgstr ""
+
+#: includes/class-kurl-admin.php:177
+#: includes/class-kurl-admin.php:2184
+msgid "Open kURL Settings"
+msgstr ""
+
+#: includes/class-kurl-admin.php:186
+msgid "The bundled helper file is missing from this kURL installation."
+msgstr ""
+
+#: includes/class-kurl-admin.php:206
+msgid "kURL"
+msgstr ""
+
+#: includes/class-kurl-admin.php:207
+#: kurl.php:141
+msgid "Dashboard"
+msgstr ""
+
+#: includes/class-kurl-admin.php:208
+msgid "Bulk Generator"
+msgstr ""
+
+#: includes/class-kurl-admin.php:209
+#: includes/class-kurl-admin.php:1718
+msgid "Sync & Cleanup"
+msgstr ""
+
+#: includes/class-kurl-admin.php:210
+msgid "Logs"
+msgstr ""
+
+#: includes/class-kurl-admin.php:211
+#: kurl.php:142
+msgid "Settings"
+msgstr ""
+
+#: includes/class-kurl-admin.php:255
+#: includes/class-kurl-admin.php:2172
+msgid "Are you sure you want to permanently delete this shortlink from WordPress and your YOURLS database?"
+msgstr ""
+
+#: includes/class-kurl-admin.php:256
+#: includes/class-kurl-admin.php:2173
+msgid "Are you sure you want to unlink this shortlink from WordPress? You will still need to delete the old link manually in YOURLS before reusing the same custom slug."
+msgstr ""
+
+#: includes/class-kurl-admin.php:268
+msgid "Working…"
+msgstr ""
+
+#: includes/class-kurl-admin.php:269
+msgid "Done"
+msgstr ""
+
+#: includes/class-kurl-admin.php:270
+msgid "Error"
+msgstr ""
+
+#: includes/class-kurl-admin.php:272
+msgid "Permanently delete this short URL from YOURLS? kURL will block deletion if a WordPress post still references it."
+msgstr ""
+
+#: includes/class-kurl-admin.php:273
+msgid "Regenerate this short URL safely? YOURLS will keep the existing link unchanged if the replacement is rejected."
+msgstr ""
+
+#: includes/class-kurl-admin.php:274
+#: includes/class-kurl-admin.php:397
+msgid "Clicks:"
+msgstr ""
+
+#: includes/class-kurl-admin.php:275
+msgid "Links:"
+msgstr ""
+
+#: includes/class-kurl-admin.php:276
+msgid "No code found to copy."
+msgstr ""
+
+#: includes/class-kurl-admin.php:277
+msgid "Failed to copy code. Please copy it manually."
+msgstr ""
+
+#: includes/class-kurl-admin.php:278
+msgid "Processed:"
+msgstr ""
+
+#: includes/class-kurl-admin.php:279
+msgid "Created:"
+msgstr ""
+
+#: includes/class-kurl-admin.php:280
+msgid "Updated:"
+msgstr ""
+
+#: includes/class-kurl-admin.php:281
+#: includes/class-kurl-admin.php:305
+msgid "Imported:"
+msgstr ""
+
+#: includes/class-kurl-admin.php:282
+#: includes/class-kurl-admin.php:309
+msgid "Skipped:"
+msgstr ""
+
+#: includes/class-kurl-admin.php:283
+#: includes/class-kurl-admin.php:310
+msgid "Errors:"
+msgstr ""
+
+#: includes/class-kurl-admin.php:284
+msgid "Status:"
+msgstr ""
+
+#: includes/class-kurl-admin.php:285
+msgid "Done."
+msgstr ""
+
+#: includes/class-kurl-admin.php:286
+msgid "done"
+msgstr ""
+
+#: includes/class-kurl-admin.php:287
+msgid "Stopping after the current batch…"
+msgstr ""
+
+#: includes/class-kurl-admin.php:288
+msgid "Stopped."
+msgstr ""
+
+#: includes/class-kurl-admin.php:289
+msgid "Error:"
+msgstr ""
+
+#: includes/class-kurl-admin.php:290
+msgid "AJAX error:"
+msgstr ""
+
+#: includes/class-kurl-admin.php:291
+msgid "created"
+msgstr ""
+
+#: includes/class-kurl-admin.php:292
+msgid "updated"
+msgstr ""
+
+#: includes/class-kurl-admin.php:293
+msgid "imported"
+msgstr ""
+
+#: includes/class-kurl-admin.php:294
+msgid "skipped existing"
+msgstr ""
+
+#: includes/class-kurl-admin.php:295
+msgid "error"
+msgstr ""
+
+#: includes/class-kurl-admin.php:296
+#: includes/class-kurl-admin.php:391
+msgid "Check / Sync"
+msgstr ""
+
+#: includes/class-kurl-admin.php:297
+#: includes/class-kurl-admin.php:1398
+msgid "Connected"
+msgstr ""
+
+#: includes/class-kurl-admin.php:298
+#: includes/class-kurl-admin.php:1397
+msgid "Not connected"
+msgstr ""
+
+#: includes/class-kurl-admin.php:299
+msgid "Safe lookup needs the helper plugin."
+msgstr ""
+
+#: includes/class-kurl-admin.php:300
+msgid "Regenerate"
+msgstr ""
+
+#: includes/class-kurl-admin.php:301
+#: includes/class-kurl-admin.php:1451
+msgid "Delete"
+msgstr ""
+
+#: includes/class-kurl-admin.php:302
+#: includes/class-kurl-admin.php:390
+#: includes/class-kurl-admin.php:1447
+msgid "Generate / Update"
+msgstr ""
+
+#: includes/class-kurl-admin.php:303
+#: includes/class-kurl-admin.php:1446
+msgid "Check YOURLS"
+msgstr ""
+
+#: includes/class-kurl-admin.php:304
+msgid "Checked:"
+msgstr ""
+
+#: includes/class-kurl-admin.php:306
+msgid "Replaced:"
+msgstr ""
+
+#: includes/class-kurl-admin.php:307
+msgid "Verified:"
+msgstr ""
+
+#: includes/class-kurl-admin.php:308
+msgid "Mismatches:"
+msgstr ""
+
+#: includes/class-kurl-admin.php:311
+msgid "Preview only"
+msgstr ""
+
+#: includes/class-kurl-admin.php:312
+msgid "Apply changes"
+msgstr ""
+
+#: includes/class-kurl-admin.php:313
+msgid "Reconciliation finished."
+msgstr ""
+
+#: includes/class-kurl-admin.php:314
+msgid "Stopping reconciliation after the current batch…"
+msgstr ""
+
+#: includes/class-kurl-admin.php:315
+msgid "Reconciliation stopped."
+msgstr ""
+
+#: includes/class-kurl-admin.php:316
+msgid "would import"
+msgstr ""
+
+#: includes/class-kurl-admin.php:317
+msgid "would replace"
+msgstr ""
+
+#: includes/class-kurl-admin.php:318
+msgid "verified"
+msgstr ""
+
+#: includes/class-kurl-admin.php:319
+msgid "mismatch"
+msgstr ""
+
+#: includes/class-kurl-admin.php:320
+msgid "skipped"
+msgstr ""
+
+#: includes/class-kurl-admin.php:331
+#: includes/class-kurl-admin.php:336
+#: includes/class-kurl-admin.php:387
+#: includes/class-kurl-admin.php:1443
+#: includes/class-kurl-admin.php:1472
+#: includes/class-kurl-admin.php:1638
+msgid "Short URL"
+msgstr ""
+
+#: includes/class-kurl-admin.php:369
+msgid "kURL Shortlink"
+msgstr ""
+
+#: includes/class-kurl-admin.php:379
+#: includes/class-kurl-admin.php:2170
+msgid "Delete & Unlink"
+msgstr ""
+
+#: includes/class-kurl-admin.php:379
+#: includes/class-kurl-admin.php:2170
+msgid "Unlink Locally"
+msgstr ""
+
+#: includes/class-kurl-admin.php:385
+#: includes/class-kurl-admin.php:1442
+msgid "Keyword / Slug"
+msgstr ""
+
+#: includes/class-kurl-admin.php:386
+msgid "optional-custom-slug"
+msgstr ""
+
+#: includes/class-kurl-admin.php:392
+msgid "Refresh Stats"
+msgstr ""
+
+#: includes/class-kurl-admin.php:399
+msgid "Experimental: Check whether YOURLS already has a short URL for this permalink and sync it into WordPress."
+msgstr ""
+
+#: includes/class-kurl-admin.php:411
+#: includes/class-kurl-admin.php:485
+msgid "Invalid post."
+msgstr ""
+
+#: includes/class-kurl-admin.php:414
+#: includes/class-kurl-admin.php:488
+msgid "This post type is not enabled for kURL."
+msgstr ""
+
+#: includes/class-kurl-admin.php:421
+#: includes/class-kurl-admin.php:492
+#: includes/class-kurl-admin.php:1246
+msgid "Could not determine the permalink."
+msgstr ""
+
+#: includes/class-kurl-admin.php:430
+msgid "This short URL is also referenced by another WordPress post. kURL will not edit the shared YOURLS entry from this post."
+msgstr ""
+
+#. translators: %s: Required kURL Helper version.
+#: includes/class-kurl-admin.php:437
+#: includes/class-kurl-admin.php:626
+#, php-format
+msgid "Updating an existing YOURLS link safely requires the current bundled kURL Helper (%s). Update it on the Settings page, test the API, and try again."
+msgstr ""
+
+#: includes/class-kurl-admin.php:446
+msgid "Could not determine the keyword of the saved short URL."
+msgstr ""
+
+#: includes/class-kurl-admin.php:460
+#: includes/class-kurl-admin.php:558
+#: includes/class-kurl-admin.php:645
+#: includes/class-kurl-admin.php:739
+msgid "YOURLS did not return a short URL."
+msgstr ""
+
+#: includes/class-kurl-admin.php:469
 #: includes/class-kurl-admin.php:656
+msgid "The existing YOURLS short URL was updated safely."
+msgstr ""
+
+#. translators: %s: Short URL returned by YOURLS.
+#: includes/class-kurl-admin.php:472
+#, php-format
+msgid "YOURLS adjusted the requested keyword. The returned short URL was saved instead: %s"
+msgstr ""
+
+#: includes/class-kurl-admin.php:473
+msgid "Shortlink saved successfully."
+msgstr ""
+
+#: includes/class-kurl-admin.php:507
+msgid "The saved short URL already matches the current permalink."
+msgstr ""
+
+#: includes/class-kurl-admin.php:512
+#: includes/class-kurl-admin.php:1275
+msgid "YOURLS returned no target URL while verifying the saved short URL."
+msgstr ""
+
+#: includes/class-kurl-admin.php:533
+#: includes/class-kurl-admin.php:1295
+msgid "The helper confirmed that the saved short URL belongs to the current permalink."
+msgstr ""
+
+#: includes/class-kurl-admin.php:534
+msgid "Local short URL replaced with the matching YOURLS entry."
+msgstr ""
+
+#: includes/class-kurl-admin.php:535
+msgid "Matching YOURLS short URL imported successfully."
+msgstr ""
+
+#: includes/class-kurl-admin.php:549
+msgid "The saved short URL points to a different long URL in YOURLS. Review this manually before replacing it."
+msgstr ""
+
+#: includes/class-kurl-admin.php:562
+msgid "No helper match was found. The standard API returned or created a short URL and synced it into WordPress."
+msgstr ""
+
+#: includes/class-kurl-admin.php:572
+#: includes/class-kurl-admin.php:612
+#: includes/class-kurl-admin.php:712
 msgid "Please enter a valid URL."
 msgstr ""
 
-#: includes/class-kurl-admin.php:622
+#: includes/class-kurl-admin.php:576
+msgid "Safe lookup needs the optional kURL Helper plugin on your YOURLS server."
+msgstr ""
+
+#: includes/class-kurl-admin.php:585
+msgid "An existing YOURLS short URL was found for that URL."
+msgstr ""
+
+#: includes/class-kurl-admin.php:593
+msgid "No existing YOURLS short URL was found for that URL."
+msgstr ""
+
+#: includes/class-kurl-admin.php:619
+msgid "This short URL is referenced by one or more WordPress posts. Update it from the relevant post editor or unlink those references first."
+msgstr ""
+
+#: includes/class-kurl-admin.php:633
+msgid "Could not determine the keyword of the existing short URL."
+msgstr ""
+
+#. translators: %s: Short URL returned by YOURLS.
+#: includes/class-kurl-admin.php:655
+#, php-format
+msgid "YOURLS adjusted the requested keyword and updated this short URL instead: %s"
+msgstr ""
+
+#. translators: %s: Short URL returned by YOURLS.
+#: includes/class-kurl-admin.php:659
+#, php-format
+msgid "YOURLS adjusted the requested keyword and returned this short URL: %s"
+msgstr ""
+
+#: includes/class-kurl-admin.php:660
+msgid "Short URL generated successfully."
+msgstr ""
+
+#. translators: %s: Required kURL Helper version.
+#: includes/class-kurl-admin.php:670
+#, php-format
+msgid "Remote deletion requires the current bundled kURL Helper (%s). Update it on the Settings page and test the API again."
+msgstr ""
+
+#: includes/class-kurl-admin.php:676
 msgid "Please enter or look up a short URL first."
 msgstr ""
 
-#: includes/class-kurl-admin.php:1304
+#: includes/class-kurl-admin.php:680
+msgid "This short URL is referenced by one or more WordPress posts. Delete or unlink those references from the post editor before deleting the YOURLS entry."
+msgstr ""
+
+#: includes/class-kurl-admin.php:690
+msgid "Short URL deleted in YOURLS."
+msgstr ""
+
+#: includes/class-kurl-admin.php:691
+msgid "The short URL was already absent from YOURLS."
+msgstr ""
+
+#. translators: %s: Required kURL Helper version.
+#: includes/class-kurl-admin.php:700
+#, php-format
+msgid "Safe regeneration requires the current bundled kURL Helper (%s). Update it on the Settings page and test the API again."
+msgstr ""
+
+#: includes/class-kurl-admin.php:723
+msgid "No existing YOURLS short URL was found to regenerate."
+msgstr ""
+
+#: includes/class-kurl-admin.php:727
+msgid "This short URL is referenced by one or more WordPress posts. Regenerate it from the relevant post editor or unlink those references first."
+msgstr ""
+
+#. translators: %s: Short URL returned by YOURLS.
+#: includes/class-kurl-admin.php:748
+#, php-format
+msgid "YOURLS adjusted the requested keyword and regenerated this short URL instead: %s"
+msgstr ""
+
+#: includes/class-kurl-admin.php:750
+msgid "Short URL regenerated with the requested keyword."
+msgstr ""
+
+#: includes/class-kurl-admin.php:751
+msgid "Short URL regenerated with a new random keyword."
+msgstr ""
+
+#: includes/class-kurl-admin.php:762
+#: includes/class-kurl-admin.php:786
+msgid "This post is not enabled for kURL."
+msgstr ""
+
+#: includes/class-kurl-admin.php:767
+msgid "No short URL saved yet."
+msgstr ""
+
+#: includes/class-kurl-admin.php:801
+msgid "No saved shortlink was found."
+msgstr ""
+
+#: includes/class-kurl-admin.php:807
+msgid "Nothing was changed: the editor did not send the short URL you confirmed. Reload the editor and try again."
+msgstr ""
+
+#. translators: %s: Short URL currently stored for the post.
+#: includes/class-kurl-admin.php:814
+#, php-format
+msgid "Nothing was changed: the short URL of this post is now %s, not the one you confirmed. Reload the editor and check it before deleting."
+msgstr ""
+
+#: includes/class-kurl-admin.php:823
+msgid "The link was unlinked from this post, but the YOURLS entry was kept because another WordPress post still references it."
+msgstr ""
+
+#: includes/class-kurl-admin.php:831
+msgid "Shortlink unlinked from WordPress. The old entry still exists in YOURLS until you delete it there."
+msgstr ""
+
+#: includes/class-kurl-admin.php:837
+msgid "Nothing was changed: remote deletion is no longer available because the kURL Helper could not be verified. The buttons have been updated. Check the action and try again."
+msgstr ""
+
+#. translators: %s: API error message.
+#: includes/class-kurl-admin.php:846
+#, php-format
+msgid "Remote deletion failed: %s"
+msgstr ""
+
+#: includes/class-kurl-admin.php:854
+msgid "Shortlink deleted in YOURLS and unlinked from WordPress."
+msgstr ""
+
+#: includes/class-kurl-admin.php:855
+msgid "The YOURLS entry was already missing; the local shortlink was unlinked from WordPress."
+msgstr ""
+
+#: includes/class-kurl-admin.php:873
+msgid "Enter a valid YOURLS API URL and signature before testing."
+msgstr ""
+
+#: includes/class-kurl-admin.php:914
+msgid "Connection successful. Current bundled helper detected and verified."
+msgstr ""
+
+#. translators: %s: Required kURL Helper version.
+#: includes/class-kurl-admin.php:916
+#, php-format
+msgid "Connection successful, but the YOURLS helper is outdated or incomplete. Replace it with bundled version %s from the Settings page."
+msgstr ""
+
+#: includes/class-kurl-admin.php:918
+msgid "Connection successful. Standard API only."
+msgstr ""
+
+#: includes/class-kurl-admin.php:921
+msgid "These credentials were tested only; save the settings to use them."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1197
+#: includes/class-kurl-bulk.php:68
+msgid "Skipped: another kURL action is running for this post."
+msgstr ""
+
+#. translators: %s: Short URL.
+#: includes/class-kurl-admin.php:1233
+#: includes/class-kurl-bulk.php:180
+#, php-format
+msgid "WordPress could not store %s."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1268
+msgid "Local short URL expands to the current permalink."
+msgstr ""
+
+#. translators: %s: Short URL found in YOURLS.
+#: includes/class-kurl-admin.php:1313
+#, php-format
+msgid "Imported existing YOURLS short URL: %s"
+msgstr ""
+
+#. translators: %s: Short URL found in YOURLS.
+#: includes/class-kurl-admin.php:1315
+#, php-format
+msgid "Preview: would import existing YOURLS short URL: %s"
+msgstr ""
+
+#. translators: %s: Short URL found in YOURLS.
+#: includes/class-kurl-admin.php:1333
+#, php-format
+msgid "Replaced local short URL with YOURLS result: %s"
+msgstr ""
+
+#. translators: %s: Short URL found in YOURLS.
+#: includes/class-kurl-admin.php:1335
+#, php-format
+msgid "Preview: would replace local short URL with YOURLS result: %s"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1366
+msgid "Saved short URL does not match the current permalink in YOURLS."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1375
+msgid "No matching YOURLS entry was found for this permalink."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1376
+msgid "No local short URL to verify, and safe reverse lookup needs the helper plugin."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1398
+msgid "Connection failed"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1401
+msgid "Add your API URL and signature in Settings."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1403
+msgid "Last dashboard refresh reached your YOURLS API successfully."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1404
+msgid "The dashboard could not reach YOURLS right now."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1409
+msgid "kURL Dashboard"
+msgstr ""
+
+#. translators: %s: Plugin version number.
+#: includes/class-kurl-admin.php:1411
+#, php-format
+msgid "Version %s • Dashboard statistics, manual shortening, migration tools, logs, and bulk processing."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1415
+msgid "Refresh YOURLS data"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1420
+msgid "API status"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1422
+msgid "Helper extension"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1423
+msgid "Saved shortlinks"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1423
+msgid "Posts currently using a kURL entry in WordPress."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1424
+msgid "YOURLS total links"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1424
+msgid "Total links reported by YOURLS."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1425
+msgid "YOURLS total clicks"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1425
+msgid "Total clicks reported by YOURLS."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1426
+msgid "Log entries"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1426
+msgid "Only the last 7 days are retained."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1430
+msgid "The API is not configured yet. You can still review settings, but dashboard lists and manual YOURLS actions will stay inactive until you add your API credentials."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1437
+msgid "Manual shortener"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1438
+msgid "Shorten any URL without saving it to WordPress. Safe lookup, delete, and regenerate use the helper plugin when available."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1441
+msgid "Target URL"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1442
+msgid "Leave empty to let YOURLS use a random keyword. The Regenerate button uses the keyword field if you filled it in, otherwise it requests a new random keyword."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1450
+msgid "Regenerate safely"
+msgstr ""
+
+#. translators: %s: Required kURL Helper version.
+#: includes/class-kurl-admin.php:1455
+#, php-format
+msgid "Tip: “Generate / Update” creates a link when the Short URL field is empty. If “Check YOURLS” found an existing link, updating it safely requires the current bundled kURL Helper (%s)."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1460
+msgid "Top 10 all-time links"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1465
+msgid "Recent YOURLS activity across the whole instance"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1470
+msgid "Latest shortlinks saved in WordPress"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1472
 msgid "Post"
 msgstr ""
 
-#: includes/class-kurl-admin.php:1491
+#: includes/class-kurl-admin.php:1472
+#: includes/class-kurl-admin.php:1640
+msgid "Clicks"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1484
+msgid "No saved kURL entries yet."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1631
+msgid "No YOURLS link data is available yet for this section."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1636
+msgid "Created"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1638
+msgid "Target"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1676
+msgid "kURL Bulk Generator"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1676
+msgid "AJAX batches help avoid long-running admin requests and timeout problems."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1678
+msgid "No post types are enabled for kURL. Enable at least one under kURL → Settings to use the Bulk Generator."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1681
 msgid "Post type"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1686
+#: includes/class-kurl-admin.php:1750
+msgid "Batch size"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1688
+msgid "Existing links"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1688
+msgid "Skip existing"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1688
+msgid "Import legacy plugin links first"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1688
+msgid "Regenerate / overwrite"
+msgstr ""
+
+#. translators: %s: Required kURL Helper version.
+#: includes/class-kurl-admin.php:1691
+#: includes/class-kurl-admin.php:2186
+#, php-format
+msgid "Overwrite mode is disabled until bundled kURL Helper %s is installed and verified."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1696
+msgid "Start bulk generation"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1696
+#: includes/class-kurl-admin.php:1753
+msgid "Stop"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1718
+msgid "Experimental tools to compare WordPress content with your YOURLS database and clean stale local data."
+msgstr ""
+
+#. translators: 1: Number of keywords removed. 2: Number of stats entries removed. 3: Number of URLs normalized. 4: Number of invalid URL records removed.
+#: includes/class-kurl-admin.php:1723
+#, php-format
+msgid "Local cleanup finished. Keywords removed: %1$d, stats removed: %2$d, URLs normalized: %3$d, invalid URL records removed: %4$d."
+msgstr ""
+
+#. translators: 1: Imported count. 2: Replaced count. 3: Verified count. 4: Mismatch count. 5: Skipped count.
+#: includes/class-kurl-admin.php:1734
+#, php-format
+msgid "Reconciliation finished. Imported: %1$d, replaced: %2$d, verified: %3$d, mismatches: %4$d, skipped: %5$d."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1743
+msgid "Local database cleanup"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1743
+msgid "Removes stale keywords and cached stats that no longer belong to a saved short URL and normalizes stored URLs."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1746
+msgid "Clean local database"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1746
+msgid "Run the local cleanup now?"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1748
+msgid "YOURLS reconcile / compare"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1748
+msgid "Checks enabled posts against YOURLS in AJAX batches to avoid timeouts. If the helper plugin can find a matching long URL, kURL can import or replace the local entry. Existing local short URLs are also verified against the current permalink."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1748
+msgid "Experimental:"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1748
+msgid "Start with preview mode, review the report, and only then apply changes. Back up your WordPress database before applying reconciliation changes on a large site."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1751
+msgid "Mode"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1751
+msgid "Preview only (do not change WordPress data)"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1753
+msgid "Start reconciliation"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1765
+msgid "kURL Logs"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1765
+msgid "The log keeps only the last 7 days and has size caps so WordPress does not get overloaded."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1768
+msgid "Log cleared."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1773
+msgid "Delete log"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1773
+msgid "Delete the current log?"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1786
+msgid "No log entries in the last 7 days."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1799
+msgid "kURL Settings"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1802
+msgid "Settings saved."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1806
+msgid "Successfully disconnected. Your API credentials have been cleared."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1810
+msgid "The API URL changed. Enter the signature token for the new YOURLS endpoint; kURL will not send the previously saved token to a different host or path."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1814
+msgid "Enter a complete HTTP or HTTPS URL for your YOURLS installation. To remove a configured connection, use Disconnect. The existing connection was not changed."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1829
+msgid "A database query failed, so the migration stopped. Posts processed before the error keep their result; nothing else was changed and no legacy data or settings were deleted. See the kURL log and try again."
+msgstr ""
+
+#. translators: 1: Number of imported links. 2: Number of skipped posts.
+#: includes/class-kurl-admin.php:1833
+#, php-format
+msgid "Imported %1$d old links and skipped %2$d existing ones."
+msgstr ""
+
+#. translators: %d: Number of posts with several different legacy links.
+#: includes/class-kurl-admin.php:1836
+#, php-format
+msgid "%d posts had several different legacy links: the link of the highest-priority plugin was imported, the others were kept for review."
+msgstr ""
+
+#. translators: %d: Number of links WordPress could not store.
+#: includes/class-kurl-admin.php:1840
+#, php-format
+msgid "%d links could not be stored in WordPress; their legacy data was kept. See the kURL log."
+msgstr ""
+
+#. translators: %d: Number of deleted post-meta rows.
+#: includes/class-kurl-admin.php:1846
+#, php-format
+msgid "Deleted %d post-meta rows of legacy YOURLS plugins."
+msgstr ""
+
+#. translators: %d: Number of posts whose legacy data was kept.
+#: includes/class-kurl-admin.php:1849
+#, php-format
+msgid "Kept the legacy data of %d posts, because kURL does not store the same short URL for them yet. Import first or review these posts."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1854
+msgid "Your YOURLS API URL uses unencrypted HTTP. The signature token is sent in plain text with every request. Switch YOURLS to HTTPS and update the API URL."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1858
+msgid "API connection"
+msgstr ""
+
+#. translators: %s: Detected kURL Helper version.
+#: includes/class-kurl-admin.php:1861
+#: includes/class-kurl-admin.php:2134
+#, php-format
+msgid "✅ kURL Helper %s detected. Remote deletion, safe lookup, and safe regeneration are enabled."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1863
+#: includes/class-kurl-admin.php:1929
+#: includes/class-kurl-admin.php:2124
+msgid "unknown version"
+msgstr ""
+
+#. translators: 1: Detected kURL Helper version. 2: Required kURL Helper version.
+#: includes/class-kurl-admin.php:1865
+#: includes/class-kurl-admin.php:2145
+#, php-format
+msgid "⚠️ kURL Helper %1$s is outdated or incomplete. Replace it with bundled version %2$s before using helper-dependent actions."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1867
+#: includes/class-kurl-admin.php:2154
+msgid "⚠️ Standard API only. Remote deletion and safe reverse lookup are disabled."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1869
+msgid "Test API"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1873
+msgid "YOURLS API URL"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1873
+msgid "Enter your main YOURLS domain (for example <code>https://yalla.li</code>). kURL will automatically append <code>/yourls-api.php</code> when needed."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1874
+msgid "Signature token"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1874
+msgid "Leave blank only when keeping the same API URL"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1874
+msgid "You can find your signature token in the YOURLS admin area under <strong>Tools → Secure passwordless API call</strong>."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1874
+msgid "YOURLS 1.10.5 and later use a new, longer token; a token copied from an older version stops working after the update."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1875
+msgid "Enabled post types"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1881
+msgid "Cache (minutes)"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1882
+msgid "API timeout"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1883
+msgid "Auto create"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1883
+msgid "Automatically create a short URL when publishing"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1886
+msgid "Use the kURL short URL, unless another plugin already provides a shortlink (recommended)"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1887
+msgid "Always use the kURL short URL, also over other shortlink plugins"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1888
+msgid "Keep the regular WordPress shortlink"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1890
+msgid "WordPress shortlink"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1895
+msgid "Affects <code>wp_get_shortlink()</code>, the <code>rel=\"shortlink\"</code> tag in the page head, the <code>Link</code> HTTP header, and the shortlink item in the admin bar. Posts without a kURL short URL keep the regular WordPress shortlink."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1896
+msgid "Show the short URL in a theme, footer, or page builder"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1897
+msgid "Shortcode, for example in a footer widget or an Elementor shortcode widget:"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1899
+msgid "Template tags for theme files:"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1901
+msgid "The shortcode and kurl_get_shortlink() use the current post inside a loop and the displayed post on single views. On archives outside a loop they print nothing. Attributes: post_id, link, text, class, target, rel, before, after, fallback."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1904
+msgid "Uninstall behavior"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1904
+msgid "Delete all kURL data on uninstall"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1904
+msgid "Warning: if enabled, all plugin data, including links, cached stats, and logs, will be permanently removed when the plugin is uninstalled."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1906
+msgid "Save settings"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1909
+msgid "Disconnect API"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1909
+msgid "Are you sure you want to disconnect? This will clear your API URL and signature."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1920
+#: includes/class-kurl-admin.php:2135
+msgid "kURL Helper"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1921
+#: includes/class-kurl-admin.php:2146
+msgid "Update the kURL Helper plugin"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1921
+#: includes/class-kurl-admin.php:2155
+msgid "Enable remote deletion and safe lookup (optional)"
+msgstr ""
+
+#. translators: %s: Bundled kURL Helper version.
+#: includes/class-kurl-admin.php:1926
+#: includes/class-kurl-admin.php:2137
+#, php-format
+msgid "The current bundled helper version %s is installed and verified."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1927
+msgid "The helper file remains available here so it can be reinstalled or replaced without obtaining a separate ZIP."
+msgstr ""
+
+#. translators: 1: Detected kURL Helper version. 2: Bundled kURL Helper version.
+#: includes/class-kurl-admin.php:1931
+#: includes/class-kurl-admin.php:2148
+#, php-format
+msgid "YOURLS is using kURL Helper %1$s. Replace it with the bundled version %2$s before using remote deletion, lookup, regeneration, overwrite, or reconciliation."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1933
+#: includes/class-kurl-admin.php:2156
+msgid "The standard YOURLS API can create links and return statistics. Install the bundled helper only when you also want remote deletion, safe reverse lookup, regeneration, overwrite, or reconciliation."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1937
+msgid "Download bundled plugin.php"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1938
+msgid "Copy code to clipboard"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1939
+msgid "Copied!"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1941
+msgid "Installation and update instructions"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1942
+msgid "Connect to your YOURLS server via FTP, SFTP, your hosting file manager, or SSH."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1942
+msgid "Open <code>user/plugins/kurl-api/</code>. Create the folder if it does not exist."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1942
+msgid "Replace or create <code>plugin.php</code> with the downloaded file or the copied code below."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1942
+msgid "Open the YOURLS plugin manager and activate “kURL Helper” if it is not already active."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1942
+msgid "Return to this page and click “Test API”. kURL will verify the installed helper version and capabilities automatically."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1945
+msgid "Migration tools"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1946
+msgid "kURL reads short URLs stored by older YOURLS plugins and can copy them into its own fields. Until you import them, these links are already used as a fallback."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1947
+msgid "Plugin"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1947
+msgid "Posts with links"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1955
+msgid "Import legacy links"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1959
+msgid "Delete legacy plugin data"
+msgstr ""
+
+#: includes/class-kurl-admin.php:1959
+msgid "Delete the legacy plugin data of all posts whose short URL is already stored identically in kURL? Data of other posts is kept."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1960
+msgid "Import first, verify a few posts, then delete the legacy plugin data. The cleanup only removes legacy links that kURL stores identically; everything else stays."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1968
+#: includes/class-kurl-bulk.php:32
+msgid "Please configure the YOURLS API first."
+msgstr ""
+
+#: includes/class-kurl-admin.php:1995
+msgid "Nothing was changed: kURL could not check whether other posts use this short URL, because a database query failed. See the kURL log and try again."
+msgstr ""
+
+#: includes/class-kurl-admin.php:2004
+msgid "Another kURL action is already running for this post. Wait a moment and try again."
+msgstr ""
+
+#. translators: %s: Short URL returned by YOURLS.
+#: includes/class-kurl-admin.php:2018
+#, php-format
+msgid "YOURLS returned %s, but WordPress could not store it. Check the database connection and use “Check / Sync” to try again."
+msgstr ""
+
+#. translators: %d: Number of kept legacy fields.
+#: includes/class-kurl-admin.php:2031
+#, php-format
+msgid "%d field of an older YOURLS plugin with a different link was kept; it is no longer shown as this post's short URL."
+msgid_plural "%d fields of older YOURLS plugins with different links were kept; they are no longer shown as this post's short URL."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-kurl-admin.php:2040
+msgid "Custom meta key"
+msgstr ""
+
+#: includes/class-kurl-admin.php:2130
+msgid "Active"
+msgstr ""
+
+#. translators: %s: Bundled kURL Helper version.
+#: includes/class-kurl-admin.php:2132
+#, php-format
+msgid "Bundled helper %s is verified. Safe lookup, remote deletion, and reconciliation are available."
+msgstr ""
+
+#: includes/class-kurl-admin.php:2141
+msgid "Update required"
+msgstr ""
+
+#. translators: %s: Bundled kURL Helper version.
+#: includes/class-kurl-admin.php:2143
+#, php-format
+msgid "An outdated or incomplete helper was detected. Install bundled version %s before using helper-dependent actions."
+msgstr ""
+
+#: includes/class-kurl-admin.php:2152
+msgid "Standard API only"
+msgstr ""
+
+#: includes/class-kurl-admin.php:2153
+msgid "Install the bundled helper to enable safe lookup, remote deletion, and advanced reconciliation."
+msgstr ""
+
+#: includes/class-kurl-api.php:32
+msgid "Missing YOURLS API settings."
+msgstr ""
+
+#: includes/class-kurl-api.php:37
+msgid "Invalid API action."
+msgstr ""
+
+#: includes/class-kurl-api.php:87
+msgid "WordPress rejected this address. Its safe HTTP client only connects to host names that resolve to a public IP address, on ports 80, 443, or 8080. Check the host name and port, or allow this endpoint with the kurl_allow_private_api_url filter."
+msgstr ""
+
+#: includes/class-kurl-api.php:155
+#: includes/class-kurl-api.php:240
+msgid "Missing or invalid target URL."
+msgstr ""
+
+#: includes/class-kurl-api.php:189
+#: includes/class-kurl-api.php:197
+#: includes/class-kurl-api.php:232
+msgid "Missing short URL."
+msgstr ""
+
+#: includes/class-kurl-api.php:254
+msgid "A valid target URL and existing short URL are required."
+msgstr ""
+
+#. translators: %d: HTTP status code.
+#: includes/class-kurl-api.php:417
+#, php-format
+msgid "HTTP error %d."
+msgstr ""
+
+#. translators: %s: Message returned by YOURLS.
+#: includes/class-kurl-api.php:422
+#, php-format
+msgid "YOURLS says: \"%s\""
+msgstr ""
+
+#: includes/class-kurl-api.php:427
+msgid "The API endpoint redirected the request. Enter the final yourls-api.php URL directly so the signature is not forwarded to another location."
+msgstr ""
+
+#: includes/class-kurl-api.php:433
+msgid "Forbidden. Check your signature or a firewall/security layer."
+msgstr ""
+
+#: includes/class-kurl-api.php:435
+msgid "Endpoint not found. Check the API URL."
+msgstr ""
+
+#: includes/class-kurl-api.php:437
+msgid "Too many requests. Please try again later."
+msgstr ""
+
+#: includes/class-kurl-api.php:439
+msgid "The YOURLS server returned an internal error."
+msgstr ""
+
+#: includes/class-kurl-api.php:467
+msgid "YOURLS did not accept the signature token."
+msgstr ""
+
+#: includes/class-kurl-api.php:469
+msgid "The saved token has 10 characters, the format used before YOURLS 1.10.5. YOURLS 1.10.5 and later issue a new, longer token and reject the old one."
+msgstr ""
+
+#: includes/class-kurl-api.php:471
+msgid "The token changes when YOURLS is updated to version 1.10.5 or later and when YOURLS_COOKIEKEY changes."
+msgstr ""
+
+#: includes/class-kurl-api.php:473
+msgid "Copy the current token from YOURLS under Tools → Secure passwordless API call, paste it into kURL → Settings, and save."
+msgstr ""
+
+#: includes/class-kurl-api.php:488
+msgid "YOURLS returned an empty response. Check the YOURLS server and PHP error log."
+msgstr ""
+
+#: includes/class-kurl-api.php:491
+msgid "YOURLS returned HTML instead of JSON. This usually indicates a PHP error, login page, proxy, or firewall response; check the YOURLS PHP error log."
+msgstr ""
+
+#. translators: %s: JSON parser error.
+#: includes/class-kurl-api.php:495
+#, php-format
+msgid "YOURLS returned a non-JSON response (%s). Check the YOURLS server and helper plugin."
 msgstr ""
 
 #: includes/class-kurl-bulk.php:21
 msgid "Post type not enabled."
 msgstr ""
 
-#: includes/class-kurl-admin.php:1256
-msgid "Posts currently using a kURL entry in WordPress."
+#. translators: %s: Required kURL Helper version.
+#: includes/class-kurl-bulk.php:37
+#, php-format
+msgid "Overwrite mode requires the current bundled kURL Helper (%s). Update it on the Settings page and try again."
 msgstr ""
 
-#: includes/class-kurl-admin.php:266
-msgid "Preview only"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1558
-msgid "Preview only (do not change WordPress data)"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1150
-#, python-format
-msgid "Preview: would import existing YOURLS short URL: %s"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1165
-#, python-format
-msgid "Preview: would replace local short URL with YOURLS result: %s"
-msgstr ""
-
-#: includes/class-kurl-admin.php:233
-msgid "Processed:"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1297
-msgid "Recent YOURLS activity across the whole instance"
-msgstr ""
-
-#: includes/class-kurl-admin.php:268
-msgid "Reconciliation finished."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1541
-msgid ""
-"Reconciliation finished. Imported: %1$d, replaced: %2$d, verified: %3$d, mismatches: %4$d, "
-"skipped: %5$d."
-msgstr ""
-
-#: includes/class-kurl-admin.php:270
-msgid "Reconciliation stopped."
-msgstr ""
-
-#: includes/class-kurl-admin.php:347
-msgid "Refresh Stats"
-msgstr ""
-
-#: includes/class-kurl-admin.php:255
-msgid "Regenerate"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1498
-msgid "Regenerate / overwrite"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1283
-msgid "Regenerate safely"
-msgstr ""
-
-#: includes/class-kurl-admin.php:228
-msgid ""
-"Regenerate this short URL safely? YOURLS will keep the existing link unchanged if the replacement"
-" is rejected."
-msgstr ""
-
-#: includes/class-kurl-admin.php:746
-#, python-format
-msgid "Remote deletion failed: %s"
-msgstr ""
-
-#: includes/class-kurl-admin.php:616
-#, python-format
-msgid ""
-"Remote deletion requires the current bundled kURL Helper (%s). Update it on the Settings page and"
-" test the API again."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1550
-msgid ""
-"Removes stale keywords and cached stats that no longer belong to a saved short URL and normalizes"
-" stored URLs."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1699
-msgid "Replace or create <code>plugin.php</code> with the downloaded file or the copied code below."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1164
-#, python-format
-msgid "Replaced local short URL with YOURLS result: %s"
-msgstr ""
-
-#: includes/class-kurl-admin.php:261
-msgid "Replaced:"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1699
-msgid ""
-"Return to this page and click “Test API”. kURL will verify the installed helper version and "
-"capabilities automatically."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1553
-msgid "Run the local cleanup now?"
-msgstr ""
-
-#: includes/class-kurl-admin.php:254
-msgid "Safe lookup needs the helper plugin."
-msgstr ""
-
-#: includes/class-kurl-admin.php:527
-msgid "Safe lookup needs the optional kURL Helper plugin on your YOURLS server."
-msgstr ""
-
+#. translators: %s: Existing short URL.
 #: includes/class-kurl-bulk.php:102
-msgid ""
-"Safe overwrite requires the current bundled kURL Helper. Update the helper on the Settings page "
-"before using overwrite mode."
+#, php-format
+msgid "Already has URL: %s"
 msgstr ""
 
-#: includes/class-kurl-admin.php:644
-#, python-format
-msgid ""
-"Safe regeneration requires the current bundled kURL Helper (%s). Update it on the Settings page "
-"and test the API again."
+#. translators: %s: Existing kURL-managed short URL.
+#: includes/class-kurl-bulk.php:107
+#, php-format
+msgid "Already imported: %s"
 msgstr ""
 
-#: includes/class-kurl-admin.php:1665
-msgid "Save settings"
+#. translators: %s: Imported legacy short URL.
+#: includes/class-kurl-bulk.php:116
+#, php-format
+msgid "Imported old URL: %s"
 msgstr ""
 
-#: includes/class-kurl-admin.php:1196
-msgid "Saved short URL does not match the current permalink in YOURLS."
+#: includes/class-kurl-bulk.php:121
+msgid "Could not get permalink."
 msgstr ""
 
-#: includes/class-kurl-admin.php:1256
-msgid "Saved shortlinks"
+#: includes/class-kurl-bulk.php:131
+msgid "Skipped: kURL could not check whether other posts use this short URL."
 msgstr ""
 
-#: includes/class-kurl-bulk.php:126
-#, python-format
-msgid "Saved: %s"
-msgstr ""
-
-#: includes/class-kurl-admin.php:204 kurl.php:85
-msgid "Settings"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1608
-msgid "Settings saved."
-msgstr ""
-
-#: includes/class-kurl-admin.php:286 includes/class-kurl-admin.php:291
-#: includes/class-kurl-admin.php:342 includes/class-kurl-admin.php:1276
-#: includes/class-kurl-admin.php:1304 includes/class-kurl-admin.php:1451
-msgid "Short URL"
-msgstr ""
-
-#: includes/class-kurl-admin.php:635
-msgid "Short URL deleted in YOURLS."
-msgstr ""
-
-#: includes/class-kurl-admin.php:607
-msgid "Short URL generated successfully."
-msgstr ""
-
-#: includes/class-kurl-admin.php:693
-msgid "Short URL regenerated with a new random keyword."
-msgstr ""
-
-#: includes/class-kurl-admin.php:692
-msgid "Short URL regenerated with the requested keyword."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1271
-msgid ""
-"Shorten any URL without saving it to WordPress. Safe lookup, delete, and regenerate use the "
-"helper plugin when available."
-msgstr ""
-
-#: includes/class-kurl-admin.php:753
-msgid "Shortlink deleted in YOURLS and unlinked from WordPress."
-msgstr ""
-
-#: includes/class-kurl-admin.php:425
-msgid "Shortlink saved successfully."
-msgstr ""
-
-#: includes/class-kurl-admin.php:759
-msgid "Shortlink unlinked from WordPress. The old entry still exists in YOURLS until you delete it there."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1652
-msgid "Signature token"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1498
-msgid "Skip existing"
-msgstr ""
-
-#: includes/class-kurl-admin.php:237 includes/class-kurl-admin.php:264
-msgid "Skipped:"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1249
-msgid "Standard API only"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1503
-msgid "Start bulk generation"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1560
-msgid "Start reconciliation"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1555
-msgid ""
-"Start with preview mode, review the report, and only then apply changes. Back up your WordPress "
-"database before applying reconciliation changes on a large site."
-msgstr ""
-
-#: includes/class-kurl-admin.php:239
-msgid "Status:"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1503 includes/class-kurl-admin.php:1560
-msgid "Stop"
-msgstr ""
-
-#: includes/class-kurl-admin.php:243
-msgid "Stopped."
-msgstr ""
-
-#: includes/class-kurl-admin.php:242
-msgid "Stopping after the current batch…"
-msgstr ""
-
-#: includes/class-kurl-admin.php:269
-msgid "Stopping reconciliation after the current batch…"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1612
-msgid "Successfully disconnected. Your API credentials have been cleared."
-msgstr ""
-
-#: includes/class-kurl-admin.php:202 includes/class-kurl-admin.php:1525
-msgid "Sync & Cleanup"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1451
-msgid "Target"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1274
-msgid "Target URL"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1647
-msgid "Test API"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1616
-msgid ""
-"The API URL changed. Enter the signature token for the new YOURLS endpoint; kURL will not send "
-"the previously saved token to a different host or path."
-msgstr ""
-
-#: includes/class-kurl-api.php:405
-msgid ""
-"The API endpoint redirected the request. Enter the final yourls-api.php URL directly so the "
-"signature is not forwarded to another location."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1263
-msgid ""
-"The API is not configured yet. You can still review settings, but dashboard lists and manual "
-"YOURLS actions will stay inactive until you add your API credentials."
-msgstr ""
-
-#: includes/class-kurl-admin.php:754
-msgid "The YOURLS entry was already missing; the local shortlink was unlinked from WordPress."
-msgstr ""
-
-#: includes/class-kurl-api.php:413
-msgid "The YOURLS server returned an internal error."
-msgstr ""
-
-#: includes/class-kurl-admin.php:172
-msgid "The bundled helper file is missing from this kURL installation."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1684
-#, python-format
-msgid "The current bundled helper version %s is installed and verified."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1234
-msgid "The dashboard could not reach YOURLS right now."
-msgstr ""
-
-#: includes/class-kurl-admin.php:422 includes/class-kurl-admin.php:604
-msgid "The existing YOURLS short URL was updated safely."
-msgstr ""
-
-#: includes/class-kurl-admin.php:484 includes/class-kurl-admin.php:1135
-msgid "The helper confirmed that the saved short URL belongs to the current permalink."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1685
-msgid ""
-"The helper file remains available here so it can be reinstalled or replaced without obtaining a "
-"separate ZIP."
-msgstr ""
-
-#: includes/class-kurl-admin.php:737
-msgid ""
-"The link was unlinked from this post, but the YOURLS entry was kept because another WordPress "
-"post still references it."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1571
-msgid "The log keeps only the last 7 days and has size caps so WordPress does not get overloaded."
-msgstr ""
-
-#: includes/class-kurl-admin.php:458
-msgid "The saved short URL already matches the current permalink."
-msgstr ""
-
-#: includes/class-kurl-admin.php:500
-msgid ""
-"The saved short URL points to a different long URL in YOURLS. Review this manually before "
-"replacing it."
-msgstr ""
-
-#: includes/class-kurl-admin.php:636
-msgid "The short URL was already absent from YOURLS."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1690
-msgid ""
-"The standard YOURLS API can create links and return statistics. Install the bundled helper only "
-"when you also want remote deletion, safe reverse lookup, regeneration, overwrite, or "
-"reconciliation."
-msgstr ""
-
-#: includes/class-kurl-admin.php:817
-msgid "These credentials were tested only; save the settings to use them."
-msgstr ""
-
-#: includes/class-kurl-admin.php:704 includes/class-kurl-admin.php:727
-msgid "This post is not enabled for kURL."
-msgstr ""
-
-#: includes/class-kurl-admin.php:369 includes/class-kurl-admin.php:440
-msgid "This post type is not enabled for kURL."
-msgstr ""
-
-#: includes/class-kurl-admin.php:384
-msgid ""
-"This short URL is also referenced by another WordPress post. kURL will not edit the shared YOURLS"
-" entry from this post."
-msgstr ""
-
-#: includes/class-kurl-admin.php:626
-msgid ""
-"This short URL is referenced by one or more WordPress posts. Delete or unlink those references "
-"from the post editor before deleting the YOURLS entry."
-msgstr ""
-
-#: includes/class-kurl-admin.php:671
-msgid ""
-"This short URL is referenced by one or more WordPress posts. Regenerate it from the relevant post"
-" editor or unlink those references first."
-msgstr ""
-
-#: includes/class-kurl-admin.php:570
-msgid ""
-"This short URL is referenced by one or more WordPress posts. Update it from the relevant post "
-"editor or unlink those references first."
-msgstr ""
-
-#: includes/class-kurl-bulk.php:93
+#: includes/class-kurl-bulk.php:139
 msgid "This short URL is shared with another WordPress post, so kURL did not edit the remote entry."
 msgstr ""
 
-#: includes/class-kurl-admin.php:1287
-#, python-format
-msgid ""
-"Tip: “Generate / Update” creates a link when the Short URL field is empty. If “Check YOURLS” "
-"found an existing link, updating it safely requires the current bundled kURL Helper (%s)."
+#: includes/class-kurl-bulk.php:147
+msgid "Safe overwrite requires the current bundled kURL Helper. Update the helper on the Settings page before using overwrite mode."
 msgstr ""
 
-#: includes/class-kurl-api.php:411
-msgid "Too many requests. Please try again later."
+#: includes/class-kurl-bulk.php:162
+msgid "API did not return a short URL."
 msgstr ""
 
-#: includes/class-kurl-admin.php:1292
-msgid "Top 10 all-time links"
+#. translators: %s: Saved short URL.
+#: includes/class-kurl-bulk.php:174
+#, php-format
+msgid "Saved: %s"
 msgstr ""
 
-#: includes/class-kurl-admin.php:1258
-msgid "Total clicks reported by YOURLS."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1257
-msgid "Total links reported by YOURLS."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1663
-msgid "Uninstall behavior"
-msgstr ""
-
-#: includes/class-kurl-helpers.php:242
-msgid "Unknown YOURLS error."
-msgstr ""
-
-#: includes/class-kurl-admin.php:334
-msgid "Unlink Locally"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1249
-msgid "Update required"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1680
-msgid "Update the kURL Helper plugin"
-msgstr ""
-
-#: includes/class-kurl-admin.php:235
-msgid "Updated:"
-msgstr ""
-
-#: includes/class-kurl-admin.php:390 includes/class-kurl-admin.php:576
-#, python-format
-msgid ""
-"Updating an existing YOURLS link safely requires the current bundled kURL Helper (%s). Update it "
-"on the Settings page, test the API, and try again."
-msgstr ""
-
-#: includes/class-kurl-admin.php:262
-msgid "Verified:"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1239
-#, python-format
-msgid "Version %s • Dashboard statistics, manual shortening, migration tools, logs, and bulk processing."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1663
-msgid ""
-"Warning: if enabled, all plugin data, including links, cached stats, and logs, will be "
-"permanently removed when the plugin is uninstalled."
-msgstr ""
-
-#: includes/class-kurl-admin.php:223
-msgid "Working…"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1651
-msgid "YOURLS API URL"
-msgstr ""
-
-#: includes/class-kurl-admin.php:690
-#, python-format
-msgid "YOURLS adjusted the requested keyword and regenerated this short URL instead: %s"
-msgstr ""
-
-#: includes/class-kurl-admin.php:606
-#, python-format
-msgid "YOURLS adjusted the requested keyword and returned this short URL: %s"
-msgstr ""
-
-#: includes/class-kurl-admin.php:603
-#, python-format
-msgid "YOURLS adjusted the requested keyword and updated this short URL instead: %s"
-msgstr ""
-
-#: includes/class-kurl-admin.php:424
-#, python-format
-msgid "YOURLS adjusted the requested keyword. The returned short URL was saved instead: %s"
-msgstr ""
-
-#: includes/class-kurl-admin.php:413 includes/class-kurl-admin.php:509
-#: includes/class-kurl-admin.php:595 includes/class-kurl-admin.php:683
-msgid "YOURLS did not return a short URL."
-msgstr ""
-
-#: includes/class-kurl-helpers.php:232
-#, python-format
-msgid "YOURLS error code: %s"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1688
-msgid ""
-"YOURLS is using kURL Helper %1$s. Replace it with the bundled version %2$s before using remote "
-"deletion, lookup, regeneration, overwrite, or reconciliation."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1555
-msgid "YOURLS reconcile / compare"
-msgstr ""
-
-#: includes/class-kurl-admin.php:159
-msgid ""
-"YOURLS reports helper version %1$s, but this kURL release requires bundled helper %2$s with all "
-"advertised capabilities. Helper-dependent actions are disabled until you replace plugin.php from "
-"the kURL Settings page."
-msgstr ""
-
-#: includes/class-kurl-api.php:447
-msgid ""
-"YOURLS returned HTML instead of JSON. This usually indicates a PHP error, login page, proxy, or "
-"firewall response; check the YOURLS PHP error log."
-msgstr ""
-
-#: includes/class-kurl-api.php:451
-#, python-format
-msgid "YOURLS returned a non-JSON response (%s). Check the YOURLS server and helper plugin."
-msgstr ""
-
-#: includes/class-kurl-api.php:444
-msgid "YOURLS returned an empty response. Check the YOURLS server and PHP error log."
-msgstr ""
-
-#: includes/class-kurl-admin.php:463 includes/class-kurl-admin.php:1115
-msgid "YOURLS returned no target URL while verifying the saved short URL."
-msgstr ""
-
-#: includes/class-kurl-api.php:400
-#, python-format
-msgid "YOURLS says: \"%s\""
-msgstr ""
-
-#: includes/class-kurl-helpers.php:228
-#, python-format
+#. translators: %s: Status code returned by YOURLS.
+#: includes/class-kurl-helpers.php:472
+#, php-format
 msgid "YOURLS status %s"
 msgstr ""
 
-#: includes/class-kurl-admin.php:1258
-msgid "YOURLS total clicks"
+#. translators: %s: Error code returned by YOURLS.
+#: includes/class-kurl-helpers.php:476
+#, php-format
+msgid "YOURLS error code: %s"
 msgstr ""
 
-#: includes/class-kurl-admin.php:1257
-msgid "YOURLS total links"
+#: includes/class-kurl-helpers.php:486
+msgid "Unknown YOURLS error."
 msgstr ""
-
-#: includes/class-kurl-admin.php:1652
-msgid ""
-"You can find your signature token in the YOURLS admin area under <strong>Tools → Secure "
-"passwordless API call</strong>."
-msgstr ""
-
-#: includes/class-kurl-admin.php:246
-msgid "created"
-msgstr ""
-
-#: includes/class-kurl-admin.php:241
-msgid "done"
-msgstr ""
-
-#: includes/class-kurl-admin.php:250
-msgid "error"
-msgstr ""
-
-#: includes/class-kurl-admin.php:248
-msgid "imported"
-msgstr ""
-
-#: includes/class-kurl-admin.php:199
-msgid "kURL"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1489
-msgid "kURL Bulk Generator"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1237
-msgid "kURL Dashboard"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1679
-msgid "kURL Helper"
-msgstr ""
-
-#: includes/class-kurl-admin.php:156
-msgid "kURL Helper update required."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1571
-msgid "kURL Logs"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1605
-msgid "kURL Settings"
-msgstr ""
-
-#: includes/class-kurl-admin.php:324
-msgid "kURL Shortlink"
-msgstr ""
-
-#: includes/class-kurl-admin.php:274
-msgid "mismatch"
-msgstr ""
-
-#: includes/class-kurl-admin.php:341
-msgid "optional-custom-slug"
-msgstr ""
-
-#: includes/class-kurl-admin.php:275
-msgid "skipped"
-msgstr ""
-
-#: includes/class-kurl-admin.php:249
-msgid "skipped existing"
-msgstr ""
-
-#: includes/class-kurl-admin.php:153
-msgid "unknown"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1642 includes/class-kurl-admin.php:1687
-msgid "unknown version"
-msgstr ""
-
-#: includes/class-kurl-admin.php:247
-msgid "updated"
-msgstr ""
-
-#: includes/class-kurl-admin.php:273
-msgid "verified"
-msgstr ""
-
-#: includes/class-kurl-admin.php:271
-msgid "would import"
-msgstr ""
-
-#: includes/class-kurl-admin.php:272
-msgid "would replace"
-msgstr ""
-
-#: includes/class-kurl-admin.php:1645
-msgid "⚠️ Standard API only. Remote deletion and safe reverse lookup are disabled."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1643
-msgid ""
-"⚠️ kURL Helper %1$s is outdated or incomplete. Replace it with bundled version %2$s before using "
-"helper-dependent actions."
-msgstr ""
-
-#: includes/class-kurl-admin.php:1640
-#, python-format
-msgid "✅ kURL Helper %s detected. Remote deletion, safe lookup, and safe regeneration are enabled."
-msgstr ""
-

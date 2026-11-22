@@ -6,6 +6,10 @@ final class Kurl_API {
 
     private const MAX_RESPONSE_BYTES = 1048576;
 
+    /** Length of the signature token issued by YOURLS before 1.10.5. */
+
+    private const LEGACY_SIGNATURE_LENGTH = 10;
+
     public static function configured(): bool {
         $settings = Kurl_Helpers::get_settings();
         return !empty($settings['api_url']) && !empty($settings['signature']);
@@ -74,14 +78,32 @@ final class Kurl_API {
             : wp_safe_remote_post($api_url, $args);
 
         if (is_wp_error($response)) {
-            $message = $response->get_error_message();
+            $message = Kurl_Helpers::redact_secrets($response->get_error_message(), [$signature]);
+            // wp_safe_remote_post() only accepts host names that resolve to a
+            // public IP address, on ports 80, 443, and 8080. Its own error
+            // ("A valid URL was not provided.") does not say so, which makes
+            // DNS problems, private addresses, and custom ports hard to diagnose.
+            if (!$allow_private && function_exists('wp_http_validate_url') && !wp_http_validate_url($api_url)) {
+                $message .= ' ' . __('WordPress rejected this address. Its safe HTTP client only connects to host names that resolve to a public IP address, on ports 80, 443, or 8080. Check the host name and port, or allow this endpoint with the kurl_allow_private_api_url filter.', 'kurl-short-url-manager-yourls');
+            }
             Kurl_Logger::log('error', 'API request failed', ['action' => $action, 'message' => $message]);
-            return ['ok' => false, 'message' => $message];
+            return ['ok' => false, 'message' => $message, 'transport_error' => true];
         }
 
         $http_code   = (int) wp_remote_retrieve_response_code($response);
         $body        = (string) wp_remote_retrieve_body($response);
-        $content_type = (string) wp_remote_retrieve_header($response, 'content-type');
+        // A YOURLS server, proxy, or firewall may echo the request back. The
+        // signature must never reach logs, AJAX responses, or the browser.
+        // Only the exact secret is replaced here: pattern-based redaction would
+        // alter legitimate long URLs that contain "token=" or "key=".
+        if (strlen($signature) >= 6) {
+            $body = str_replace($signature, '[redacted]', $body);
+        }
+        // A repeated header is returned as an array; casting it would yield "Array".
+        $content_type_header = wp_remote_retrieve_header($response, 'content-type');
+        $content_type = is_array($content_type_header)
+            ? Kurl_Helpers::scalar_string(reset($content_type_header))
+            : Kurl_Helpers::scalar_string($content_type_header);
         $data        = json_decode($body, true);
         $json_error  = json_last_error();
 
@@ -117,7 +139,7 @@ final class Kurl_API {
             return $data;
         }
 
-        $message = Kurl_Helpers::format_api_error($data);
+        $message = Kurl_Helpers::redact_secrets(Kurl_Helpers::format_api_error($data), [$signature]);
         Kurl_Logger::log('error', 'YOURLS returned an error', ['action' => $action, 'message' => $message, 'body' => self::truncate_for_log($body, 500, [$signature])]);
         return [
             'ok'          => false,
@@ -403,6 +425,10 @@ final class Kurl_API {
 
         if ($http_code >= 300 && $http_code < 400) {
             $error_message .= ' ' . __('The API endpoint redirected the request. Enter the final yourls-api.php URL directly so the signature is not forwarded to another location.', 'kurl-short-url-manager-yourls');
+        } elseif ($http_code === 403 && is_array($data)) {
+            // A JSON 403 comes from YOURLS itself (or the kURL Helper): the
+            // credentials were rejected. A firewall usually answers with HTML.
+            $error_message .= ' ' . self::rejected_signature_message($secret);
         } elseif ($http_code === 403) {
             $error_message .= ' ' . __('Forbidden. Check your signature or a firewall/security layer.', 'kurl-short-url-manager-yourls');
         } elseif ($http_code === 404 && !is_array($data)) {
@@ -423,10 +449,28 @@ final class Kurl_API {
         ]);
         return [
             'ok'          => false,
-            'message'     => trim($error_message),
+            'message'     => Kurl_Helpers::redact_secrets(trim($error_message), [$secret]),
             'raw'         => is_array($data) ? $data : [],
             'status_code' => $http_code,
         ];
+    }
+
+    /**
+     * Explains a signature token that YOURLS rejected.
+     *
+     * YOURLS 1.10.5 replaced the 10-character signature token with a longer
+     * one (32 characters by default) and rejects the old token without a
+     * transition period. A saved token of exactly 10 characters therefore
+     * almost certainly predates that update.
+     */
+    private static function rejected_signature_message(string $signature): string {
+        $message = __('YOURLS did not accept the signature token.', 'kurl-short-url-manager-yourls');
+        if (strlen($signature) === self::LEGACY_SIGNATURE_LENGTH) {
+            $message .= ' ' . __('The saved token has 10 characters, the format used before YOURLS 1.10.5. YOURLS 1.10.5 and later issue a new, longer token and reject the old one.', 'kurl-short-url-manager-yourls');
+        } else {
+            $message .= ' ' . __('The token changes when YOURLS is updated to version 1.10.5 or later and when YOURLS_COOKIEKEY changes.', 'kurl-short-url-manager-yourls');
+        }
+        return $message . ' ' . __('Copy the current token from YOURLS under Tools → Secure passwordless API call, paste it into kURL → Settings, and save.', 'kurl-short-url-manager-yourls');
     }
 
     private static function extract_response_status_code(array $data): int {

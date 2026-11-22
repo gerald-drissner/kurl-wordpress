@@ -2,8 +2,8 @@
 Contributors: geralddrissner
 Tags: yourls, shortlinks, url shortener, custom links
 Requires at least: 6.0
-Tested up to: 7.1
-Stable tag: 1.0.9
+Tested up to: 7.2
+Stable tag: 1.1.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -18,7 +18,7 @@ The name kURL combines **kurz URL** — “short URL” in German — with the f
 
 It lets you create short URLs for posts, pages, and supported custom post types directly from the WordPress admin area. You can generate links manually, create them automatically when content is published, assign custom keywords, refresh click statistics, and process older content in bulk.
 
-kURL also includes migration tools for older Better YOURLS data, local logging for troubleshooting, and optional helper code for true remote deletion and safe reverse lookup on the YOURLS side.
+kURL also includes migration tools for links created with YOURLS Link Creator, Better YOURLS, and Ozh's YOURLS plugin, local logging for troubleshooting, and optional helper code for true remote deletion and safe reverse lookup on the YOURLS side.
 
 Requires a self-hosted YOURLS installation with API access. No third-party shortening service is included.
 
@@ -37,7 +37,8 @@ kURL stores logs under `wp-content/uploads/kurl-short-url-manager-yourls/` with 
 * Refresh and store click statistics from YOURLS.
 * View saved links, latest links, top links, and recent YOURLS activity in the dashboard.
 * Bulk-generate short URLs for existing content in AJAX batches.
-* Import legacy data from the Better YOURLS plugin.
+* Use and import links from YOURLS Link Creator, Better YOURLS, and YOURLS: WordPress to Twitter.
+* Show the short URL anywhere with `wp_get_shortlink()`, the `[kurl_shortlink]` shortcode, or the `kurl_get_shortlink()` template tag.
 * Optional versioned YOURLS helper extension for remote deletion, safe long-URL lookup, and non-destructive regeneration.
 * Activity and error logging for troubleshooting.
 * Optional short URL column in WordPress content list screens.
@@ -77,7 +78,22 @@ Yes. You can choose which public post types are enabled in **kURL → Settings**
 
 = Does this plugin replace the normal WordPress shortlink? =
 
-Yes. When a kURL short URL is saved for a post, the plugin filters WordPress shortlink output so the saved YOURLS URL can be used as the WordPress shortlink.
+Yes, by default. When a kURL short URL is saved for a post, `wp_get_shortlink()`, the `rel="shortlink"` tag, the `Link` HTTP header, and the admin bar return the YOURLS URL. Posts without a kURL link keep the regular WordPress shortlink. If another plugin already provides a shortlink (or deliberately suppresses it), kURL respects that by default. Under **kURL → Settings → WordPress shortlink** you can let kURL always win, or keep the WordPress shortlink.
+
+= How do I show the short URL in my theme or footer? =
+
+Any of these works:
+
+* `<?php echo esc_url( wp_get_shortlink() ); ?>` – the WordPress function; uses the current post.
+* `<?php echo esc_url( kurl_get_shortlink() ); ?>` – returns only a kURL link, or an empty string.
+* `<?php kurl_the_shortlink( [ 'link' => 1, 'before' => 'Short URL: ' ] ); ?>` – prints it, optionally as a link.
+* `[kurl_shortlink]` – shortcode for widgets, page builders, and block themes.
+
+The shortcode accepts `post_id`, `link`, `text`, `class`, `target`, `rel`, `before`, `after`, and `fallback` (use the WordPress shortlink when no kURL link exists). The shortcode and `kurl_get_shortlink()` use the current post inside a loop and the displayed post on single views; on archives outside a loop they print nothing.
+
+= I am switching from YOURLS Link Creator. Do I lose my links? =
+
+No. kURL reads the links stored by YOURLS Link Creator (`_yourls_url`), Better YOURLS (`_better_yourls_short_link`), and Ozh's YOURLS: WordPress to Twitter (`yourls_shorturl`) as a fallback right away. Use **kURL → Settings → Migration tools → Import legacy links** to copy them into kURL. "Delete legacy plugin data" only removes legacy links that kURL stores identically, so it never deletes the last record of a link. If your theme calls `get_yourls_shortlink()` from YOURLS Link Creator, replace it with `kurl_get_shortlink()` before you deactivate the old plugin.
 
 = Can I create short URLs for URLs that are not WordPress posts? =
 
@@ -89,7 +105,15 @@ Only if the optional kURL Helper extension is installed on your YOURLS server. W
 
 = Can I migrate from Better YOURLS? =
 
-Yes. kURL includes migration tools for importing existing Better YOURLS data. Import first, verify a few posts, and only delete the old Better YOURLS data once everything looks correct.
+Yes. The migration tools import links from Better YOURLS, YOURLS Link Creator, and YOURLS: WordPress to Twitter. Import first, verify a few posts, and only delete the legacy plugin data once everything looks correct. Developers can add further meta keys with the `kurl_legacy_meta_keys` filter.
+
+= After updating YOURLS, kURL shows HTTP error 403 "Please log in". =
+
+YOURLS 1.10.5 replaced the API signature token with a new, longer one (32 characters instead of 10) and rejects the old token. Open YOURLS → Tools → Secure passwordless API call, copy the current token, paste it into **kURL → Settings → Signature token**, and save. Other tools that use the same token, such as browser or mail add-ons, need the new token as well.
+
+= The connection test says "A valid URL was not provided." =
+
+kURL uses WordPress's safe HTTP client. It only connects to host names that resolve to a public IP address, on ports 80, 443, or 8080, so a typo in the host name, a YOURLS installation on another port, or a private address all end in this message. Use a public HTTPS address, or opt in with the `kurl_allow_private_api_url` filter after reviewing the SSRF implications.
 
 = What are the experimental sync and cleanup tools? =
 
@@ -107,6 +131,48 @@ They let you compare WordPress content with YOURLS, import matching short URLs i
 French translation: Norbert Jung.
 
 == Changelog ==
+
+= 1.1.0 =
+**Security – replace the YOURLS helper.** kURL Helper 1.1.6 requires valid YOURLS authentication (signature token, or username and password) for every action. Helper 1.1.5 and older relied on YOURLS's API access control; on installations with a public API (`YOURLS_PRIVATE` false, or `YOURLS_PRIVATE_API` false while the admin area stays private) anyone could delete links or point existing keywords to other targets. Download the new `plugin.php` under **kURL → Settings**. Until then kURL disables all helper actions.
+
+Shortlinks and output
+* Fix: A bare `wp_get_shortlink()` call in a theme template (for example a footer) now returns the kURL short URL. The filter resolves posts exactly like WordPress: `query` uses the displayed post, `post` with ID 0 uses the current post, and other contexts (for example a site ID) are left alone.
+* New: Setting **WordPress shortlink** with three modes: use the kURL URL unless another plugin already provides a shortlink (default, also respects a deliberately empty shortlink), always use the kURL URL, or keep the WordPress shortlink. It is read per call (correct per site on multisite) from a small autoloaded option, so front-end requests need no extra query.
+* New: `[kurl_shortlink]` shortcode and the template tags `kurl_get_shortlink()` and `kurl_the_shortlink()`.
+* New: After user-triggered changes kURL purges the post in WP Rocket (`rocket_clean_post()`) and fires `kurl_shortlink_changed` for other caches.
+
+Safety of changes
+* Fix: A confirmed "Unlink locally" could turn into a remote deletion when a background check had found the helper in the meantime. The editor now sends the confirmed scope and the short URL that was shown, for remote and local unlinking alike; the server refuses if either is missing or no longer matches and never widens a local unlink.
+* Fix: Unlinking removed only kURL's own field, so a link from YOURLS Link Creator or Better YOURLS reappeared as the post's short URL. Legacy fields holding the same URL are now deleted; legacy fields with a different link are kept for the migration tools but are no longer shown as the post's short URL.
+* Fix: Two overlapping actions on the same post (two tabs, an editor action during a bulk run, auto-create during a manual update) could store a link the other action had just deleted. Every action on a post now holds a short database lock; on multisite the lock belongs to the site it was taken on.
+* Fix: When the check for other posts using the same short URL fails because of a database error, the action stops with a message instead of treating the URL as unused; bulk runs skip the post.
+* Fix: kURL writes the short URL first, verifies that it was actually stored, and only then updates keyword and statistics. If WordPress could not save it, kURL reports the YOURLS link instead of leaving half-updated data.
+* Fix: "Disconnect API" saved the settings instead of disconnecting (`submit_button()` sends its label as the value).
+* Fix: "Test API" and the background helper check could overwrite settings saved in another tab. The helper status now lives in its own option bound to the saved API URL and signature, so it never touches the settings and is discarded automatically when the credentials change.
+
+Migration from YOURLS Link Creator, Better YOURLS, and Ozh's plugin
+* Fix: The migration labelled "Better YOURLS" only read YOURLS Link Creator's `_yourls_url`. kURL now reads and imports `_yourls_url`, `_better_yourls_short_link`, and `yourls_shorturl`, and shows how many posts each source holds.
+* Fix: The import counted a write that WordPress had rejected as "imported". It now reports imported, skipped, conflicting (several different legacy links), and failed posts separately, and works in blocks of 500 posts.
+* Fix: "Delete legacy plugin data" removed all legacy rows. It now deletes a legacy link only where kURL stores exactly the same URL, keeps everything else, and reports how many posts were kept. Custom keys added for reading (`kurl_legacy_meta_keys`) are only deleted when also added to `kurl_legacy_cleanup_meta_keys`. The Better YOURLS settings are deleted only when no Better YOURLS link is left.
+* Fix: If a database query fails during import or cleanup, the migration stops and says so instead of reporting "nothing to migrate" or deleting settings.
+
+Publishing, performance, stability
+* Fix: Automatic creation on publish now runs on `wp_after_insert_post`. With the block editor, `transition_post_status` fired before categories were saved, so `%category%` permalinks could be shortened with the wrong term.
+* Performance: Local cleanup and migration read only the relevant meta keys in batches instead of loading every meta row of every post (prevents memory exhaustion on page-builder sites).
+* Performance: Bulk and reconciliation batches stop after 20 seconds of wall-clock time and continue in the next request, below proxy limits such as Cloudflare's 100 seconds (`kurl_batch_time_budget`).
+* Performance: When YOURLS is unreachable or answers with a server error, the dashboard stops after the first request and remembers the failure for two minutes. New "Refresh YOURLS data" button; manual dashboard actions refresh the statistics.
+* Fix: Secrets echoed back by YOURLS or a proxy are redacted in all messages and log entries, also on display of older entries.
+* Fix: Log entries older than seven days are deleted from disk (daily and when the Logs screen opens). Rotation and appending run under one file lock.
+* Fix: On multisite, settings no longer leak between sites after `switch_to_blog()`; uninstall cleans every site on which data deletion is enabled.
+* Fix: Deselecting all post types now really disables kURL for all of them; settings saved by earlier versions keep their behavior.
+* Fix: A cached click count is removed when a post switches to a different short URL.
+* Fix: Shortlink and publish callbacks accept loosely typed arguments from third-party code instead of throwing a TypeError; repeated Content-Type headers no longer turn into "Array".
+* Titles are sent to YOURLS as plain text (no `&#8211;` or "Protected:"), URL comparisons ignore scheme and host case, binary comparisons use `CAST(... AS BINARY)` instead of the `BINARY` operator deprecated in MySQL 8.0.27, and text that is not a URL is no longer accepted as one.
+* Warns when the API URL uses unencrypted HTTP and explains when WordPress's safe HTTP client rejected the address.
+* Admin status colors are scoped to kURL screens; long bulk logs keep the newest 1,000 rows in the browser.
+* New filters and actions: `kurl_replace_wp_shortlink`, `kurl_override_existing_shortlink`, `kurl_auto_create_on_publish`, `kurl_legacy_meta_keys`, `kurl_legacy_cleanup_meta_keys`, `kurl_get_shortlink`, `kurl_shortlink_html`, `kurl_batch_time_budget`, `kurl_shortlink_changed`.
+* Improvement: When YOURLS rejects the signature token, kURL says so and explains what to do instead of pointing to a firewall. A saved 10-character token is recognized as the format used before YOURLS 1.10.5, which replaced it with a longer token.
+* Completed the German translation, switched it consistently to the informal address used by WordPress's de_DE locale, and added missing translator comments.
 
 = 1.0.9 =
 * WordPress 7.1 compatibility maintenance; no functional behavior was changed.
@@ -195,6 +261,9 @@ French translation: Norbert Jung.
 * Bundled starter translations for German, French, and Spanish.
 
 == Upgrade Notice ==
+
+= 1.1.0 =
+Security update for the optional YOURLS helper: replace `plugin.php` on your YOURLS server with version 1.1.6 from kURL → Settings. Helper actions stay disabled until then. Also fixes `wp_get_shortlink()` in themes and the migration from YOURLS Link Creator and Better YOURLS.
 
 = 1.0.9 =
 WordPress 7.1 compatibility maintenance only. The bundled YOURLS Helper remains version 1.1.5 and does not need to be replaced.
